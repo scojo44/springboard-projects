@@ -1,0 +1,42 @@
+h1{
+    margin: 0 2rem;
+}
+
+#new-entry input{
+    width: 23ex;
+}
+
+#checklist {
+    padding: 0;
+}
+
+.entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    width: 20ex;
+    padding: .2rem .5rem;
+    background-color: #B0D7FF;
+    border: 2px solid mediumpurple;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+.entry button {
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    background-color: #C0E7FF;
+    padding: 0 .7ex;
+    color: #90B7DF;
+}
+.entry.checked {
+    background-color: lavender;
+    border-color: lightgray;
+    color: gray;
+    text-decoration: line-through;
+}
+.entry.checked button {
+    background-color: #F0F0FF;
+    color: silver;
+}
