@@ -48,6 +48,11 @@ function createDivsForColors(colorArray) {
 
 let guesses = [];
 
+function resetGuesses(){
+  while(guesses.length)
+    guesses.pop();
+}
+
 function handleCardClick(event) {
   if(guesses.length < MAX_GUESSES){
     event.target.classList.add(FLIPPED);
@@ -60,14 +65,14 @@ function handleCardClick(event) {
 
     // Flip cards back over if not a match
     if(match){
-      guesses = []; // Time for a new pair
+      resetGuesses();
     } else {
       setTimeout(function(){
         for(let card of guesses) {
           if(!match)
           card.classList.remove(FLIPPED);
         }
-        guesses = []; // Start over with a new pair next time
+        resetGuesses();
       }, 1000)
     }
   }
