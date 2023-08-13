@@ -43,17 +43,10 @@ let shuffledColors = shuffle(COLORS);
 // it also adds an event listener for a click for each card
 function createDivsForColors(colorArray) {
   for (let color of colorArray) {
-    // create a new div
-    const newDiv = document.createElement("div");
-
-    // give it a class attribute for the value we are looping over
-    newDiv.classList.add(color);
-
-    // call a function handleCardClick when a div is clicked on
-    newDiv.addEventListener("click", handleCardClick);
-
-    // append the div to the element with an id of game
-    gameContainer.append(newDiv);
+    const newCard = document.createElement("div");
+    newCard.classList.add(color);
+    newCard.addEventListener("click", handleCardClick);
+    gameContainer.append(newCard);
   }
 }
 
