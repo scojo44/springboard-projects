@@ -47,6 +47,7 @@ function createDivsForColors(colorArray) {
 }
 
 let guesses = [];
+let showingMismatchedCards = false;
 
 function resetGuesses(){
   while(guesses.length)
@@ -54,23 +55,27 @@ function resetGuesses(){
 }
 
 function handleCardClick(event) {
+  if(showingMismatchedCards || event.target.classList.contains(FLIPPED))
+    return; // Ignore clicks on already flipped cards
+
   if(guesses.length < MAX_GUESSES){
     event.target.classList.add(FLIPPED);
     guesses.push(event.target);
   }
 
-  if(guesses.length === MAX_GUESSES) {
+  if(guesses.length >= MAX_GUESSES) {
     // Check for matching colors
     const match = guesses[0].dataset.color === guesses[1].dataset.color;
 
-    // Flip cards back over if not a match
     if(match){
       resetGuesses();
     } else {
+      showingMismatchedCards = true;
+      // Flip cards back over
       setTimeout(function(){
         for(let card of guesses) {
-          if(!match)
           card.classList.remove(FLIPPED);
+          showingMismatchedCards = false;
         }
         resetGuesses();
       }, 1000)
