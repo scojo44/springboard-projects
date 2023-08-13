@@ -59,13 +59,17 @@ function handleCardClick(event) {
     const match = guesses[0].dataset.color === guesses[1].dataset.color;
 
     // Flip cards back over if not a match
-    setTimeout(function(){
-      for(let card of guesses) {
-        if(!match)
+    if(match){
+      guesses = []; // Time for a new pair
+    } else {
+      setTimeout(function(){
+        for(let card of guesses) {
+          if(!match)
           card.classList.remove(FLIPPED);
-      }
-      guesses = []; // Start over with a new pair next time
-    }, 1000)
+        }
+        guesses = []; // Start over with a new pair next time
+      }, 1000)
+    }
   }
 }
 
