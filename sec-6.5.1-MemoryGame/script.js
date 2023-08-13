@@ -1,6 +1,8 @@
 const gameContainer = document.getElementById("game");
+const MAX_GUESSES = 2;
 // CSS class names
 const FLIPPED = "flipped";
+const GUESS = "guess";
 
 const COLORS = [
   "red",
@@ -52,11 +54,17 @@ function createDivsForColors(colorArray) {
   }
 }
 
-// TODO: Implement this function!
+let guesses = [];
+
 function handleCardClick(event) {
   // you can use event.target to see which element was clicked
   console.log("you just clicked", event.target);
-  event.target.classList.add(FLIPPED);
+
+  if(guesses.length < MAX_GUESSES){
+    event.target.classList.add(FLIPPED);
+    event.target.classList.add(GUESS);
+    guesses.push(event.target);
+  }
 }
 
 // when the DOM loads
