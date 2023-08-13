@@ -4,16 +4,8 @@ const MAX_GUESSES = 2;
 const FLIPPED = "flipped";
 
 const COLORS = [
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple",
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple"
+  "red", "blue", "green", "orange", "purple",
+  "red", "blue", "green", "orange", "purple"
 ];
 
 // here is a helper function to shuffle an array
@@ -23,7 +15,7 @@ function shuffle(array) {
   let counter = array.length;
 
   // While there are elements in the array
-  while (counter > 0) {
+  while(counter > 0) {
     // Pick a random index
     let index = Math.floor(Math.random() * counter);
 
@@ -45,7 +37,7 @@ let shuffledColors = shuffle(COLORS);
 // it creates a new div and gives it a class with the value of the color
 // it also adds an event listener for a click for each card
 function createDivsForColors(colorArray) {
-  for (let color of colorArray) {
+  for(let color of colorArray) {
     const newCard = document.createElement("div");
     newCard.classList.add(color);
     newCard.addEventListener("click", handleCardClick);
