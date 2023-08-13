@@ -40,6 +40,7 @@ function createDivsForColors(colorArray) {
   for(let color of colorArray) {
     const newCard = document.createElement("div");
     newCard.classList.add(color);
+    newCard.dataset.color = color;
     newCard.addEventListener("click", handleCardClick);
     gameContainer.append(newCard);
   }
@@ -48,19 +49,20 @@ function createDivsForColors(colorArray) {
 let guesses = [];
 
 function handleCardClick(event) {
-  // you can use event.target to see which element was clicked
-  console.log("you just clicked", event.target);
-
   if(guesses.length < MAX_GUESSES){
     event.target.classList.add(FLIPPED);
     guesses.push(event.target);
   }
 
   if(guesses.length === MAX_GUESSES) {
-    // Flip cards back over
+    // Check for matching colors
+    const match = guesses[0].dataset.color === guesses[1].dataset.color;
+
+    // Flip cards back over if not a match
     setTimeout(function(){
       for(let card of guesses) {
-        card.classList.remove(FLIPPED);
+        if(!match)
+          card.classList.remove(FLIPPED);
       }
       guesses = []; // Start over with a new pair next time
     }, 1000)
