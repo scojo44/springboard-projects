@@ -1,4 +1,6 @@
 const gameContainer = document.getElementById("game");
+// CSS class names
+const FLIPPED = "flipped";
 
 const COLORS = [
   "red",
@@ -54,6 +56,7 @@ function createDivsForColors(colorArray) {
 function handleCardClick(event) {
   // you can use event.target to see which element was clicked
   console.log("you just clicked", event.target);
+  event.target.classList.add(FLIPPED);
 }
 
 // when the DOM loads
