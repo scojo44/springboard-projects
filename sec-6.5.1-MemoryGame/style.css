@@ -5,3 +5,10 @@
   margin: 10px;
   display: inline-block;
 }
+
+/* Card Colors */
+.flipped.red { background-color: red; }
+.flipped.blue { background-color: blue; }
+.flipped.green { background-color: green; }
+.flipped.orange { background-color: orange; }
+.flipped.purple { background-color: purple; }
