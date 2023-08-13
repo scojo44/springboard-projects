@@ -2,7 +2,6 @@ const gameContainer = document.getElementById("game");
 const MAX_GUESSES = 2;
 // CSS class names
 const FLIPPED = "flipped";
-const GUESS = "guess";
 
 const COLORS = [
   "red",
@@ -62,8 +61,17 @@ function handleCardClick(event) {
 
   if(guesses.length < MAX_GUESSES){
     event.target.classList.add(FLIPPED);
-    event.target.classList.add(GUESS);
     guesses.push(event.target);
+  }
+
+  if(guesses.length === MAX_GUESSES) {
+    // Flip cards back over
+    setTimeout(function(){
+      for(let card of guesses) {
+        card.classList.remove(FLIPPED);
+      }
+      guesses = []; // Start over with a new pair next time
+    }, 1000)
   }
 }
 
