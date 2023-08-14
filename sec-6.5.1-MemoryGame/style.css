@@ -15,6 +15,11 @@
   margin: 10px;
 }
 
+/* Hide the New Game button until game is over */
+#new-game{
+  display: none;
+}
+
 /* Card Colors */
 .flipped.red { background-color: red; }
 .flipped.blue { background-color: blue; }
