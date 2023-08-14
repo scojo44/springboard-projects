@@ -1,9 +1,18 @@
-#game div {
+#game {
+  display: none;
+}
+
+#gameboard {
+  display: flex;
+  width: 360px;
+  flex-wrap: wrap;
+}
+
+#gameboard div {
   border: 1px solid black;
-  width: 15%;
-  height: 200px;
+  width: 50px;
+  height: 50px;
   margin: 10px;
-  display: inline-block;
 }
 
 /* Card Colors */

@@ -42,7 +42,7 @@ function createDivsForColors(colorArray) {
     newCard.classList.add(color);
     newCard.dataset.color = color;
     newCard.addEventListener("click", handleCardClick);
-    gameContainer.append(newCard);
+    gameboard.append(newCard);
   }
 }
 
@@ -83,5 +83,8 @@ function handleCardClick(event) {
   }
 }
 
-// when the DOM loads
-createDivsForColors(shuffledColors);
+document.getElementById("start").addEventListener("click", function(e){
+  createDivsForColors(shuffledColors);
+  e.target.remove();
+  document.getElementById("game").style.display = "block";
+});
