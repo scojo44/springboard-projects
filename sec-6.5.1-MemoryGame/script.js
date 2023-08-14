@@ -1,4 +1,4 @@
-const gameContainer = document.getElementById("game");
+const gameboard = document.getElementById("gameboard");
 const MAX_GUESSES = 2;
 // CSS class names
 const FLIPPED = "flipped";
@@ -42,7 +42,7 @@ function createDivsForColors(colorArray) {
     newCard.classList.add(color);
     newCard.dataset.color = color;
     newCard.addEventListener("click", handleCardClick);
-    gameContainer.append(newCard);
+    gameboard.append(newCard);
   }
 }
 
@@ -69,6 +69,8 @@ function handleCardClick(event) {
 
     if(match){
       resetGuesses();
+      // TODO: Update score
+      document.getElementById("matches").innerText
     } else {
       showingMismatchedCards = true;
       // Flip cards back over
@@ -83,5 +85,8 @@ function handleCardClick(event) {
   }
 }
 
-// when the DOM loads
-createDivsForColors(shuffledColors);
+document.getElementById("start").addEventListener("click", function(e){
+  createDivsForColors(shuffledColors);
+  e.target.remove();
+  document.getElementById("game").style.display = "block";
+});
