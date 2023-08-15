@@ -1,6 +1,7 @@
 const gameboard = document.getElementById("gameboard");
 const MAX_GUESSES = 2;
 // CSS class names
+const CARD = "card";
 const FLIPPED = "flipped";
 
 const COLORS = [
@@ -31,18 +32,28 @@ function shuffle(array) {
   return array;
 }
 
-let shuffledColors = shuffle(COLORS);
-
 // this function loops over the array of colors
 // it creates a new div and gives it a class with the value of the color
 // it also adds an event listener for a click for each card
-function createDivsForColors(colorArray) {
-  for(let color of colorArray) {
-    const newCard = document.createElement("div");
-    newCard.classList.add(color);
-    newCard.dataset.color = color;
-    newCard.addEventListener("click", handleCardClick);
-    gameboard.append(newCard);
+function setupGameboard() {
+  gameboard.addEventListener("click", onCardClick);
+
+  const cards = document.getElementsByClassName(CARD);
+  const shuffledColors = shuffle(COLORS);
+
+  // Create the card divs on first load.
+  if(!cards.length)
+    for(let color of shuffledColors) { // Use color array to figure out how many cards to make
+      const newCard = document.createElement("div");
+      newCard.classList.add("card");
+      gameboard.append(newCard);
+    }
+
+  // Assign random colors
+  for(let i = 0; i < cards.length; i++) {
+    cards[i].classList.remove(FLIPPED); // When resetting for a new game
+    cards[i].classList.add(shuffledColors[i]);
+    cards[i].dataset.color = shuffledColors[i];
   }
 }
 
@@ -54,13 +65,16 @@ function resetGuesses(){
     guesses.pop();
 }
 
-function handleCardClick(event) {
-  if(showingMismatchedCards || event.target.classList.contains(FLIPPED))
-    return; // Ignore clicks on already flipped cards
+function onCardClick(e) {
+  if(showingMismatchedCards ||
+     e.target.classList.contains(FLIPPED) ||
+     !e.target.classList.contains(CARD)){
+       return; // Ignore clicks on already flipped cards or non-card elements
+    }
 
   if(guesses.length < MAX_GUESSES){
-    event.target.classList.add(FLIPPED);
-    guesses.push(event.target);
+    e.target.classList.add(FLIPPED);
+    guesses.push(e.target);
   }
 
   if(guesses.length >= MAX_GUESSES) {
@@ -72,7 +86,7 @@ function handleCardClick(event) {
       // TODO: Update score
       document.getElementById("matches").innerText = 0;
 
-      const cards = document.querySelectorAll("#gameboard div");
+      const cards = document.getElementsByClassName(CARD);
       const shown = document.getElementsByClassName(FLIPPED);
       if(cards.length === shown.length) { // Game over
         document.getElementById("new-game").style.display = "inline";
@@ -92,16 +106,12 @@ function handleCardClick(event) {
 }
 
 document.getElementById("start").addEventListener("click", function(e){
-  createDivsForColors(shuffledColors);
   e.target.remove();
+  setupGameboard();
   document.getElementById("game").style.display = "block";
 });
 
 document.getElementById("new-game").addEventListener("click", function(e){
-  // Flip all the cards back over and shuffle them
-  for(let card of document.querySelectorAll("#gameboard div"))
-    card.classList.remove(FLIPPED);
-  document.getElementById("gameboard").innerHTML = "";
-  createDivsForColors(shuffledColors);
+  setupGameboard(); // Flip all the cards back over and shuffle them
   e.target.style.display = "none";
 });
