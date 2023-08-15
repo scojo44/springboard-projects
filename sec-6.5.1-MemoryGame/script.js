@@ -86,12 +86,7 @@ function onCardClick(e) {
       resetGuesses();
       // Update match count
       incrementIndicator(document.getElementById("matches"));
-
-      const cards = document.getElementsByClassName(CARD);
-      const shown = document.getElementsByClassName(FLIPPED);
-      if(cards.length === shown.length) { // Game over
-        document.getElementById("new-game").style.display = "inline";
-      }
+      isGameOver();
     } else {
       showingMismatchedCards = true;
       // Flip cards back over
@@ -103,6 +98,14 @@ function onCardClick(e) {
         resetGuesses();
       }, 1000)
     }
+  }
+}
+
+function isGameOver(){
+  const cards = document.getElementsByClassName(CARD);
+  const shown = document.getElementsByClassName(FLIPPED);
+  if(cards.length === shown.length) {
+    document.getElementById("game-over").style.display = "block";
   }
 }
 
