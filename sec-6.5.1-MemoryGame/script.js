@@ -80,11 +80,12 @@ function onCardClick(e) {
   if(guesses.length >= MAX_GUESSES) {
     // Check for matching colors
     const match = guesses[0].dataset.color === guesses[1].dataset.color;
+    incrementIndicator(document.getElementById("tries"));
 
     if(match){
       resetGuesses();
-      // TODO: Update score
-      document.getElementById("matches").innerText = 0;
+      // Update match count
+      incrementIndicator(document.getElementById("matches"));
 
       const cards = document.getElementsByClassName(CARD);
       const shown = document.getElementsByClassName(FLIPPED);
@@ -103,6 +104,10 @@ function onCardClick(e) {
       }, 1000)
     }
   }
+}
+
+function incrementIndicator(counter){
+  counter.innerText = parseInt(counter.innerText) + 1;
 }
 
 document.getElementById("start").addEventListener("click", function(e){
