@@ -70,7 +70,13 @@ function handleCardClick(event) {
     if(match){
       resetGuesses();
       // TODO: Update score
-      document.getElementById("matches").innerText
+      document.getElementById("matches").innerText = 0;
+
+      const cards = document.querySelectorAll("#gameboard div");
+      const shown = document.getElementsByClassName(FLIPPED);
+      if(cards.length === shown.length) { // Game over
+        document.getElementById("new-game").style.display = "inline";
+      }
     } else {
       showingMismatchedCards = true;
       // Flip cards back over
@@ -89,4 +95,13 @@ document.getElementById("start").addEventListener("click", function(e){
   createDivsForColors(shuffledColors);
   e.target.remove();
   document.getElementById("game").style.display = "block";
+});
+
+document.getElementById("new-game").addEventListener("click", function(e){
+  // Flip all the cards back over and shuffle them
+  for(let card of document.querySelectorAll("#gameboard div"))
+    card.classList.remove(FLIPPED);
+  document.getElementById("gameboard").innerHTML = "";
+  createDivsForColors(shuffledColors);
+  e.target.style.display = "none";
 });

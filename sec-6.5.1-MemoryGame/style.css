@@ -15,7 +15,7 @@
   margin: 10px;
 }
 
-/* Hide the New Game button until game is over */
+/* Hide the New Game button until the game is over */
 #new-game{
   display: none;
 }
