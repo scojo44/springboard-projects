@@ -75,6 +75,13 @@ function onCardClick(e) {
   if(guesses.length < MAX_GUESSES){
     e.target.classList.add(FLIPPED);
     guesses.push(e.target);
+
+    if(cheating){
+      for(let card of document.getElementsByClassName(e.target.dataset.color)){
+        if(card != e.target)
+          card.style.borderColor = e.target.dataset.color;
+      }
+    }
   }
 
   if(guesses.length >= MAX_GUESSES) {
@@ -101,6 +108,9 @@ function onCardClick(e) {
   }
 }
 
+const CHEAT_CODE = "xyzzy";
+let cheating = false;
+
 function isGameOver(){
   const cards = document.getElementsByClassName(CARD);
   const shown = document.getElementsByClassName(FLIPPED);
@@ -122,4 +132,12 @@ document.getElementById("start").addEventListener("click", function(e){
 document.getElementById("new-game").addEventListener("click", function(e){
   setupGameboard(); // Flip all the cards back over and shuffle them
   e.target.style.display = "none";
+});
+
+document.querySelector("h1").addEventListener("click", function(){
+  const code = prompt("Enter cheat code");
+  if(code === CHEAT_CODE){
+    alert("Nothing happens... or so it seems.");
+    cheating = true;
+  }
 });
