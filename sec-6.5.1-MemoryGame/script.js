@@ -66,12 +66,10 @@ function resetGuesses(){
 }
 
 function onCardClick(e) {
-  if(showingMismatchedCards ||
-     e.target.classList.contains(FLIPPED) ||
-     !e.target.classList.contains(CARD)){
-       return; // Ignore clicks on already flipped cards or non-card elements
-    }
+  if(showingMismatchedCards || e.target.classList.contains(FLIPPED) || !e.target.classList.contains(CARD))
+    return; // Ignore clicks on already flipped cards or non-card elements
 
+  // Any card flipped
   if(guesses.length < MAX_GUESSES){
     e.target.classList.add(FLIPPED);
     guesses.push(e.target);
@@ -86,17 +84,24 @@ function onCardClick(e) {
         }
       }
     }
+
+    if(cheating){
+      for(let card of document.getElementsByClassName(e.target.dataset.color)){
+        if(card != e.target)
+          card.style.borderColor = e.target.dataset.color;
+      }
+    }
   }
 
+  // Last card flipped
   if(guesses.length >= MAX_GUESSES) {
     // Check for matching colors
     const match = guesses[0].dataset.color === guesses[1].dataset.color;
-    incrementIndicator(document.getElementById("tries"));
 
     if(match){
       resetGuesses();
       // Update match count
-      incrementIndicator(document.getElementById("matches"));
+      matchCount++;
       isGameOver();
     } else {
       showingMismatchedCards = true;
@@ -109,6 +114,9 @@ function onCardClick(e) {
         resetGuesses();
       }, 1000)
     }
+
+    tryCount++;
+    updateIndicators();
   }
 }
 
@@ -120,8 +128,14 @@ function isGameOver(){
   }
 }
 
-function incrementIndicator(counter){
-  counter.innerText = parseInt(counter.innerText) + 1;
+let matchCount = 0
+let tryCount = 0;
+
+function updateIndicators(){
+  document.getElementById("matches").innerText = matchCount;
+  document.getElementById("tries").innerText = tryCount;
+  if(tryCount > 0)
+    document.getElementById("score").innerText = Math.round(matchCount/tryCount*100) + "%";
 }
 
 document.getElementById("start").addEventListener("click", function(e){
@@ -133,6 +147,8 @@ document.getElementById("start").addEventListener("click", function(e){
 document.getElementById("new-game").addEventListener("click", function(e){
   setupGameboard(); // Flip all the cards back over and shuffle them
   e.target.style.display = "none";
+  matchCount = 0;
+  tryCount = 0;
 });
 
 const CHEAT_CODE = "xyzzy";
