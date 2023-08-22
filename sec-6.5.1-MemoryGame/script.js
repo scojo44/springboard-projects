@@ -84,13 +84,6 @@ function onCardClick(e) {
         }
       }
     }
-
-    if(cheating){
-      for(let card of document.getElementsByClassName(e.target.dataset.color)){
-        if(card != e.target)
-          card.style.borderColor = e.target.dataset.color;
-      }
-    }
   }
 
   // Last card flipped
@@ -119,9 +112,6 @@ function onCardClick(e) {
     updateIndicators();
   }
 }
-
-const CHEAT_CODE = "xyzzy";
-let cheating = false;
 
 function isGameOver(){
   const cards = document.getElementsByClassName(CARD);
@@ -156,14 +146,6 @@ document.getElementById("new-game").addEventListener("click", function(e){
 
 const CHEAT_CODE = "xyzzy";
 let cheating = false;
-
-document.querySelector("h1").addEventListener("click", function(){
-  const code = prompt("Enter cheat code");
-  if(code === CHEAT_CODE){
-    alert("Nothing happens... or so it seems.");
-    cheating = true;
-  }
-});
 
 document.querySelector("h1").addEventListener("click", function(){
   const code = prompt("Enter cheat code");
