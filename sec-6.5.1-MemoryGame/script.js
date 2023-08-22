@@ -32,6 +32,17 @@ function shuffle(array) {
   return array;
 }
 
+function getRandomColor(){
+  // Generate a random color from 4096 possible colors
+  const r = Math.floor(Math.random() * 16);
+  const g = Math.floor(Math.random() * 16);
+  const b = Math.floor(Math.random() * 16);
+  const hexR = r.toString(16);
+  const hexG = g.toString(16);
+  const hexB = b.toString(16);
+  return `#${hexR}${hexG}${hexB}`;
+}
+
 // this function loops over the array of colors
 // it creates a new div and gives it a class with the value of the color
 // it also adds an event listener for a click for each card
