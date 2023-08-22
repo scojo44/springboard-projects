@@ -77,9 +77,9 @@ function onCardClick(e) {
     if(cheating && guesses.length < MAX_GUESSES){
       for(let card of document.getElementsByClassName(e.target.dataset.color)){
         if(card != e.target && !card.classList.contains(FLIPPED)){
-          card.style.borderColor = e.target.dataset.color; // Cheater!
+          card.style.boxShadow = "0 0 1rem " + e.target.dataset.color; // Cheater!
           setTimeout(function(){
-            card.style.borderColor = "black";
+            card.style.boxShadow = "none";
           }, 1000);
         }
       }
