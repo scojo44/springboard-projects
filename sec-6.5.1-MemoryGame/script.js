@@ -120,6 +120,9 @@ function onCardClick(e) {
   }
 }
 
+const CHEAT_CODE = "xyzzy";
+let cheating = false;
+
 function isGameOver(){
   const cards = document.getElementsByClassName(CARD);
   const shown = document.getElementsByClassName(FLIPPED);
@@ -153,6 +156,14 @@ document.getElementById("new-game").addEventListener("click", function(e){
 
 const CHEAT_CODE = "xyzzy";
 let cheating = false;
+
+document.querySelector("h1").addEventListener("click", function(){
+  const code = prompt("Enter cheat code");
+  if(code === CHEAT_CODE){
+    alert("Nothing happens... or so it seems.");
+    cheating = true;
+  }
+});
 
 document.querySelector("h1").addEventListener("click", function(){
   const code = prompt("Enter cheat code");
