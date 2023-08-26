@@ -4,11 +4,6 @@ const MAX_GUESSES = 2;
 const CARD = "card";
 const FLIPPED = "flipped";
 
-const COLORS = [
-  "red", "blue", "green", "orange", "purple",
-  "red", "blue", "green", "orange", "purple"
-];
-
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
 // it is based on an algorithm called Fisher Yates if you want to research more
@@ -48,21 +43,34 @@ function getRandomColor(){
 // it also adds an event listener for a click for each card
 function setupGameboard() {
   gameboard.addEventListener("click", onCardClick);
+  const cardCount = document.getElementById('deck-size').value;
+  const colors = [];
+
+  // Generate enough random colors for the number of cards
+  for(let i = cardCount; i > cardCount/MAX_GUESSES; i--){
+    let newColor = getRandomColor();
+    for(let j = 0; j < MAX_GUESSES; j++)
+      colors.push(newColor); // Insert the color as many times as required to make a match
+  }
 
   const cards = document.getElementsByClassName(CARD);
-  const shuffledColors = shuffle(COLORS);
+  const shuffledColors = shuffle(colors);
 
-  // Create the card divs on first load.
-  if(!cards.length)
-    for(let color of shuffledColors) { // Use color array to figure out how many cards to make
-      const newCard = document.createElement("div");
-      newCard.classList.add("card");
-      gameboard.append(newCard);
-    }
+  // Create the card divs on first load and making a bigger gameboard.
+  while(cards.length < colors.length) { // Use color array to figure out how many cards to make
+    const newCard = document.createElement("div");
+    newCard.classList.add("card");
+    gameboard.append(newCard);
+  }
+
+  // Trim the gameboard if using a smaller card deck this time.
+  while(cards.length > colors.length){
+    cards[cards.length-1].remove();
+  }
 
   // Assign random colors
   for(let i = 0; i < cards.length; i++) {
-    cards[i].classList.remove(FLIPPED); // When resetting for a new game
+    hideCard(cards[i]); // When resetting for a new game
     cards[i].classList.add(shuffledColors[i]);
     cards[i].dataset.color = shuffledColors[i];
   }
@@ -76,13 +84,23 @@ function resetGuesses(){
     guesses.pop();
 }
 
+function showCard(card){
+  card.classList.add(FLIPPED);
+  card.style.backgroundColor = card.dataset.color;
+}
+
+function hideCard(card){
+  card.classList.remove(FLIPPED);
+  card.style.backgroundColor = "";
+}
+
 function onCardClick(e) {
   if(showingMismatchedCards || e.target.classList.contains(FLIPPED) || !e.target.classList.contains(CARD))
     return; // Ignore clicks on already flipped cards or non-card elements
 
   // Any card flipped
   if(guesses.length < MAX_GUESSES){
-    e.target.classList.add(FLIPPED);
+    showCard(e.target);
     guesses.push(e.target);
 
     if(cheating && guesses.length < MAX_GUESSES){
@@ -112,7 +130,7 @@ function onCardClick(e) {
       // Flip cards back over
       setTimeout(function(){
         for(let card of guesses) {
-          card.classList.remove(FLIPPED);
+          hideCard(card);
           showingMismatchedCards = false;
         }
         resetGuesses();
@@ -128,31 +146,31 @@ function isGameOver(){
   const cards = document.getElementsByClassName(CARD);
   const shown = document.getElementsByClassName(FLIPPED);
   if(cards.length === shown.length) {
-    document.getElementById("game-over").style.display = "block";
+    document.getElementById("game-over").style.visibility = "visible";
+    document.getElementById("start").innerText = "Play Again";
   }
 }
 
 let matchCount = 0
 let tryCount = 0;
 
-function updateIndicators(){
+function updateIndicators() {
+  const percent = tryCount? Math.round(matchCount/tryCount*100) : 0; // Avoid divide by zero
   document.getElementById("matches").innerText = matchCount;
   document.getElementById("tries").innerText = tryCount;
-  if(tryCount > 0)
-    document.getElementById("score").innerText = Math.round(matchCount/tryCount*100) + "%";
+  document.getElementById("score").innerText = percent + "%";
 }
 
 document.getElementById("start").addEventListener("click", function(e){
-  e.target.remove();
   setupGameboard();
-  document.getElementById("game").style.display = "block";
-});
-
-document.getElementById("new-game").addEventListener("click", function(e){
-  setupGameboard(); // Flip all the cards back over and shuffle them
-  e.target.style.display = "none";
+  document.getElementById("game").style.visibility = "visible";
+  // Reuse the start button for a new game button
+  e.target.innerText = "Start Over";
+  // Reset for new game
+  document.getElementById("game-over").style.visibility = "hidden";
   matchCount = 0;
   tryCount = 0;
+  updateIndicators();
 });
 
 const CHEAT_CODE = "xyzzy";

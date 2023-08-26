@@ -1,10 +1,9 @@
 #game {
-  display: none;
+  visibility: hidden;
 }
 
 #gameboard {
   display: flex;
-  width: 360px;
   flex-wrap: wrap;
 }
 
@@ -15,14 +14,11 @@
   margin: 10px;
 }
 
-/* Hide the winner message and new game button until the game is over */
-#game-over{
-  display: none;
+#deck-size {
+  width: 3rem;
 }
 
-/* Card Colors */
-.flipped.red { background-color: red; }
-.flipped.blue { background-color: blue; }
-.flipped.green { background-color: green; }
-.flipped.orange { background-color: orange; }
-.flipped.purple { background-color: purple; }
+/* Hide the winner message until the game is over */
+#game-over{
+  visibility: hidden;
+}
