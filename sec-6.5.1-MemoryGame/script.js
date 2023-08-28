@@ -56,11 +56,20 @@ function setupGameboard() {
   const cards = document.getElementsByClassName(CARD);
   const shuffledColors = shuffle(colors);
 
-  // Create the card divs on first load and making a bigger gameboard.
+  // Create the cards on first load and making a bigger gameboard.
   while(cards.length < colors.length) { // Use color array to figure out how many cards to make
-    const newCard = document.createElement("div");
-    newCard.classList.add("card");
-    gameboard.append(newCard);
+    const card = document.createElement("div");
+    const inner = document.createElement("div");
+    const front = document.createElement("div");
+    const back = document.createElement("div");
+    card.classList.add("card");
+    inner.classList.add("inner");
+    front.classList.add("front");
+    back.classList.add("back");
+    inner.append(front);
+    inner.append(back);
+    card.append(inner);
+    gameboard.append(card);
   }
 
   // Trim the gameboard if using a smaller card deck this time.
@@ -71,8 +80,8 @@ function setupGameboard() {
   // Assign random colors
   for(let i = 0; i < cards.length; i++) {
     hideCard(cards[i]); // When resetting for a new game
-    cards[i].classList.add(shuffledColors[i]);
     cards[i].dataset.color = shuffledColors[i];
+    cards[i].querySelector(".front").style.backgroundColor = shuffledColors[i];
   }
 }
 
@@ -86,29 +95,31 @@ function resetGuesses(){
 
 function showCard(card){
   card.classList.add(FLIPPED);
-  card.style.backgroundColor = card.dataset.color;
+  //card.querySelector(".front").style.backgroundColor = card.dataset.color;
 }
 
 function hideCard(card){
   card.classList.remove(FLIPPED);
-  card.style.backgroundColor = "";
+  //card.querySelector(".front").style.backgroundColor = "";
 }
 
 function onCardClick(e) {
-  if(showingMismatchedCards || e.target.classList.contains(FLIPPED) || !e.target.classList.contains(CARD))
+  const card = e.target.parentElement.parentElement; // .card => .inner => .back (e.target)
+
+  if(showingMismatchedCards || !card || card.classList.contains(FLIPPED) || !card.classList.contains(CARD))
     return; // Ignore clicks on already flipped cards or non-card elements
 
   // Any card flipped
   if(guesses.length < MAX_GUESSES){
-    showCard(e.target);
-    guesses.push(e.target);
+    showCard(card);
+    guesses.push(card);
 
     if(cheating && guesses.length < MAX_GUESSES){
-      for(let card of document.getElementsByClassName(e.target.dataset.color)){
-        if(card != e.target && !card.classList.contains(FLIPPED)){
-          card.style.boxShadow = "0 0 1rem " + e.target.dataset.color; // Cheater!
+      for(let mate of document.querySelectorAll(`.card[data-color="${card.dataset.color}"]`)) {
+        if(mate != card && !mate.classList.contains(FLIPPED)){
+          mate.style.boxShadow = "0 0 1rem " + card.dataset.color; // Cheater!
           setTimeout(function(){
-            card.style.boxShadow = "none";
+            mate.style.boxShadow = "none";
           }, 1000);
         }
       }
@@ -129,8 +140,8 @@ function onCardClick(e) {
       showingMismatchedCards = true;
       // Flip cards back over
       setTimeout(function(){
-        for(let card of guesses) {
-          hideCard(card);
+        for(let guess of guesses) {
+          hideCard(guess);
           showingMismatchedCards = false;
         }
         resetGuesses();
