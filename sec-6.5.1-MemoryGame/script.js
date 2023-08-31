@@ -27,7 +27,30 @@ function shuffle(array) {
   return array;
 }
 
-function getRandomColor(){
+// this function loops over the array of colors
+// it creates a new div and gives it a class with the value of the color
+// it also adds an event listener for a click for each card
+function setupGameboard() {
+  gameboard.addEventListener("click", onCardClick);
+  const deckSize = document.getElementById('deck-size').value;
+  const cards = document.getElementsByClassName(CARD);
+  addRemoveCards(cards, deckSize);
+  assignCardColors(cards, generateRandomColors(deckSize));
+}
+
+function generateRandomColors(colors, deckSize) {
+  const colors = [];
+
+  for(let i = deckSize; i > deckSize/MAX_GUESSES; i--) {
+    let newColor = getRandomColor();
+    for(let j = 0; j < MAX_GUESSES; j++)
+      colors.push(newColor); // Insert the color as many times as required to make a match
+  }
+
+  return shuffle(colors);
+}
+
+function getRandomColor() {
   // Generate a random color from 4096 possible colors
   const r = Math.floor(Math.random() * 16);
   const g = Math.floor(Math.random() * 16);
@@ -38,26 +61,9 @@ function getRandomColor(){
   return `#${hexR}${hexG}${hexB}`;
 }
 
-// this function loops over the array of colors
-// it creates a new div and gives it a class with the value of the color
-// it also adds an event listener for a click for each card
-function setupGameboard() {
-  gameboard.addEventListener("click", onCardClick);
-  const cardCount = document.getElementById('deck-size').value;
-  const colors = [];
-
-  // Generate enough random colors for the number of cards
-  for(let i = cardCount; i > cardCount/MAX_GUESSES; i--){
-    let newColor = getRandomColor();
-    for(let j = 0; j < MAX_GUESSES; j++)
-      colors.push(newColor); // Insert the color as many times as required to make a match
-  }
-
-  const cards = document.getElementsByClassName(CARD);
-  const shuffledColors = shuffle(colors);
-
+function addRemoveCards(cards, deckSize) {
   // Create the cards on first load and making a bigger gameboard.
-  while(cards.length < colors.length) { // Use color array to figure out how many cards to make
+  while(cards.length < deckSize) {
     const card = document.createElement("div");
     const inner = document.createElement("div");
     const front = document.createElement("div");
@@ -73,11 +79,11 @@ function setupGameboard() {
   }
 
   // Trim the gameboard if using a smaller card deck this time.
-  while(cards.length > colors.length){
+  while(cards.length > deckSize)
     cards[cards.length-1].remove();
-  }
+}
 
-  // Assign random colors
+function assignCardColors(cards, shuffledColors) {
   for(let i = 0; i < cards.length; i++) {
     hideCard(cards[i]); // When resetting for a new game
     cards[i].dataset.color = shuffledColors[i];
@@ -88,72 +94,61 @@ function setupGameboard() {
 let guesses = [];
 let showingMismatchedCards = false;
 
-function resetGuesses(){
+function resetGuesses() {
   while(guesses.length)
     guesses.pop();
 }
 
-function showCard(card){
+function showCard(card) {
   card.classList.add(FLIPPED);
-  //card.querySelector(".front").style.backgroundColor = card.dataset.color;
 }
 
-function hideCard(card){
+function hideCard(card) {
   card.classList.remove(FLIPPED);
-  //card.querySelector(".front").style.backgroundColor = "";
 }
 
 function onCardClick(e) {
   const card = e.target.parentElement.parentElement; // .card => .inner => .back (e.target)
 
-  if(showingMismatchedCards || !card || card.classList.contains(FLIPPED) || !card.classList.contains(CARD))
+  if(showingMismatchedCards || !card || card.classList.contains(FLIPPED) || !card.classList.contains(CARD) || guesses.length > MAX_GUESSES)
     return; // Ignore clicks on already flipped cards or non-card elements
 
   // Any card flipped
-  if(guesses.length < MAX_GUESSES){
-    showCard(card);
-    guesses.push(card);
+  showCard(card);
+  guesses.push(card);
 
-    if(cheating && guesses.length < MAX_GUESSES){
-      for(let mate of document.querySelectorAll(`.card[data-color="${card.dataset.color}"]`)) {
-        if(mate != card && !mate.classList.contains(FLIPPED)){
-          mate.style.boxShadow = "0 0 1rem " + card.dataset.color; // Cheater!
-          setTimeout(function(){
-            mate.style.boxShadow = "none";
-          }, 1000);
-        }
-      }
-    }
-  }
+  if(cheating && guesses.length < MAX_GUESSES)
+    revealMatchingCard();
 
   // Last card flipped
-  if(guesses.length >= MAX_GUESSES) {
-    // Check for matching colors
-    const match = guesses[0].dataset.color === guesses[1].dataset.color;
-
-    if(match){
-      resetGuesses();
-      // Update match count
-      matchCount++;
-      isGameOver();
-    } else {
-      showingMismatchedCards = true;
-      // Flip cards back over
-      setTimeout(function(){
-        for(let guess of guesses) {
-          hideCard(guess);
-          showingMismatchedCards = false;
-        }
-        resetGuesses();
-      }, 1000)
-    }
-
-    tryCount++;
-    updateIndicators();
-  }
+  if(guesses.length === MAX_GUESSES)
+    checkForMatchingCards();
 }
 
-function isGameOver(){
+function checkForMatchingCards() {
+  tryCount++;
+
+  if(guesses[0].dataset.color === guesses[1].dataset.color){
+    resetGuesses();
+    matchCount++;
+    isGameOver();
+  } else {
+    // Show the cards for a short time then flip them back over
+    showingMismatchedCards = true;
+
+    setTimeout(function(){
+      for(let guess of guesses) {
+        hideCard(guess);
+        showingMismatchedCards = false;
+      }
+      resetGuesses();
+    }, 1000)
+  }
+
+  updateIndicators();
+}
+
+function isGameOver() {
   const cards = document.getElementsByClassName(CARD);
   const shown = document.getElementsByClassName(FLIPPED);
   if(cards.length === shown.length) {
@@ -194,3 +189,14 @@ document.querySelector("h1").addEventListener("click", function(){
     cheating = true;
   }
 });
+
+function revealMatchingCard(){
+  for(let mate of document.querySelectorAll(`.card[data-color="${card.dataset.color}"]`)) {
+    if(mate != card && !mate.classList.contains(FLIPPED)){
+      mate.style.boxShadow = "0 0 1rem " + card.dataset.color; // Cheater!
+      setTimeout(function(){
+        mate.style.boxShadow = "none";
+      }, 1000);
+    }
+  }
+}
