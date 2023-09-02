@@ -92,8 +92,10 @@ function addRemoveCards(cards, deckSize) {
 function assignCardColors(cards, shuffledColors) {
   for(let i = 0; i < cards.length; i++) {
     hideCard(cards[i]); // When resetting for a new game
-    cards[i].dataset.color = shuffledColors[i];
-    cards[i].querySelector(".front").style.backgroundColor = shuffledColors[i];
+    setTimeout(function() { // Wait for the card to flip back over before assigning the color
+      cards[i].dataset.color = shuffledColors[i];
+      cards[i].querySelector(".front").style.backgroundColor = shuffledColors[i];
+    }, 500);
   }
 }
 
