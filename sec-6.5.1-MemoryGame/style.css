@@ -1,6 +1,6 @@
 /* Card flip animation based on w3bits.com/css-flip-animation
  * Note: Their card front is what you see first.  My front is
- * the random color or image revealed on flip.
+ * the hidden random color or image revealed on flip.
  */
 
 #game {
@@ -60,6 +60,11 @@
 }
 
 /* Hide the winner message until the game is over */
-#game-over{
+#game-over, #new-record {
   visibility: hidden;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
 }

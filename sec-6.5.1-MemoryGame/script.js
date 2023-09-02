@@ -1,8 +1,14 @@
-const gameboard = document.getElementById("gameboard");
 const MAX_GUESSES = 2;
-// CSS class names
-const CARD = "card";
-const FLIPPED = "flipped";
+const CARD_CLASS = "card";
+const FLIPPED_CLASS = "flipped";
+const BEST_SCORES_STORAGE_KEY = "BestScores";
+
+const gameboard = document.getElementById("gameboard");
+const guesses = [];
+let bestScores = {};
+let matchCount = 0;
+let tryCount = 0;
+let showingMismatchedCards = false;
 
 // here is a helper function to shuffle an array
 // it returns the same array with values shuffled
@@ -33,12 +39,12 @@ function shuffle(array) {
 function setupGameboard() {
   gameboard.addEventListener("click", onCardClick);
   const deckSize = document.getElementById('deck-size').value;
-  const cards = document.getElementsByClassName(CARD);
+  const cards = document.getElementsByClassName(CARD_CLASS);
   addRemoveCards(cards, deckSize);
   assignCardColors(cards, generateRandomColors(deckSize));
 }
 
-function generateRandomColors(colors, deckSize) {
+function generateRandomColors(deckSize) {
   const colors = [];
 
   for(let i = deckSize; i > deckSize/MAX_GUESSES; i--) {
@@ -91,51 +97,49 @@ function assignCardColors(cards, shuffledColors) {
   }
 }
 
-let guesses = [];
-let showingMismatchedCards = false;
-
 function resetGuesses() {
   while(guesses.length)
     guesses.pop();
 }
 
 function showCard(card) {
-  card.classList.add(FLIPPED);
+  card.classList.add(FLIPPED_CLASS);
 }
 
 function hideCard(card) {
-  card.classList.remove(FLIPPED);
+  card.classList.remove(FLIPPED_CLASS);
 }
 
 function onCardClick(e) {
   const card = e.target.parentElement.parentElement; // .card => .inner => .back (e.target)
 
-  if(showingMismatchedCards || !card || card.classList.contains(FLIPPED) || !card.classList.contains(CARD) || guesses.length > MAX_GUESSES)
+  if(showingMismatchedCards || !card || card.classList.contains(FLIPPED_CLASS) || !card.classList.contains(CARD_CLASS) || guesses.length > MAX_GUESSES)
     return; // Ignore clicks on already flipped cards or non-card elements
 
   // Any card flipped
   showCard(card);
   guesses.push(card);
-
+  
   if(cheating && guesses.length < MAX_GUESSES)
-    revealMatchingCard();
+    revealMatchingCard(card);
 
   // Last card flipped
-  if(guesses.length === MAX_GUESSES)
+  if(guesses.length === MAX_GUESSES){
+    tryCount++;
     checkForMatchingCards();
+    updateIndicators();
+    isGameOver();
+  }
 }
 
 function checkForMatchingCards() {
-  tryCount++;
-
   if(guesses[0].dataset.color === guesses[1].dataset.color){
     resetGuesses();
     matchCount++;
-    isGameOver();
   } else {
     // Show the cards for a short time then flip them back over
     showingMismatchedCards = true;
-
+    
     setTimeout(function(){
       for(let guess of guesses) {
         hideCard(guess);
@@ -144,27 +148,66 @@ function checkForMatchingCards() {
       resetGuesses();
     }, 1000)
   }
-
-  updateIndicators();
 }
 
 function isGameOver() {
-  const cards = document.getElementsByClassName(CARD);
-  const shown = document.getElementsByClassName(FLIPPED);
+  const cards = document.getElementsByClassName(CARD_CLASS);
+  const shown = document.getElementsByClassName(FLIPPED_CLASS);
   if(cards.length === shown.length) {
     document.getElementById("game-over").style.visibility = "visible";
     document.getElementById("start").innerText = "Play Again";
+    updateIfNewRecord();
   }
 }
-
-let matchCount = 0
-let tryCount = 0;
 
 function updateIndicators() {
   const percent = tryCount? Math.round(matchCount/tryCount*100) : 0; // Avoid divide by zero
   document.getElementById("matches").innerText = matchCount;
   document.getElementById("tries").innerText = tryCount;
-  document.getElementById("score").innerText = percent + "%";
+  document.getElementById("score").innerText = percent;
+}
+
+function updateIfNewRecord() {
+  const deckSize = document.getElementById('deck-size').value;
+  const matchCount = parseInt(document.getElementById("matches").innerText);
+  const tryCount = parseInt(document.getElementById("tries").innerText);
+  const score = parseInt(document.getElementById("score").innerText);
+  const equaledCheater = tryCount === bestScores[deckSize].tries && !cheating && bestScores[deckSize].cheated;
+  
+  // Update the best score
+  if(tryCount < bestScores[deckSize].tries || equaledCheater || bestScores[deckSize].matches === 0){
+    bestScores[deckSize].matches = matchCount;
+    bestScores[deckSize].tries = tryCount;
+    bestScores[deckSize].score = score;
+    bestScores[deckSize].cheated = cheating;
+    document.getElementById("new-record").style.visibility = "visible";
+  }
+
+  localStorage.setItem(BEST_SCORES_STORAGE_KEY, JSON.stringify(bestScores));
+  updateBestScoreDisplay();
+}
+
+document.addEventListener("DOMContentLoaded", function(e){
+  if(localStorage.getItem(BEST_SCORES_STORAGE_KEY))
+    bestScores = JSON.parse(localStorage.getItem(BEST_SCORES_STORAGE_KEY));
+  updateBestScoreDisplay();
+});
+
+document.getElementById("deck-size").addEventListener("change", function(e){
+  updateBestScoreDisplay();
+});
+
+function updateBestScoreDisplay(){
+  const deckSize = document.getElementById('deck-size').value;
+
+  if(!bestScores[deckSize])
+    bestScores[deckSize] = {matches: 0, tries: 0, score: 0};
+
+  document.getElementById("best-deck").innerText = deckSize;
+  document.getElementById("best-matches").innerText = bestScores[deckSize].matches;
+  document.getElementById("best-tries").innerText = bestScores[deckSize].tries;
+  document.getElementById("best-score").innerText = bestScores[deckSize].score;
+  document.getElementById("best-cheater").innerText = bestScores[deckSize].cheated? " *" : "";
 }
 
 document.getElementById("start").addEventListener("click", function(e){
@@ -174,6 +217,7 @@ document.getElementById("start").addEventListener("click", function(e){
   e.target.innerText = "Start Over";
   // Reset for new game
   document.getElementById("game-over").style.visibility = "hidden";
+  document.getElementById("new-record").style.visibility = "hidden";
   matchCount = 0;
   tryCount = 0;
   updateIndicators();
@@ -190,9 +234,9 @@ document.querySelector("h1").addEventListener("click", function(){
   }
 });
 
-function revealMatchingCard(){
+function revealMatchingCard(card){
   for(let mate of document.querySelectorAll(`.card[data-color="${card.dataset.color}"]`)) {
-    if(mate != card && !mate.classList.contains(FLIPPED)){
+    if(mate != card && !mate.classList.contains(FLIPPED_CLASS)){
       mate.style.boxShadow = "0 0 1rem " + card.dataset.color; // Cheater!
       setTimeout(function(){
         mate.style.boxShadow = "none";
