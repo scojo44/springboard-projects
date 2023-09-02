@@ -3,6 +3,11 @@
  * the hidden random color or image revealed on flip.
  */
 
+h1 {
+  border-radius: 1rem;
+  border: 1px solid black;
+}
+
 #game {
   visibility: hidden;
 }
@@ -14,14 +19,18 @@
 
 .card, .inner {
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 5rem;
+  height: 7rem;
 }
 
 .card {
   perspective: 10rem;
   cursor: pointer;
   margin: .4rem;
+}
+
+.inner, .front, .back {
+  border-radius: .5rem;
 }
 
 .inner {
@@ -32,7 +41,7 @@
 }
 
 .flipped .inner {
-  transform: rotateY(180deg);
+  transform: rotateX(180deg);
 }
 
 .front, .back {
@@ -48,7 +57,7 @@
 }
 
 .front {
-  transform: rotateY(180deg);
+  transform: rotateX(180deg);
 }
 
 .back {
@@ -67,4 +76,15 @@
 .container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.container > * {
+  flex: 1;
+}
+.container > *:nth-child(2) {
+  text-align: center;
+}
+.container > *:last-child {
+  text-align: right;
 }

@@ -6,12 +6,12 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Memory Game!</h1>
     <div class="container">
       <p>
-        <label>Card Deck Size: <input type="number" id="deck-size" min="4" max="200" step="2" value="24"></label>
+        <label>Cards in the Deck: <input type="number" id="deck-size" min="4" max="200" step="2" value="24"></label>
         <button type="button" id="start">Let's Play!</button>
       </p>
+      <h1>Memory Game!</h1>
       <p>
         Best Game with <span id="best-deck"></span> Cards:
         <span id="best-score"></span>%
@@ -20,15 +20,16 @@
       </p>
     </div>
     <div id="game">
-      <p>
-        Matches: <span id="matches">0</span>
-        - Tries: <span id="tries">0</span>
-        - Score: <span id="score">0</span>%
-      </p>
+      <section class="container">
+        <p>
+          Matches: <span id="matches">0</span>
+          - Tries: <span id="tries">0</span>
+          - Score: <span id="score">0</span>%
+        </p>
+        <h2 id="game-over">You found all the matches!</h2>
+        <h2 id="new-record">New Record!</h2>
+      </section>
       <div id="gameboard"></div>
-      <div id="game-over">
-        <h2>You found all the matches!<span id="new-record"> - New Record!</span></h2>
-      </div>
     </div>
     <script src="script.js"></script>
   </body>
