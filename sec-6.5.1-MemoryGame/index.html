@@ -2,35 +2,39 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Memory Game!</title>
+    <title>Color Matching Game!</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <p>
-        <label>Cards in the Deck: <input type="number" id="deck-size" min="4" max="200" step="2" value="24"></label>
-        <button type="button" id="start">Let's Play!</button>
-      </p>
-      <h1>Memory Game!</h1>
-      <p>
-        Best Game with <span id="best-deck"></span> Cards:
-        <span id="best-score"></span>%
-        (<span id="best-matches"></span>/<span id="best-tries"> - </span>)
-        <span id="best-cheater"></span>
-      </p>
-    </div>
-    <div id="game">
-      <section class="container">
+    <header class="container">
+      <section>
         <p>
+          <label>Cards in the Deck: <input type="number" id="deck-size" min="4" max="200" step="2" value="24"></label>
+          <button type="button" id="start">Let's Play!</button>
+        </p>
+        <p id="game-stats">
           Matches: <span id="matches">0</span>
           - Tries: <span id="tries">0</span>
           - Score: <span id="score">0</span>%
         </p>
         <h2 id="game-over">You found all the matches!</h2>
+      </section>
+      <section>
+        <div class="title">
+          <h1>Color Matching Game!</h1>
+          <p>by Scott Jones</p>
+        </div>
+      </section>
+      <section>
+        <p>Best Game with <span id="best-deck"></span> Cards:
+          <span id="best-score"></span>%
+          (<span id="best-matches"></span>/<span id="best-tries"> - </span>)
+          <span id="best-cheater"> Cheater!</span>
+        </p>
         <h2 id="new-record">New Record!</h2>
       </section>
-      <div id="gameboard"></div>
-    </div>
+    </header>
+    <main id="gameboard"></main>
     <script src="script.js"></script>
   </body>
 </html>

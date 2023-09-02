@@ -3,13 +3,9 @@
  * the hidden random color or image revealed on flip.
  */
 
-h1 {
-  border-radius: 1rem;
+.title {
+  border-radius: .5rem;
   border: 1px solid black;
-}
-
-#game {
-  visibility: hidden;
 }
 
 #gameboard {
@@ -41,7 +37,7 @@ h1 {
 }
 
 .flipped .inner {
-  transform: rotateX(180deg);
+  transform: rotateX(-180deg);
 }
 
 .front, .back {
@@ -57,7 +53,7 @@ h1 {
 }
 
 .front {
-  transform: rotateX(180deg);
+  transform: rotateX(-180deg);
 }
 
 .back {
@@ -68,17 +64,19 @@ h1 {
   width: 3rem;
 }
 
-/* Hide the winner message until the game is over */
-#game-over, #new-record {
+#game-stats, #game-over, #new-record {
   visibility: hidden;
+}
+
+#best-cheater {
+  display: none;
+  font-style: italic;
 }
 
 .container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
-
 .container > * {
   flex: 1;
 }

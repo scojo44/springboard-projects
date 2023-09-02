@@ -1,6 +1,6 @@
 const MAX_GUESSES = 2;
-const CARD_CLASS = "card";
-const FLIPPED_CLASS = "flipped";
+const CARD_CSS_CLASS = "card";
+const FLIPPED_CSS_CLASS = "flipped";
 const BEST_SCORES_STORAGE_KEY = "BestScores";
 
 const gameboard = document.getElementById("gameboard");
@@ -39,7 +39,7 @@ function shuffle(array) {
 function setupGameboard() {
   gameboard.addEventListener("click", onCardClick);
   const deckSize = document.getElementById('deck-size').value;
-  const cards = document.getElementsByClassName(CARD_CLASS);
+  const cards = document.getElementsByClassName(CARD_CSS_CLASS);
   addRemoveCards(cards, deckSize);
   assignCardColors(cards, generateRandomColors(deckSize));
 }
@@ -105,17 +105,17 @@ function resetGuesses() {
 }
 
 function showCard(card) {
-  card.classList.add(FLIPPED_CLASS);
+  card.classList.add(FLIPPED_CSS_CLASS);
 }
 
 function hideCard(card) {
-  card.classList.remove(FLIPPED_CLASS);
+  card.classList.remove(FLIPPED_CSS_CLASS);
 }
 
 function onCardClick(e) {
   const card = e.target.parentElement.parentElement; // .card => .inner => .back (e.target)
 
-  if(showingMismatchedCards || !card || card.classList.contains(FLIPPED_CLASS) || !card.classList.contains(CARD_CLASS) || guesses.length > MAX_GUESSES)
+  if(showingMismatchedCards || !card || card.classList.contains(FLIPPED_CSS_CLASS) || !card.classList.contains(CARD_CSS_CLASS) || guesses.length > MAX_GUESSES)
     return; // Ignore clicks on already flipped cards or non-card elements
 
   // Any card flipped
@@ -153,8 +153,8 @@ function checkForMatchingCards() {
 }
 
 function isGameOver() {
-  const cards = document.getElementsByClassName(CARD_CLASS);
-  const shown = document.getElementsByClassName(FLIPPED_CLASS);
+  const cards = document.getElementsByClassName(CARD_CSS_CLASS);
+  const shown = document.getElementsByClassName(FLIPPED_CSS_CLASS);
   if(cards.length === shown.length) {
     document.getElementById("game-over").style.visibility = "visible";
     document.getElementById("start").innerText = "Play Again";
@@ -209,17 +209,18 @@ function updateBestScoreDisplay(){
   document.getElementById("best-matches").innerText = bestScores[deckSize].matches;
   document.getElementById("best-tries").innerText = bestScores[deckSize].tries;
   document.getElementById("best-score").innerText = bestScores[deckSize].score;
-  document.getElementById("best-cheater").innerText = bestScores[deckSize].cheated? " *" : "";
+  document.getElementById("best-cheater").style.display = bestScores[deckSize].cheated? "inline" : "none";
 }
 
 document.getElementById("start").addEventListener("click", function(e){
   setupGameboard();
-  document.getElementById("game").style.visibility = "visible";
+  document.getElementById("game-stats").style.visibility = "visible";
   // Reuse the start button for a new game button
   e.target.innerText = "Start Over";
   // Reset for new game
   document.getElementById("game-over").style.visibility = "hidden";
   document.getElementById("new-record").style.visibility = "hidden";
+  resetGuesses();
   matchCount = 0;
   tryCount = 0;
   updateIndicators();
@@ -238,7 +239,7 @@ document.querySelector("h1").addEventListener("click", function(){
 
 function revealMatchingCard(card){
   for(let mate of document.querySelectorAll(`.card[data-color="${card.dataset.color}"]`)) {
-    if(mate != card && !mate.classList.contains(FLIPPED_CLASS)){
+    if(mate != card && !mate.classList.contains(FLIPPED_CSS_CLASS)){
       mate.style.boxShadow = "0 0 1rem " + card.dataset.color; // Cheater!
       setTimeout(function(){
         mate.style.boxShadow = "none";
