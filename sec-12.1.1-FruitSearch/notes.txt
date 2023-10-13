@@ -1,0 +1,19 @@
+Step One - Planning
+===================
+HTML for search bar
+- <input> with <menu> and <li>s for suggestions
+
+CSS for gradient
+- background-image: linear-gradient(...)
+
+JavsScript event listeners
+- search input: keyup
+
+Populate the search bar with <option>
+- <li> click event sets search <input>.value
+
+Function Structure
+- Listener: Searchbar keyup
+- Filter suggestions
+- Fill dropdown menu
+- Listener: Dropdown menuitem click
