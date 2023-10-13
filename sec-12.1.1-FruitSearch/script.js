@@ -23,10 +23,10 @@ function search(str) {
 }
 function showSuggestions(query) {
   for(let fruit of search(query)){
-    const item = document.createElement("li");
+    const menuItem = document.createElement("li");
     // Add suggestion with search string highlighted
-    item.innerHTML = fruit.replace(new RegExp(query, "gi"), '<span class="highlight">$&</span>');
-    suggestions.append(item);
+    menuItem.innerHTML = fruit.replace(new RegExp(query, "gi"), '<span class="highlight">$&</span>');
+    suggestions.append(menuItem);
     suggestions.classList.add("has-suggestions");
   }
 }
