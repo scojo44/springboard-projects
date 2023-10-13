@@ -1,7 +1,8 @@
 Step One - Planning
 ===================
 HTML for search bar
-- <input> with <menu> and <li>s for suggestions
+- <input> using placeholder
+- <menu> and <li>s for suggestions
 
 CSS for gradient
 - background-image: linear-gradient(...)
