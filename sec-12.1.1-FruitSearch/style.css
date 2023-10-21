@@ -1,12 +1,13 @@
 body {
-  background-image: linear-gradient(to right, rgb(255, 216, 64), rgb(232, 96, 0));
+  background-image: linear-gradient(to right, mediumpurple, cornflowerblue);
+  /* Original yellow >> orange: linear-gradient(to right, rgb(255, 216, 64), rgb(232, 96, 0)); */
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 menu, #search-container input {
-  background-color: rgb(242, 172, 72);
+  background-color: #C390FF; /* Original orange: rgb(242, 172, 72); */
   width: 100%;
 }
 
@@ -17,12 +18,12 @@ menu, #search-container input {
 #search-container input {
   box-sizing: border-box;
   border-width: 0;
-  border-bottom: solid 2px rgb(232, 96, 0);
+  border-bottom: solid 2px darkslategray; /* Original red: rgb(232, 96, 0); */
   padding: .5rem;
   transition: border 200ms ease-in-out;
 }
 #search-container input:focus {
-  border: solid 2px rgb(232, 96, 0);
+  border: solid 2px darkslategray; /* Original red: rgb(232, 96, 0); */
   outline: none;
 }
 #search-container #suggestions {
