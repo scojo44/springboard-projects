@@ -14,6 +14,15 @@ function navAllStories(evt) {
 
 $body.on("click", "#nav-all", navAllStories);
 
+/** Show new story form when click on "Add Story" */
+
+function navNewStory(evt) {
+  console.debug("navNewStory", evt);
+  $newStoryForm.show();
+}
+
+$body.on("click", "#nav-new-story", navNewStory);
+
 /** Show login/signup on click on "login" */
 
 function navLoginClick(evt) {
