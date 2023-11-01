@@ -54,10 +54,7 @@ class StoryList {
     //  instance method?
 
     // query the /stories endpoint (no auth required)
-    const response = await axios({
-      url: `${BASE_URL}/stories`,
-      method: "GET",
-    });
+    const response = await axios.get(BASE_URL + "/stories");
 
     // turn plain old story objects from API into instances of Story class
     const stories = response.data.stories.map(story => new Story(story));
@@ -117,12 +114,7 @@ class User {
    */
 
   static async signup(username, password, name) {
-    const response = await axios({
-      url: `${BASE_URL}/signup`,
-      method: "POST",
-      data: { user: { username, password, name } },
-    });
-
+    const response = await axios.post(BASE_URL + "/signup", { user: { username, password, name } });
     let { user } = response.data
 
     return new User(
@@ -144,12 +136,7 @@ class User {
    */
 
   static async login(username, password) {
-    const response = await axios({
-      url: `${BASE_URL}/login`,
-      method: "POST",
-      data: { user: { username, password } },
-    });
-
+    const response = await axios.post(BASE_URL + "/login", { user: { username, password } });
     let { user } = response.data;
 
     return new User(
@@ -170,10 +157,8 @@ class User {
 
   static async loginViaStoredCredentials(token, username) {
     try {
-      const response = await axios({
-        url: `${BASE_URL}/users/${username}`,
-        method: "GET",
-        params: { token },
+      const response = await axios.get(BASE_URL + "/users/" + username, {
+        params: { token }
       });
 
       let { user } = response.data;
