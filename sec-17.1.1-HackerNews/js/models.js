@@ -100,22 +100,13 @@ class User {
    *   - token
    */
 
-  constructor({
-                username,
-                name,
-                createdAt,
-                favorites = [],
-                ownStories = []
-              },
-              token) {
-    this.username = username;
-    this.name = name;
-    this.createdAt = createdAt;
-
+  constructor(apiUser, token) {
+    this.username = apiUser.username;
+    this.name = apiUser.name;
+    this.createdAt = apiUser.createdAt;
     // instantiate Story instances for the user's favorites and ownStories
-    this.favorites = favorites.map(s => new Story(s));
-    this.ownStories = ownStories.map(s => new Story(s));
-
+    this.favorites = apiUser.favorites.length? apiUser.favorites.map(s => new Story(s)) : [];
+    this.ownStories = apiUser.stories.length? apiUser.stories.map(s => new Story(s)) : [];
     // store the login token on the user so it's easy to find for API calls.
     this.loginToken = token;
   }
@@ -129,18 +120,7 @@ class User {
 
   static async signup(username, password, name) {
     const response = await axios.post(BASE_URL + "/signup", { user: { username, password, name } });
-    let { user } = response.data
-
-    return new User(
-      {
-        username: user.username,
-        name: user.name,
-        createdAt: user.createdAt,
-        favorites: user.favorites,
-        ownStories: user.stories
-      },
-      response.data.token
-    );
+    return new User(response.data.user, response.data.token);
   }
 
   /** Login in user with API, make User instance & return it.
@@ -151,18 +131,7 @@ class User {
 
   static async login(username, password) {
     const response = await axios.post(BASE_URL + "/login", { user: { username, password } });
-    let { user } = response.data;
-
-    return new User(
-      {
-        username: user.username,
-        name: user.name,
-        createdAt: user.createdAt,
-        favorites: user.favorites,
-        ownStories: user.stories
-      },
-      response.data.token
-    );
+    return new User(response.data.user, response.data.token);
   }
 
   /** When we already have credentials (token & username) for a user,
@@ -174,19 +143,7 @@ class User {
       const response = await axios.get(BASE_URL + "/users/" + username, {
         params: { token }
       });
-
-      let { user } = response.data;
-
-      return new User(
-        {
-          username: user.username,
-          name: user.name,
-          createdAt: user.createdAt,
-          favorites: user.favorites,
-          ownStories: user.stories
-        },
-        token
-      );
+      return new User(response.data.user, response.data.token);
     } catch (err) {
       console.error("loginViaStoredCredentials failed", err);
       return null;
