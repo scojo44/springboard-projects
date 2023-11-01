@@ -50,3 +50,21 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+async function submitStory(evt) {
+  console.debug("submitStory", evt);
+  evt.preventDefault();
+
+  // StoryList.addStory submits a new story to the API and returns the story with more detalis.
+  const newStory = await storyList.addStory(currentUser, {
+    author: $("#new-story-author").val(),
+    title: $("#new-story-title").val(),
+    url: $("#new-story-url").val()
+  });
+
+  $newStoryForm.trigger("reset");
+  $newStoryForm.hide();
+  $allStoriesList.prepend(generateStoryMarkup(newStory));
+}
+
+$newStoryForm.on("submit", submitStory);

@@ -71,9 +71,9 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
-    // UNIMPLEMENTED: complete this function!
+    let response;
     try {
-      const response = await axios.post(BASE_URL + "/stories", {
+      response = await axios.post(BASE_URL + "/stories", {
         token: user.loginToken,
         story: newStory
       });
@@ -82,7 +82,10 @@ class StoryList {
       console.error("addStory failed", error);
       return null;
     }
-    return new Story(newStory);
+
+    const story = new Story(response.data.story);
+    this.stories.push(story)
+    return story;
   }
 }
 
