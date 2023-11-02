@@ -88,6 +88,7 @@ async function submitStory(evt) {
   $newStoryForm.trigger("reset");
   $newStoryForm.hide();
   $allStoriesList.prepend(generateStoryMarkup(newStory));
+  currentUser.ownStories.push(newStory);
 }
 
 $newStoryForm.on("submit", submitStory);

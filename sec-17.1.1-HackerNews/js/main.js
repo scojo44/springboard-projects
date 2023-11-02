@@ -2,6 +2,7 @@
 // Constants
 const NO_STORIES_AVAILABLE_HTML = "<h3>No stories available</h3><p>Check your Internet connection?</p>";
 const NO_STORIES_FAVORITED_HTML = "<h3>No favorite stories</h3><p>Click the star to favorite a story.</p>";
+const NO_STORIES_BY_USER_HTML = "<h3>You have no stories</h3><p>Click the Sumbit link above to create your own!</p>";
 
 // So we don't have to keep re-finding things on page, find DOM elements once:
 const $body = $("body");
@@ -9,6 +10,7 @@ const $body = $("body");
 const $storiesLoadingMsg = $("#stories-loading-msg");
 const $allStoriesList = $("#all-stories-list");
 const $favoriteStoriesList = $("#favorite-stories-list");
+const $myStoriesList = $("#my-stories-list");
 const $anyStoriesList = $(".stories-list");
 const $newStoryForm = $("#new-story-form");
 
@@ -28,6 +30,7 @@ function hidePageComponents() {
   const components = [
     $allStoriesList,
     $favoriteStoriesList,
+    $myStoriesList,
     $loginForm,
     $signupForm,
   ];
