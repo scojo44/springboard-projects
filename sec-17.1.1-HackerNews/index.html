@@ -69,14 +69,17 @@
       <label for="new-story-url">URL</label>
       <input id="new-story-url" type="url" placeholder="https://example.com/awesome_story" required>
     </div>
-    <button type="submit">Add Story</button>
+    <p>
+      <button type="submit" id="add-story-submit">Add Story</button>
+      <button type="button" id="add-story-cancel">Cancel</button>
+    </p>
     <hr>
   </form>
 
   <!-- List of all stories -->
   <ol id="all-stories-list" class="stories-list"></ol>
   <ol id="favorite-stories-list" class="stories-list hidden"></ol>
-  <ol id="my-stories-list" class="stories-list hidden"></ol>
+  <ul id="my-stories-list" class="stories-list hidden"></ul>
 
 </section>
 

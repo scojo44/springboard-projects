@@ -80,12 +80,11 @@ form input:focus {
   box-shadow: 0 0 4px 1px darkgray;
 }
 
-form > button {
-  width: 6rem;
-  margin: 5px 0 15px 65px;
+form button {
   border: none;
   border-radius: 4px;
-  padding: 8px;
+  margin: 5px 0 15px 65px;
+  padding: .4rem 1rem;
   font-size: 0.85rem;
   background-color: lightslategray;
   color: white;
@@ -93,7 +92,7 @@ form > button {
   transition: all 0.15s;
 }
 
-form > button:hover {
+form button:hover {
   background-color: dimgray;
 }
 

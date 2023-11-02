@@ -37,12 +37,13 @@ function updateNavOnLogin() {
 
 /** Show new story form when click on "Add Story" */
 
-function navNewStory(evt) {
-  console.debug("navNewStory", evt);
+function navSubmitStory(evt) {
+  console.debug("navSubmitStory", evt);
   $newStoryForm.show();
 }
 
-$body.on("click", "#nav-new-story", navNewStory);
+$("#nav-new-story").on("click", navSubmitStory);
+$("#add-story-cancel").on("click", e => $newStoryForm.hide());
 
 /** Show new story form when click on "Add Story" */
 
@@ -55,7 +56,6 @@ function navFavorites(evt) {
 $("#nav-favorites").on("click", navFavorites);
 
 function navMyStories(evt) {
-  console.log("navMyStories this", this);
   console.debug("navMyStories", evt);
   hidePageComponents();
   putStoriesOnPage($myStoriesList, currentUser.ownStories, NO_STORIES_BY_USER_HTML);

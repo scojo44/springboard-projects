@@ -78,13 +78,33 @@ class StoryList {
         story: newStory
       });
     } catch(error) {
-      console.error("addStory failed", error);
+      console.error("StoryList.addStory failed", error);
       return null;
     }
 
     const story = new Story(response.data.story);
-    this.stories.push(story)
+    this.stories.unshift(story);
+    currentUser.ownStories.unshift(story);
     return story;
+  }
+
+  /** Deletes a story off the server
+   * - story: The story to be deleted
+   */
+
+  async deleteStory(story) {
+    try {
+      const response = await axios.delete(BASE_URL + "/stories/" + story.storyId, {
+        params: { token: currentUser.loginToken }
+      });
+      removeFromArray(this.stories, story);
+      removeFromArray(currentUser.ownStories, story);
+      removeFromArray(currentUser.favorites, story);
+      return true;
+    } catch(error) {
+      console.error("StoryList.deleteStory failed", error);
+      return false;
+    }
   }
 }
 
@@ -100,7 +120,6 @@ class User {
    */
 
   constructor(apiUser, token) {
-    console.debug("User.constructor");
     this.username = apiUser.username;
     this.name = apiUser.name;
     this.createdAt = apiUser.createdAt;
@@ -154,7 +173,7 @@ class User {
 
   async addFavorite(story) {
     if(this.tryFavoriteAction(story, "add"))
-      this.favorites.push(story);
+      this.favorites.unshift(story);
   }
 
   /** Remove a story from the user's favorites.
@@ -163,7 +182,7 @@ class User {
 
   async removeFavorite(story) {
     if(this.tryFavoriteAction(story, "remove"))
-      this.favorites.splice(this.favorites.indexOf(story),1);
+      removeFromArray(this.favorites, story);
   }
 
   /** Add or remove a story from the user's favorites using the API.

@@ -37,6 +37,12 @@ function hidePageComponents() {
   components.forEach(c => c.hide());
 }
 
+/** Array helper function to remove an element */
+
+function removeFromArray(array, thingToRemove) {
+  array.splice(array.indexOf(thingToRemove),1);
+}
+
 /** Overall function to kick off the app. */
 
 async function start() {
