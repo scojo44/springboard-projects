@@ -9,7 +9,7 @@ async function getAndShowStoriesOnStart() {
   storyList = await StoryList.getStories();
   $storiesLoadingMsg.remove();
 
-  putStoriesOnPage();
+  putStoriesOnPage($allStoriesList, storyList.stories, NO_STORIES_AVAILABLE_HTML);
 }
 
 /**
@@ -25,6 +25,7 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+        ${getStarIcon(currentUser, story)}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -35,21 +36,43 @@ function generateStoryMarkup(story) {
     `);
 }
 
-/** Gets list of stories from server, generates their HTML, and puts on page. */
+/** Generate the star for favoriting a story.
+ * Returns empty string if no user logged in
+ */
 
-function putStoriesOnPage() {
+function getStarIcon(user, story){
+  if(!user) return "";
+
+  const starClass = user.isFavorite(story)? "fas":"far";
+  return `<span class="star ${starClass} fa-star"></span>`;
+}
+
+/** Generates HTML for stories and puts them on the given page.
+ * - storyList:  HTML list element to fill in
+ * - stories:  A list of Story instances to show
+ * - emptyMessage:  A message for when there are no stories to show
+ *
+ * Returns the markup for the story.
+ */
+
+function putStoriesOnPage($storyList, stories, emptyMessage) {
   console.debug("putStoriesOnPage");
+  console.log($storyList, stories, emptyMessage);
+  $storyList.empty();
 
-  $allStoriesList.empty();
+  if(stories.length === 0)
+    $storyList.html(emptyMessage)
 
-  // loop through all of our stories and generate HTML for them
-  for (let story of storyList.stories) {
+  // Loop through the stories and generate HTML for them
+  for(let story of stories) {
     const $story = generateStoryMarkup(story);
-    $allStoriesList.append($story);
+    $storyList.append($story);
   }
 
-  $allStoriesList.show();
+  $storyList.show();
 }
+
+/** Submits a new story */
 
 async function submitStory(evt) {
   console.debug("submitStory", evt);
@@ -68,3 +91,19 @@ async function submitStory(evt) {
 }
 
 $newStoryForm.on("submit", submitStory);
+
+/** Toggle the star icon to show favorited status */
+
+async function toggleFavoritedStory(e) {
+  console.debug("toggleFavoritedStory");
+  const $star = $(e.target);
+  const $storyLI = $star.closest("li");
+  const storiesToSearch = [...storyList.stories, ...currentUser.favorites];
+  const story = storiesToSearch.find(s => s.storyId === $storyLI.attr("id"))
+  const favorited = currentUser.isFavorite(story);
+
+  await favorited? currentUser.removeFavorite(story) : currentUser.addFavorite(story);
+  $star.toggleClass("far fas");
+}
+
+$anyStoriesList.on("click", ".star", toggleFavoritedStory);

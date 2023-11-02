@@ -78,7 +78,6 @@ class StoryList {
         story: newStory
       });
     } catch(error) {
-      console.log(user);
       console.error("addStory failed", error);
       return null;
     }
@@ -96,23 +95,23 @@ class StoryList {
 
 class User {
   /** Make user instance from obj of user data and a token:
-   *   - {username, name, createdAt, favorites[], ownStories[]}
+   *   - apiUser: {username, name, createdAt, favorites[], ownStories[]}
    *   - token
    */
 
   constructor(apiUser, token) {
+    console.debug("User.constructor");
     this.username = apiUser.username;
     this.name = apiUser.name;
     this.createdAt = apiUser.createdAt;
     // instantiate Story instances for the user's favorites and ownStories
-    this.favorites = apiUser.favorites.length? apiUser.favorites.map(s => new Story(s)) : [];
-    this.ownStories = apiUser.stories.length? apiUser.stories.map(s => new Story(s)) : [];
+    this.favorites = apiUser.favorites? apiUser.favorites.map(s => new Story(s)) : [];
+    this.ownStories = apiUser.stories? apiUser.stories.map(s => new Story(s)) : [];
     // store the login token on the user so it's easy to find for API calls.
     this.loginToken = token;
   }
 
   /** Register new user in API, make User instance & return it.
-   *
    * - username: a new username
    * - password: a new password
    * - name: the user's full name
@@ -124,7 +123,6 @@ class User {
   }
 
   /** Login in user with API, make User instance & return it.
-
    * - username: an existing user's username
    * - password: an existing user's password
    */
@@ -143,10 +141,57 @@ class User {
       const response = await axios.get(BASE_URL + "/users/" + username, {
         params: { token }
       });
-      return new User(response.data.user, response.data.token);
+      return new User(response.data.user, token);
     } catch (err) {
       console.error("loginViaStoredCredentials failed", err);
       return null;
     }
+  }
+
+  /** Add a story to user's favorites.
+   * - story: A story instance to favorite
+   */
+
+  async addFavorite(story) {
+    if(this.tryFavoriteAction(story, "add"))
+      this.favorites.push(story);
+  }
+
+  /** Remove a story from the user's favorites.
+   * - story: The story instance to unfavorite
+   */
+
+  async removeFavorite(story) {
+    if(this.tryFavoriteAction(story, "remove"))
+      this.favorites.splice(this.favorites.indexOf(story),1);
+  }
+
+  /** Add or remove a story from the user's favorites using the API.
+   * - story: The story instance
+   * - action: Set to "add" or "remove"
+   * 
+   * Returns true or false whether the API call was successful
+   */
+
+  async tryFavoriteAction(story, action) {
+    const method = action.toLowerCase() === "add"? "POST" : "DELETE";
+
+    try {
+      const response = await axios({
+        url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+        method: method,
+        data: {token: this.loginToken}
+      });
+      return true;
+    } catch (err) {
+      console.error(action + "Favorite failed", err);
+      return false;
+    }
+  }
+
+  /** Return true or false if a story is favorited by the user. */
+
+  isFavorite(story) {
+    return currentUser.favorites.some(s => s.storyId === story.storyId);
   }
 }

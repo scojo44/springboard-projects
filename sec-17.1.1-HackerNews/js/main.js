@@ -1,11 +1,15 @@
 "use strict";
+// Constants
+const NO_STORIES_AVAILABLE_HTML = "<h3>No stories available</h3><p>Check your Internet connection?</p>";
+const NO_STORIES_FAVORITED_HTML = "<h3>No favorite stories</h3><p>Click the star to favorite a story.</p>";
 
 // So we don't have to keep re-finding things on page, find DOM elements once:
-
 const $body = $("body");
 
 const $storiesLoadingMsg = $("#stories-loading-msg");
 const $allStoriesList = $("#all-stories-list");
+const $favoriteStoriesList = $("#favorite-stories-list");
+const $anyStoriesList = $(".stories-list");
 const $newStoryForm = $("#new-story-form");
 
 const $loginForm = $("#login-form");
@@ -23,6 +27,7 @@ const $navLogOut = $("#nav-logout");
 function hidePageComponents() {
   const components = [
     $allStoriesList,
+    $favoriteStoriesList,
     $loginForm,
     $signupForm,
   ];

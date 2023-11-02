@@ -9,19 +9,10 @@
 function navAllStories(evt) {
   console.debug("navAllStories", evt);
   hidePageComponents();
-  putStoriesOnPage();
+  putStoriesOnPage($allStoriesList, storyList.stories, NO_STORIES_AVAILABLE_HTML);
 }
 
 $body.on("click", "#nav-all", navAllStories);
-
-/** Show new story form when click on "Add Story" */
-
-function navNewStory(evt) {
-  console.debug("navNewStory", evt);
-  $newStoryForm.show();
-}
-
-$body.on("click", "#nav-new-story", navNewStory);
 
 /** Show login/signup on click on "login" */
 
@@ -43,3 +34,23 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+/** Show new story form when click on "Add Story" */
+
+function navNewStory(evt) {
+  console.debug("navNewStory", evt);
+  $newStoryForm.show();
+}
+
+$body.on("click", "#nav-new-story", navNewStory);
+
+/** Show new story form when click on "Add Story" */
+
+function navFavorites(evt) {
+  console.debug("navFavorites", evt);
+  hidePageComponents();
+  putStoriesOnPage($favoriteStoriesList, currentUser.favorites, NO_STORIES_FAVORITED_HTML);
+}
+
+$body.on("click", "#nav-favorites", navFavorites);
+
