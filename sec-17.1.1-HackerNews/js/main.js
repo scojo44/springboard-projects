@@ -1,12 +1,9 @@
 "use strict";
-// Constants
-const NO_STORIES_AVAILABLE_HTML = "<h3>No stories available</h3><p>Check your Internet connection?</p>";
-const NO_STORIES_FAVORITED_HTML = "<h3>No favorite stories</h3><p>Click the star to favorite a story.</p>";
-const NO_STORIES_BY_USER_HTML = "<h3>You have no stories</h3><p>Click the Sumbit link above to create your own!</p>";
 
 // So we don't have to keep re-finding things on page, find DOM elements once:
 const $body = $("body");
 
+const $storiesContainer = $(".stories-container");
 const $storiesLoadingMsg = $("#stories-loading-msg");
 const $allStoriesList = $("#all-stories-list");
 const $favoriteStoriesList = $("#favorite-stories-list");
@@ -14,28 +11,13 @@ const $myStoriesList = $("#my-stories-list");
 const $anyStoriesList = $(".stories-list");
 const $newStoryForm = $("#new-story-form");
 
+const $accountFormsContainer = $(".account-forms-container");
 const $loginForm = $("#login-form");
 const $signupForm = $("#signup-form");
 
 const $navLogin = $("#nav-login");
 const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");
-
-/** To make it easier for individual components to show just themselves, this
- * is a useful function that hides pretty much everything on the page. After
- * calling this, individual components can re-show just what they want.
- */
-
-function hidePageComponents() {
-  const components = [
-    $allStoriesList,
-    $favoriteStoriesList,
-    $myStoriesList,
-    $loginForm,
-    $signupForm,
-  ];
-  components.forEach(c => c.hide());
-}
 
 /** Array helper function to remove an element */
 

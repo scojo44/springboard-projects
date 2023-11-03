@@ -38,9 +38,9 @@
     <a class="nav-link" href="#" id="nav-all">Hack or Snooze</a>
   </div>
   <div class="main-nav-links hidden">
-    | <a class="nav-link" href="#" id="nav-new-story">Submit</a>
-    | <a class="nav-link" href="#" id="nav-favorites">Favorites</a>
-    | <a class="nav-link" href="#" id="nav-my-stories">My Stories</a>
+    | <a class="nav-link" href="#" id="nav-new-story">submit</a>
+    | <a class="nav-link" href="#" id="nav-favorites">favorites</a>
+    | <a class="nav-link" href="#" id="nav-my-stories">my stories</a>
   </div>
   <div class="nav-right">
     <a class="nav-link" href="#" id="nav-login">login/signup</a>
@@ -51,43 +51,41 @@
 
 <!-- area for stories (all stories, user stories, favorites) -->
 <section class="stories-container container">
-
   <!-- loading message (removed by JS after stories loaded) -->
   <div id="stories-loading-msg">Loading&hellip;</div>
 
   <!-- New Story form -->
-  <form action="#" id="new-story-form" class="hidden" method="post">
+  <form id="new-story-form" method="post" action="#" class="hidden">
     <div>
-      <label for="new-story-author">Author</label>
+      <label for="new-story-author">author</label>
       <input id="new-story-author" placeholder="John Q. Author" required>
     </div>
     <div>
-      <label for="new-story-title">Title</label>
+      <label for="new-story-title">title</label>
       <input id="new-story-title" placeholder="Awesome Story Headline" required>
     </div>
     <div>
-      <label for="new-story-url">URL</label>
+      <label for="new-story-url">url</label>
       <input id="new-story-url" type="url" placeholder="https://example.com/awesome_story" required>
     </div>
-    <p>
-      <button type="submit" id="add-story-submit">Add Story</button>
-      <button type="button" id="add-story-cancel">Cancel</button>
-    </p>
-    <hr>
+    <div class="button-row">
+      <button type="submit" id="add-story-submit">sumbit</button>
+      <button type="button" id="add-story-cancel">cancel</button>
+    </div>
   </form>
+  
+  <hr>
 
   <!-- List of all stories -->
   <ol id="all-stories-list" class="stories-list"></ol>
   <ol id="favorite-stories-list" class="stories-list hidden"></ol>
   <ul id="my-stories-list" class="stories-list hidden"></ul>
-
 </section>
 
 <!-- Login and signup forms -->
-<section class="account-forms-container container">
-
+<section class="account-forms-container container hidden">
   <!-- Login form -->
-  <form action="#" id="login-form" class="account-form hidden" method="post">
+  <form id="login-form" method="post" action="#" class="account-form">
     <h4>Login</h4>
     <div class="login-input">
       <label for="login-username">username</label>
@@ -97,16 +95,15 @@
       <label for="login-password">password</label>
       <input id="login-password" type="password" autocomplete="current-password">
     </div>
-    <button type="submit">login</button>
-    <hr>
+    <div class="button-row">
+      <button type="submit">login</button>
+    </div>
   </form>
+  
+  <hr>
 
   <!-- Signup form -->
-  <form
-      action="#"
-      id="signup-form"
-      class="account-form hidden"
-      method="post">
+  <form id="signup-form" method="post" action="#" class="account-form">
     <h4>Create Account</h4>
     <div class="login-input">
       <label for="signup-name">name</label>
@@ -120,7 +117,9 @@
       <label for="signup-password">password</label>
       <input id="signup-password" autocomplete="new-password" type="password">
     </div>
-    <button type="submit">create account</button>
+    <div class="button-row">
+      <button type="submit">create account</button>
+    </div>
   </form>
 </section>
 

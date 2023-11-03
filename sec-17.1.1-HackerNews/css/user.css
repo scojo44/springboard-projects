@@ -1,14 +1,11 @@
 /* Login and signup forms */
 
-.account-form button {
-  width: 4rem;
-  margin-left: 80px;
-}
-
-#signup-form button {
-  width: 8rem;
-}
-
-.account-forms-container {
+.account-form {
   padding-left: 20px;
+}
+.account-form button {
+  margin-left: 2rem;
+}
+.login-input label {
+  width: 5rem;
 }

@@ -1,6 +1,6 @@
 "use strict";
 
-const BASE_URL = "https://hack-or-snooze-v3.herokuapp.com";
+const API_BASE_URL = "https://hack-or-snooze-v3.herokuapp.com";
 
 /******************************************************************************
  * Story: a single story in the system
@@ -54,7 +54,7 @@ class StoryList {
     //  instance method?
 
     // query the /stories endpoint (no auth required)
-    const response = await axios.get(BASE_URL + "/stories");
+    const response = await axios.get(API_BASE_URL + "/stories");
 
     // turn plain old story objects from API into instances of Story class
     const stories = response.data.stories.map(story => new Story(story));
@@ -73,7 +73,7 @@ class StoryList {
   async addStory(user, newStory) {
     let response;
     try {
-      response = await axios.post(BASE_URL + "/stories", {
+      response = await axios.post(API_BASE_URL + "/stories", {
         token: user.loginToken,
         story: newStory
       });
@@ -94,7 +94,7 @@ class StoryList {
 
   async deleteStory(story) {
     try {
-      const response = await axios.delete(BASE_URL + "/stories/" + story.storyId, {
+      const response = await axios.delete(API_BASE_URL + "/stories/" + story.storyId, {
         params: { token: currentUser.loginToken }
       });
       removeFromArray(this.stories, story);
@@ -137,7 +137,7 @@ class User {
    */
 
   static async signup(username, password, name) {
-    const response = await axios.post(BASE_URL + "/signup", { user: { username, password, name } });
+    const response = await axios.post(API_BASE_URL + "/signup", { user: { username, password, name } });
     return new User(response.data.user, response.data.token);
   }
 
@@ -147,7 +147,7 @@ class User {
    */
 
   static async login(username, password) {
-    const response = await axios.post(BASE_URL + "/login", { user: { username, password } });
+    const response = await axios.post(API_BASE_URL + "/login", { user: { username, password } });
     return new User(response.data.user, response.data.token);
   }
 
@@ -157,7 +157,7 @@ class User {
 
   static async loginViaStoredCredentials(token, username) {
     try {
-      const response = await axios.get(BASE_URL + "/users/" + username, {
+      const response = await axios.get(API_BASE_URL + "/users/" + username, {
         params: { token }
       });
       return new User(response.data.user, token);
@@ -197,7 +197,7 @@ class User {
 
     try {
       const response = await axios({
-        url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+        url: `${API_BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
         method: method,
         data: {token: this.loginToken}
       });

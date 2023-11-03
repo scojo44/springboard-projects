@@ -1,7 +1,9 @@
 /* General typography */
 
 body {
+  background-image: radial-gradient(circle, rgb(238, 174, 202) 0%, rgb(148, 187, 233) 100%);
   font-family: Arimo, sans-serif;
+  height: calc(100vh - 16px);
   margin: 8px 7.5vw;
 }
 
@@ -9,12 +11,10 @@ h1 {
   font-size: 1.1rem;
   margin: 0;
 }
-
 h4 {
   font-size: 1rem;
   margin: 0;
 }
-
 h5 {
   font-size: 0.9rem;
   font-weight: lighter;
@@ -24,11 +24,9 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
 a:hover {
   text-decoration: underline;
 }
-
 
 /* Site layout */
 
@@ -39,20 +37,22 @@ a:hover {
   align-self: center;
   background-color: #f6f6ef;
 }
-
+.stories-container {
+  height: calc(100vh - 5.2rem);
+  overflow: scroll;
+}
 .hidden {
   display: none;
 }
-
 
 /* Forms */
 
 form {
   display: flex;
   flex-direction: column;
-  margin: 8px 18px 0;
+  margin: 0 18px;
+  padding-top: 5px;
 }
-
 form > * {
   margin: 10px 0;
 }
@@ -65,7 +65,6 @@ form label {
   text-align: right;
   margin-right: 5px;
 }
-
 form input {
   font-size: 0.8rem;
   border: none;
@@ -74,37 +73,33 @@ form input {
   width: 30rem;
   box-shadow: 0 0 3px 1px lightgray;
 }
-
 form input:focus {
   outline: none;
   box-shadow: 0 0 4px 1px darkgray;
 }
 
-form button {
+.button-row {
+  padding: 0 0 4px 3.5rem;
+}
+.button-row button {
   border: none;
   border-radius: 4px;
-  margin: 5px 0 15px 65px;
-  padding: .4rem 1rem;
+  margin-left: 9px;
+  padding: .4rem .8rem;
   font-size: 0.85rem;
   background-color: lightslategray;
   color: white;
   cursor: pointer;
   transition: all 0.15s;
 }
-
-form button:hover {
+.button-row button:hover {
   background-color: dimgray;
 }
 
-form > hr {
+form + hr {
   margin: 0;
   border: 1px solid lightgray;
 }
-
-.login-input label {
-  width: 70px;
-}
-
 
 /* responsive queries for tightening things up for mobile. */
 
@@ -113,7 +108,6 @@ form > hr {
     margin: 0;
   }
 }
-
 @media screen and (min-width: 992px) {
   body {
     max-width: 900px;

@@ -8,8 +8,7 @@ let storyList;
 async function getAndShowStoriesOnStart() {
   storyList = await StoryList.getStories();
   $storiesLoadingMsg.remove();
-
-  putStoriesOnPage($allStoriesList, storyList.stories, NO_STORIES_AVAILABLE_HTML);
+  showAllStories();
 }
 
 /**
@@ -41,7 +40,7 @@ function generateStoryMarkup(story, addDeleteButton = false) {
  * Returns empty string if no user logged in
  */
 
-function getStarIcon(story){
+function getStarIcon(story) {
   if(!currentUser) return "";
 
   const starClass = currentUser.isFavorite(story)? "fas":"far";
@@ -52,10 +51,31 @@ function getStarIcon(story){
  * Returns empty string if no user logged in
  */
 
-function getDeleteIcon(){
+function getDeleteIcon() {
   if(!currentUser) return "";
 
   return `<span class="trashcan fas fa-trash"></span>`;
+}
+
+function showAllStories() {
+  const emptyMsg = "<h4>No stories available</h4><p>Check your Internet connection?</p>";
+  putStoriesOnPage($allStoriesList, storyList.stories, emptyMsg);
+  hidePageComponents();
+  $allStoriesList.show();
+}
+
+function showFavoriteStories() {
+  const emptyMsg = "<h4>No favorite stories</h4><p>Click the star to favorite a story.</p>";
+  putStoriesOnPage($favoriteStoriesList, currentUser.favorites, emptyMsg);
+  hidePageComponents();
+  $favoriteStoriesList.show();
+}
+
+function showMyStories() {
+  const emptyMsg = "<h4>You have no stories</h4><p>Click the Sumbit link above to create your own!</p>";
+  putStoriesOnPage($myStoriesList, currentUser.ownStories, emptyMsg);
+  hidePageComponents();
+  $myStoriesList.show();
 }
 
 /** Generates HTML for stories and puts them on the given page.
@@ -80,6 +100,20 @@ function putStoriesOnPage($storyList, stories, emptyMessage) {
   }
 
   $storyList.show();
+}
+
+/** To make it easier for individual components to show just themselves, this
+ * is a useful function that hides pretty much everything on the page. After
+ * calling this, individual components can re-show just what they want.
+ */
+
+function hidePageComponents() {
+  const components = [
+    $allStoriesList,
+    $favoriteStoriesList,
+    $myStoriesList,
+  ];
+  components.forEach(c => c.hide());
 }
 
 /** Submits a new story */
