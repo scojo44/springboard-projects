@@ -28,18 +28,17 @@ class Story {
   }
 }
 
-
 /******************************************************************************
  * List of Story instances: used by UI to show story lists in DOM.
  */
 
 class StoryList {
+  /** Make instance of StoryList from an array of Story instances */
   constructor(stories) {
     this.stories = stories;
   }
 
   /** Generate a new StoryList. It:
-   *
    *  - calls the API
    *  - builds an array of Story instances
    *  - makes a single StoryList instance out of that
@@ -71,12 +70,14 @@ class StoryList {
 
   async addStory(user, newStory) {
     let response;
+
     try {
       response = await axios.post(API_BASE_URL + "/stories", {
         token: user.loginToken,
         story: newStory
       });
-    } catch(error) {
+    }
+    catch(error) {
       console.error("StoryList.addStory failed", error);
       return null;
     }
@@ -100,13 +101,13 @@ class StoryList {
       removeFromArray(currentUser.ownStories, story);
       removeFromArray(currentUser.favorites, story);
       return true;
-    } catch(error) {
+    }
+    catch(error) {
       console.error("StoryList.deleteStory failed", error);
       return false;
     }
   }
 }
-
 
 /******************************************************************************
  * User: a user in the system (only used to represent the current user)
@@ -122,11 +123,10 @@ class User {
     this.username = apiUser.username;
     this.name = apiUser.name;
     this.createdAt = apiUser.createdAt;
-    // instantiate Story instances for the user's favorites and ownStories
+    this.loginToken = token;
+    // Create Story instances for the user's favorites and ownStories
     this.favorites = apiUser.favorites? apiUser.favorites.map(s => new Story(s)) : [];
     this.ownStories = apiUser.stories? apiUser.stories.map(s => new Story(s)) : [];
-    // store the login token on the user so it's easy to find for API calls.
-    this.loginToken = token;
   }
 
   /** Register new user in API, make User instance & return it.
@@ -136,8 +136,14 @@ class User {
    */
 
   static async signup(username, password, name) {
-    const response = await axios.post(API_BASE_URL + "/signup", { user: { username, password, name } });
-    return new User(response.data.user, response.data.token);
+    try {
+      const response = await axios.post(API_BASE_URL + "/signup", { user: { username, password, name } });
+      return new User(response.data.user, response.data.token);
+    }
+    catch(error) {
+      console.error("StoryList.signup failed", error);
+      return false;
+    }
   }
 
   /** Login in user with API, make User instance & return it.
@@ -146,8 +152,14 @@ class User {
    */
 
   static async login(username, password) {
-    const response = await axios.post(API_BASE_URL + "/login", { user: { username, password } });
-    return new User(response.data.user, response.data.token);
+    try {
+      const response = await axios.post(API_BASE_URL + "/login", { user: { username, password } });
+      return new User(response.data.user, response.data.token);
+    }
+    catch(error) {
+      console.error("StoryList.login failed", error);
+      return false;
+    }
   }
 
   /** When we already have credentials (token & username) for a user,
@@ -160,7 +172,8 @@ class User {
         params: { token }
       });
       return new User(response.data.user, token);
-    } catch (err) {
+    }
+    catch (err) {
       console.error("loginViaStoredCredentials failed", err);
       return null;
     }
@@ -201,7 +214,8 @@ class User {
         data: {token: this.loginToken}
       });
       return true;
-    } catch (err) {
+    }
+    catch (err) {
       console.error(action + "Favorite failed", err);
       return false;
     }

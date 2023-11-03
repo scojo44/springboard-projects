@@ -66,7 +66,7 @@
     </div>
     <div>
       <label for="new-story-url">url</label>
-      <input id="new-story-url" type="url" placeholder="https://example.com/awesome_story" required>
+      <input type="url" id="new-story-url" placeholder="https://example.com/awesome_story" required>
     </div>
     <div class="button-row">
       <button type="submit" id="add-story-submit">sumbit</button>
@@ -89,11 +89,11 @@
     <h4>Login</h4>
     <div class="login-input">
       <label for="login-username">username</label>
-      <input id="login-username" autocomplete="current-username">
+      <input id="login-username" autocomplete="current-username" required>
     </div>
     <div class="login-input">
       <label for="login-password">password</label>
-      <input id="login-password" type="password" autocomplete="current-password">
+      <input id="login-password" type="password" autocomplete="current-password" required>
     </div>
     <div class="button-row">
       <button type="submit">login</button>
@@ -107,15 +107,15 @@
     <h4>Create Account</h4>
     <div class="login-input">
       <label for="signup-name">name</label>
-      <input id="signup-name" autocapitalize="words">
+      <input id="signup-name" autocapitalize="words" required>
     </div>
     <div class="login-input">
       <label for="signup-username">username</label>
-      <input id="signup-username" autocomplete="new-username">
+      <input id="signup-username" autocomplete="new-username" required>
     </div>
     <div class="login-input">
       <label for="signup-password">password</label>
-      <input id="signup-password" autocomplete="new-password" type="password">
+      <input type="password" id="signup-password" autocomplete="new-password" required>
     </div>
     <div class="button-row">
       <button type="submit">create account</button>
