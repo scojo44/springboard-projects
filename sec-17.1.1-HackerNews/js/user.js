@@ -21,10 +21,15 @@ async function login(evt) {
   // which we'll make the globally-available, logged-in user.
   currentUser = await User.login(username, password);
 
-  $loginForm.trigger("reset");
+  // Check for and show error messages
+  if(currentUser.status) {
+    showError(currentUser.message);
+    return;
+  }
 
   saveUserCredentialsInLocalStorage();
   updateUIOnUserLogin();
+  $loginForm.trigger("reset");
 }
 
 $loginForm.on("submit", login);
@@ -43,9 +48,14 @@ async function signup(evt) {
   // which we'll make the globally-available, logged-in user.
   currentUser = await User.signup(username, password, name);
 
+  // Check for and show error messages
+  if(currentUser.status) {
+    showError(currentUser.message);
+    return;
+  }
+
   saveUserCredentialsInLocalStorage();
   updateUIOnUserLogin();
-
   $signupForm.trigger("reset");
 }
 
@@ -112,6 +122,7 @@ function updateUIOnUserLogin() {
 
   $accountFormsContainer.hide();
   $storiesContainer.show();
+  $errorContainer.hide();
   showAllStories();
   updateNavOnLogin();
 }

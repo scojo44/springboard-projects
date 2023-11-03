@@ -2,6 +2,7 @@
 
 // So we don't have to keep re-finding things on page, find DOM elements once:
 const $body = $("body");
+const $errorContainer = $(".error-container");
 
 const $storiesContainer = $(".stories-container");
 const $storiesLoadingMsg = $("#stories-loading-msg");
@@ -23,6 +24,13 @@ const $navLogOut = $("#nav-logout");
 
 function removeFromArray(array, thingToRemove) {
   array.splice(array.indexOf(thingToRemove),1);
+}
+
+/** Displays error messages on top */
+
+function showError(msg) {
+  $("#error-message").html(msg);
+  $errorContainer.show();
 }
 
 /** Overall function to kick off the app. */

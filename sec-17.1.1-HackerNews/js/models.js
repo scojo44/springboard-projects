@@ -142,7 +142,7 @@ class User {
     }
     catch(error) {
       console.error("StoryList.signup failed", error);
-      return false;
+      return error.response.data.error;
     }
   }
 
@@ -158,7 +158,7 @@ class User {
     }
     catch(error) {
       console.error("StoryList.login failed", error);
-      return false;
+      return error.response.data.error;
     }
   }
 
