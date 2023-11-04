@@ -59,18 +59,19 @@
   <div id="stories-loading-msg">Loading&hellip;</div>
 
   <!-- New Story form -->
-  <form id="new-story-form" method="post" action="#" class="hidden">
+  <form id="story-form" method="post" action="#" class="hidden">
+    <input type="hidden" id="story-id" name="storyID">
     <div>
-      <label for="new-story-author">author</label>
-      <input id="new-story-author" placeholder="John Q. Author" required>
+      <label for="story-author">author</label>
+      <input id="story-author" placeholder="John Q. Author" required>
     </div>
     <div>
-      <label for="new-story-title">title</label>
-      <input id="new-story-title" placeholder="Awesome Story Headline" required>
+      <label for="story-title">title</label>
+      <input id="story-title" placeholder="Awesome Story Headline" required>
     </div>
     <div>
-      <label for="new-story-url">url</label>
-      <input type="url" id="new-story-url" placeholder="https://example.com/awesome_story" required>
+      <label for="story-url">url</label>
+      <input type="url" id="story-url" placeholder="https://example.com/awesome_story" required>
     </div>
     <div class="button-row">
       <button type="submit" id="add-story-submit">sumbit</button>
@@ -82,7 +83,7 @@
 
   <!-- List of all stories -->
   <ol id="all-stories-list" class="stories-list"></ol>
-  <ol id="favorite-stories-list" class="stories-list hidden"></ol>
+  <ul id="favorite-stories-list" class="stories-list hidden"></ul>
   <ul id="my-stories-list" class="stories-list hidden"></ul>
 </section>
 

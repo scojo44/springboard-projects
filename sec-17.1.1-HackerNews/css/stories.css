@@ -11,13 +11,16 @@
   padding-bottom: 5px;
   border-bottom: 1px solid #eee;
 }
+#my-stories-list,
+#favorite-stories-list {
+  list-style: none;
+}
 
 #stories-loading-msg {
   font-weight: bold;
   font-size: 150%;
   margin: 20px 30px;
 }
-
 
 /* Individual stories */
 
@@ -44,7 +47,7 @@
   margin-left: 1.6rem;
 }
 
-.star, .trashcan {
+.star, .trashcan, .edit {
   cursor: pointer;
   margin: 0 .2rem;
 }

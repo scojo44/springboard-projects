@@ -20,6 +20,32 @@ class Story {
     this.username = username;
     this.createdAt = createdAt;
   }
+  
+  /** Generates an API story object */
+
+  getAPIStory() {
+    return {
+      author: this.author,
+      title: this.title,
+      url: this.url
+    };
+  }
+
+  /** Updates the story on the API. */
+
+  async update() {
+    try {
+      const response = await axios.patch(API_BASE_URL + "/stories/" + this.storyId, {
+        token: currentUser.loginToken,
+        story: this.getAPIStory()
+      });
+      return new Story(response.data.story);
+    }
+    catch(error) {
+      console.error("Story.update failed", error);
+      return false;
+    }
+  }
 
   /** Parses hostname out of URL and returns it. */
 

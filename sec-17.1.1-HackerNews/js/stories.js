@@ -18,14 +18,15 @@ async function getAndShowStoriesOnStart() {
  * Returns the markup for the story.
  */
 
-function generateStoryMarkup(story, addDeleteButton = false) {
+function generateStoryMarkup(story, isMyStories = false) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
-        ${addDeleteButton? getDeleteIcon():""}
         ${getStarIcon(story)}
+        ${isMyStories? getEditIcon() : ""}
+        ${isMyStories? getDeleteIcon() : ""}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -36,25 +37,32 @@ function generateStoryMarkup(story, addDeleteButton = false) {
     `);
 }
 
-/** Generate the star icon for favoriting a story.
+/** Generate the icon for favoriting a story.
  * Returns empty string if no user logged in
  */
 
 function getStarIcon(story) {
   if(!currentUser) return "";
-
   const starClass = currentUser.isFavorite(story)? "fas":"far";
   return `<span class="star ${starClass} fa-star"></span>`;
 }
 
-/** Generate the trash icon for deleting a story.
+/** Generate the icon for deleting a story.
  * Returns empty string if no user logged in
  */
 
 function getDeleteIcon() {
   if(!currentUser) return "";
-
   return `<span class="trashcan fas fa-trash"></span>`;
+}
+
+/** Generate the icon for editing a story.
+ * Returns empty string if no user logged in
+ */
+
+function getEditIcon() {
+  if(!currentUser) return "";
+  return `<span class="edit fas fa-wrench"></span>`;
 }
 
 function showAllStories() {
@@ -122,35 +130,68 @@ async function submitStory(evt) {
   console.debug("submitStory", evt);
   evt.preventDefault();
 
-  // StoryList.addStory submits a new story to the API and returns the story with more detalis.
-  const newStory = await storyList.addStory(currentUser, {
-    author: $("#new-story-author").val(),
-    title: $("#new-story-title").val(),
-    url: $("#new-story-url").val()
-  });
+  const formStoryID = $("#story-id").val();
+  let story;
 
-  $allStoriesList.prepend(generateStoryMarkup(newStory));
-  $myStoriesList.prepend(generateStoryMarkup(newStory, true));
+  if(formStoryID) {
+    // Update existing story
+    story = currentUser.ownStories.find(s => s.storyId === formStoryID);
+    story.author = $("#story-author").val();
+    story.title = $("#story-title").val();
+    story.url = $("#story-url").val();
+
+    if(story.update()) {
+      // Update story My Stories and the main stories list
+      showMyStories();
+      const storyIndex = storyList.stories.findIndex(s => s.storyId === story.storyId);
+      storyList.stories[storyIndex] = story;
+    }
+  }
+  else {
+    // Sumbit a new story
+    story = await storyList.addStory(currentUser, {
+      author: $("#story-author").val(),
+      title: $("#story-title").val(),
+      url: $("#story-url").val()
+    });
+    $allStoriesList.prepend(generateStoryMarkup(story));
+    $myStoriesList.prepend(generateStoryMarkup(story, true));
+  }
+
   $newStoryForm.trigger("reset");
   $newStoryForm.hide();
 }
 
 $newStoryForm.on("submit", submitStory);
 
+/** Edits a story in the new story form */
+
+async function editStory(e) {
+  const $storyLI = $(e.target).closest("li");
+  const story = currentUser.ownStories.find(s => s.storyId === $storyLI.attr("id"));
+
+  $("#story-author").val(story.author);
+  $("#story-title").val(story.title);
+  $("#story-url").val(story.url);
+  $("#story-id").val(story.storyId);
+  $newStoryForm.show();
+}
+
+$myStoriesList.on("click", ".edit", editStory);
+
 /** Removes a story from the list */
 
 async function removeStory(e) {
-  const $trashcan = $(e.target);
-  const $storyLI = $trashcan.closest("li");
+  const $storyLI = $(e.target).closest("li");
   const story = currentUser.ownStories.find(s => s.storyId === $storyLI.attr("id"));
 
-  // Rmove story from each page it might be on.
+  // Remove story from each page it might be on.
   if(await storyList.deleteStory(story)) {
     $myStoriesList.find("#" + story.storyId).remove();
   }
 }
 
-$anyStoriesList.on("click", ".trashcan", removeStory);
+$myStoriesList.on("click", ".trashcan", removeStory);
 
 /** Toggle the star icon to show favorited status */
 
