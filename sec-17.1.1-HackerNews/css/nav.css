@@ -18,3 +18,10 @@ nav {
   margin-left: auto;
   text-align: right;
 }
+
+@media screen and (max-width: 576px) {
+  nav {
+    padding: 5px;
+    border-radius: 0;
+  }
+}

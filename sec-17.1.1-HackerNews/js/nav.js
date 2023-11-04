@@ -11,7 +11,7 @@ function navAllStories(evt) {
   showAllStories();
 }
 
-$body.on("click", "#nav-all", navAllStories);
+$("#nav-all").on("click", navAllStories);
 
 /** Show login/signup on click on "login" */
 
@@ -22,6 +22,15 @@ function navLoginClick(evt) {
 }
 
 $navLogin.on("click", navLoginClick);
+
+/** Show user profile on click on username link */
+
+function navProfileClick(evt) {
+  console.debug("navProfileClick", evt);
+  showUserProfileForm();
+}
+
+$navUserProfile.on("click", navProfileClick);
 
 /** When a user first logins in, update the navbar to reflect that. */
 

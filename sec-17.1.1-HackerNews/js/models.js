@@ -23,7 +23,7 @@ class Story {
   
   /** Generates an API story object */
 
-  getAPIStory() {
+  forAPI() {
     return {
       author: this.author,
       title: this.title,
@@ -37,7 +37,7 @@ class Story {
     try {
       const response = await axios.patch(API_BASE_URL + "/stories/" + this.storyId, {
         token: currentUser.loginToken,
-        story: this.getAPIStory()
+        story: this.forAPI()
       });
       return new Story(response.data.story);
     }
@@ -168,6 +168,24 @@ class User {
     }
     catch(error) {
       console.error("StoryList.signup failed", error);
+      return error.response.data.error;
+    }
+  }
+
+  /** Updates the user's profile on the API.
+   * - newUser: { name, username, password }
+   */
+
+  static async update(updatedUser) {
+    try {
+      const response = await axios.patch(API_BASE_URL + "/users/" + currentUser.username, {
+        token: currentUser.loginToken,
+        user: updatedUser
+      });
+      return new User(response.data.user, currentUser.loginToken);
+    }
+    catch(error) {
+      console.error("User.update failed", error);
       return error.response.data.error;
     }
   }

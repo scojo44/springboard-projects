@@ -39,7 +39,6 @@ a:hover {
 }
 .stories-container {
   height: calc(100vh - 5.2rem);
-  overflow: scroll;
 }
 .hidden {
   display: none;
@@ -79,6 +78,8 @@ form input:focus {
 }
 
 .button-row {
+  display: flex;
+  justify-content: space-evenly;
   padding: 0 0 4px 3.5rem;
 }
 .button-row button {
@@ -100,12 +101,16 @@ form + hr {
   margin: 0;
   border: 1px solid lightgray;
 }
-/* error messages */
-
-#error-message {
-  color: red;
+/* messages */
+.message-container > p {
   margin: 0;
   padding: 1rem 2rem;
+}
+#success-message {
+  color: green;
+}
+#error-message {
+  color: red;
 }
 
 /* responsive queries for tightening things up for mobile. */
@@ -114,7 +119,34 @@ form + hr {
   body {
     margin: 0;
   }
+  .stories-container {
+    height: calc(100vh - 3.3rem);
+    overflow: scroll;
+  }
+  form {
+    margin: 0 5px;
+  }
+  form > * {
+    margin: 0;
+  }
+  form label {
+    display: inline-block;
+    text-align: left;
+  }
+  form input {
+    width: calc(100% - 16px);
+    margin-bottom: 5px;
+  }
+  .button-row {
+    margin: 10px 0;
+    padding: 0;
+    text-align: center;
+  }
+  .button-row button {
+    margin: 0;
+  }
 }
+
 @media screen and (min-width: 992px) {
   body {
     max-width: 900px;

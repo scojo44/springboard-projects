@@ -49,8 +49,9 @@
   </div>
 </nav>
 
-<section class="error-container container hidden">
-  <p id="error-message"></p>
+<section class="message-container container">
+  <p id="error-message" class="hidden"></p>
+  <p id="success-message" class="hidden"></p>
 </section>
 
 <!-- area for stories (all stories, user stories, favorites) -->
@@ -74,7 +75,7 @@
       <input type="url" id="story-url" placeholder="https://example.com/awesome_story" required>
     </div>
     <div class="button-row">
-      <button type="submit" id="add-story-submit">sumbit</button>
+      <button type="submit" id="add-story-submit">submit</button>
       <button type="button" id="add-story-cancel">cancel</button>
     </div>
   </form>
@@ -124,6 +125,29 @@
     </div>
     <div class="button-row">
       <button type="submit">create account</button>
+    </div>
+  </form>
+</section>
+
+<!-- User Profile Form -->
+<section class="user-profile-container container hidden">
+  <form id="profile-form" method="post" action="#" class="account-form">
+    <h4>User Profile</h4>
+    <div class="login-input">
+      <label for="profile-name">name</label>
+      <input id="profile-name" autocapitalize="words" required>
+    </div>
+    <div class="login-input">
+      <label for="profile-username">username</label>
+      <input id="profile-username" autocomplete="new-username" required>
+    </div>
+    <div class="login-input">
+      <label for="profile-password">password</label>
+      <input type="password" id="profile-password" autocomplete="new-password" required>
+    </div>
+    <div class="button-row">
+      <button type="submit" id="profile-submit">update profile</button>
+      <button type="button" id="profile-cancel">cancel</button>
     </div>
   </form>
 </section>

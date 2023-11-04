@@ -2,7 +2,8 @@
 
 // So we don't have to keep re-finding things on page, find DOM elements once:
 const $body = $("body");
-const $errorContainer = $(".error-container");
+const $successMessage = $("#success-message");
+const $errorMessage = $("#error-message");
 
 const $storiesContainer = $(".stories-container");
 const $storiesLoadingMsg = $("#stories-loading-msg");
@@ -16,6 +17,9 @@ const $accountFormsContainer = $(".account-forms-container");
 const $loginForm = $("#login-form");
 const $signupForm = $("#signup-form");
 
+const $userProfileContainer = $(".user-profile-container");
+const $profileForm = $("#profile-form");
+
 const $navLogin = $("#nav-login");
 const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");
@@ -26,11 +30,25 @@ function removeFromArray(array, thingToRemove) {
   array.splice(array.indexOf(thingToRemove),1);
 }
 
+/** Displays positive messages on top */
+
+function showSuccess(msg) {
+  $successMessage.html(msg);
+  $successMessage.show();
+}
+
 /** Displays error messages on top */
 
 function showError(msg) {
-  $("#error-message").html(msg);
-  $errorContainer.show();
+  $errorMessage.html(msg);
+  $errorMessage.show();
+}
+
+/** Cleans up the error/success messages */
+
+function hideMessages() {
+  $errorMessage.hide();
+  $successMessage.hide();
 }
 
 /** Overall function to kick off the app. */

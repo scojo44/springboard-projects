@@ -22,7 +22,7 @@ async function login(evt) {
   currentUser = await User.login(username, password);
 
   // Check for and show error messages
-  if(currentUser.status) {
+  if(!currentUser.username) {
     showError(currentUser.message);
     return;
   }
@@ -49,7 +49,7 @@ async function signup(evt) {
   currentUser = await User.signup(username, password, name);
 
   // Check for and show error messages
-  if(currentUser.status) {
+  if(!currentUser.username) {
     showError(currentUser.message);
     return;
   }
@@ -119,10 +119,58 @@ function saveUserCredentialsInLocalStorage() {
 
 function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
-
   $accountFormsContainer.hide();
+  $userProfileContainer.hide();
   $storiesContainer.show();
-  $errorContainer.hide();
+  $errorMessage.hide();
   showAllStories();
   updateNavOnLogin();
 }
+
+/** Fill in user profile form */
+
+function showUserProfileForm() {
+  $storiesContainer.hide();
+  $userProfileContainer.show();
+  $("#profile-name").val(currentUser.name);
+  $("#profile-username").val(currentUser.username);
+  $("#profile-password").val(currentUser.password);
+}
+
+/** Cancel the user profile update */
+
+function hideUserProfileForm() {
+  $profileForm.trigger("reset");
+  $userProfileContainer.hide();
+  $storiesContainer.show();
+}
+
+/** Prepares user profile update to be submitted */
+
+async function updateProfile(e) {
+  e.preventDefault();
+  const inputName = $("#profile-name").val();
+  const inputUser = $("#profile-username").val();
+  const inputPass = $("#profile-password").val();
+  const newUser = { password: inputPass };
+
+  // Send only the changed items, except password which isn't clientside
+  if(inputName !== currentUser.name) newUser.name = inputName;
+  if(inputUser !== currentUser.username) newUser.username = inputUser;
+  const updatedUser = await User.update(newUser);
+
+  // Check for and show error messages
+  if(!updatedUser.username) {
+    showError(updatedUser.message);
+    return;
+  }
+  
+  // Make changes only if there was no error
+  $profileForm.trigger("reset");
+  currentUser = updatedUser;
+  updateUIOnUserLogin();
+  showSuccess("Your profile was successfully updated");
+}
+
+$profileForm.on("submit", updateProfile)
+$("#profile-cancel").on("click", hideUserProfileForm);

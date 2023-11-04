@@ -9,3 +9,15 @@
 .login-input label {
   width: 5rem;
 }
+
+@media screen and (max-width: 576px) {
+  .account-form {
+    padding-left: 0;
+  }
+  .account-form h4 {
+    text-align: center;
+  }
+  .account-form button {
+    margin-left: 0;
+  }
+}

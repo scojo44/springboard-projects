@@ -120,6 +120,7 @@ function hidePageComponents() {
     $allStoriesList,
     $favoriteStoriesList,
     $myStoriesList,
+    $successMessage
   ];
   components.forEach(c => c.hide());
 }
