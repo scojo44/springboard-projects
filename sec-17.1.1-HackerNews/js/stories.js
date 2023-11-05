@@ -1,12 +1,19 @@
 "use strict";
 
 // This is the global list of the stories, an instance of StoryList
-let storyList;
+const storyList = new StoryList();
 
 /** Get and show stories when site first loads. */
 
 async function getAndShowStoriesOnStart() {
-  storyList = await StoryList.getStories();
+  // build an instance of our own class using the new array of stories
+  const response = await storyList.getStories();
+
+  // Check for and show error messages
+  if(response.message) {
+    showError(response.message);
+  }
+
   $storiesLoadingMsg.remove();
   showAllStories();
 }
@@ -21,7 +28,6 @@ async function getAndShowStoriesOnStart() {
 function generateStoryMarkup(story, isMyStories = false) {
   // console.debug("generateStoryMarkup", story);
 
-  const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
         ${getStarIcon(story)}
@@ -30,7 +36,7 @@ function generateStoryMarkup(story, isMyStories = false) {
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
-        <small class="story-hostname">(${hostName})</small>
+        <small class="story-hostname">(${story.getHostName()})</small>
         <small class="story-author">by ${story.author}</small>
         <small class="story-user">posted by ${story.username}</small>
       </li>
@@ -209,3 +215,17 @@ async function toggleFavoritedStory(e) {
 }
 
 $anyStoriesList.on("click", ".star", toggleFavoritedStory);
+$allStoriesList.on("scroll", e => {
+  const storyListBottom = $allStoriesList[0].getBoundingClientRect().bottom;
+  const lastStoryTop = $("#all-stories-list li:last-child")[0].getBoundingClientRect().top;
+
+  if(!storyList.isGettingStories && lastStoryTop < storyListBottom) {
+    const response = storyList.getMoreStories();
+    // Check for and show error messages
+    if(response.message) {
+      showError(response.message);
+      return;
+    }
+    showAllStories();
+  }
+});

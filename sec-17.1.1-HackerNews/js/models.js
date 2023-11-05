@@ -60,31 +60,46 @@ class Story {
 
 class StoryList {
   /** Make instance of StoryList from an array of Story instances */
-  constructor(stories) {
-    this.stories = stories;
+  constructor() {
+    this.stories = [];
+    this.listOffset = 0;
   }
 
-  /** Generate a new StoryList. It:
+  /** Get the latest stories. It:
    *  - calls the API
    *  - builds an array of Story instances
-   *  - makes a single StoryList instance out of that
-   *  - returns the StoryList instance.
+   *  - adds the new stories to the stories array
+   *  - returns any error
+   * (Sorry, it's no longer a static method)
    */
 
-  static async getStories() {
-    // Note presence of `static` keyword: this indicates that getStories is
-    //  **not** an instance method. Rather, it is a method that is called on the
-    //  class directly. Why doesn't it make sense for getStories to be an
-    //  instance method?
+  async getStories(skip = 0) {
+    this.isGettingStories = true;
 
-    // query the /stories endpoint (no auth required)
-    const response = await axios.get(API_BASE_URL + "/stories");
+    try {
+      // query the /stories endpoint (no auth required)
+      const response = await axios.get(API_BASE_URL + "/stories", {
+        params: { skip }
+      });
 
-    // turn plain old story objects from API into instances of Story class
-    const stories = response.data.stories.map(story => new Story(story));
+      // turn plain old story objects from API into instances of Story class
+      const newStories = response.data.stories.map(story => new Story(story));
+      this.stories = [...this.stories, ...newStories];
+      this.listOffset += newStories.length;
+      this.isGettingStories = false;
+      return true;
+    }
+    catch(error) {
+      console.error("StoryList.getStories failed", error);
+      this.isGettingStories = false;
+      return error.response.data.error;
+    }
+  }
 
-    // build an instance of our own class using the new array of stories
-    return new StoryList(stories);
+  /** Gets more stories */
+
+  async getMoreStories() {
+    return await this.getStories(this.listOffset);
   }
 
   /** Adds story data to API, makes a Story instance, adds it to story list.

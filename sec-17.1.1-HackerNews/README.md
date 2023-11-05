@@ -8,6 +8,6 @@ Try it [here](https://scojo44.github.io/springboard-projects/sec-17.1.1-HackerNe
 - [x] Allow users to edit stories they have created.
 - [x] User Profile section to change username and password.
 - [x] Style the application to be mobile-friendly.
-- [ ] Add infinite scroll
+- [x] Add infinite scroll
 - [ ] Other features possible with the Hack or Snooze API.
 - - [ ] maxlength=55 for user/pass fields
