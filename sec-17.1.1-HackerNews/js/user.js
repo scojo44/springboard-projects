@@ -188,28 +188,18 @@ async function showUserList() {
 
 /** Generates the listitems for the user list */
 
-async function getUserList(e) {
-  e.preventDefault();
-
-  const skip = $("#user-list-skip").val();
-  if(!skip || +skip === NaN)
-    skip = 0;
-
+async function getUserList(skip = 0) {
   const users = await User.getUsers(skip);
-  
+
   // Check for and show error messages
   if(users.message) {
     showError(users.message);
     return false;
   }
 
-  $userList.empty();
-
   // Show feedback if the skip offset was too high.
   if(!users.length)
     showError("No users returned.  Try a lower skip number.");
-  else
-    $errorMessage.hide();
 
   // Fill in the users
   for(let user of users) {
@@ -218,4 +208,20 @@ async function getUserList(e) {
   }
 }
 
-$("#user-list-form").on("submit", getUserList)
+/** Process userlist skip form submit */
+
+function skipUsers(e) {
+  e.preventDefault();
+  const skip = $("#user-list-skip").val();
+
+  // Validate the skip input
+  if(!skip || +skip === NaN)
+    skip = 0;
+
+  // Prepare the list for new entries
+  $errorMessage.hide();
+  $userList.empty();
+  getUserList(skip);
+}
+
+$("#user-list-form").on("submit", skipUsers);
