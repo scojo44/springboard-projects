@@ -4,6 +4,8 @@ Try it [here](https://scojo44.github.io/springboard-projects/sec-17.1.1-HackerNe
 
 Hack or Snooze [API Reference](https://hackorsnoozev3.docs.apiary.io/)
 
+## Further Study ToDo Items
+
 - [x] Add some error handling
 - - [x] Username taken
 - - [x] Credentials are incorrect
