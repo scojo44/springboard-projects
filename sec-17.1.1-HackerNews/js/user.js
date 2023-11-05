@@ -203,6 +203,12 @@ async function getUserList() {
 
   $userList.empty();
 
+  // Show feedback if the skip offset was too high.
+  if(!users.length)
+    showError("No users returned.  Try a lower skip number.");
+  else
+    $errorMessage.hide();
+
   // Fill in the users
   for(let user of users) {
     const userLI = $(`<li><strong>${user.username}</strong> - ${user.name}</li>`);
