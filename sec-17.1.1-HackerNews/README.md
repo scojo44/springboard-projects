@@ -9,5 +9,7 @@ Try it [here](https://scojo44.github.io/springboard-projects/sec-17.1.1-HackerNe
 - [x] User Profile section to change username and password.
 - [x] Style the application to be mobile-friendly.
 - [x] Add infinite scroll
-- [ ] Other features possible with the Hack or Snooze API.
-- - [ ] maxlength=55 for user/pass fields
+- [x] Other features possible with the Hack or Snooze API.
+- - [x] Add a user list page
+- - [x] maxlength=55 for user/pass fields
+- - [x] Implement Story.getHostName()
