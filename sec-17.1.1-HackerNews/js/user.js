@@ -188,7 +188,9 @@ async function showUserList() {
 
 /** Generates the listitems for the user list */
 
-async function getUserList() {
+async function getUserList(e) {
+  e.preventDefault();
+
   const skip = $("#user-list-skip").val();
   if(!skip || +skip === NaN)
     skip = 0;
