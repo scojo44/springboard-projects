@@ -116,21 +116,6 @@ function putStoriesOnPage($storyList, stories, emptyMessage) {
   $storyList.show();
 }
 
-/** To make it easier for individual components to show just themselves, this
- * is a useful function that hides pretty much everything on the page. After
- * calling this, individual components can re-show just what they want.
- */
-
-function hidePageComponents() {
-  const components = [
-    $allStoriesList,
-    $favoriteStoriesList,
-    $myStoriesList,
-    $successMessage
-  ];
-  components.forEach(c => c.hide());
-}
-
 /** Submits a new story */
 
 async function submitStory(evt) {
@@ -170,6 +155,14 @@ async function submitStory(evt) {
 }
 
 $newStoryForm.on("submit", submitStory);
+
+/** Cancels the story submission/edit form */
+
+function cancelStorySubmit() {
+  $newStoryForm.hide();
+}
+
+$("#add-story-cancel").on("click", cancelStorySubmit);
 
 /** Edits a story in the new story form */
 

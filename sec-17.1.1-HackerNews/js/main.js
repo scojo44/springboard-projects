@@ -20,9 +20,29 @@ const $signupForm = $("#signup-form");
 const $userProfileContainer = $(".user-profile-container");
 const $profileForm = $("#profile-form");
 
+const $userListContainer = $(".user-list-container");
+const $userList = $("#user-list");
+
 const $navLogin = $("#nav-login");
 const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");
+
+/** To make it easier for individual components to show just themselves, this
+ * is a useful function that hides pretty much everything on the page. After
+ * calling this, individual components can re-show just what they want.
+ */
+
+function hidePageComponents() {
+  const components = [
+    $allStoriesList,
+    $favoriteStoriesList,
+    $myStoriesList,
+    $userListContainer,
+    $successMessage
+  ];
+  components.forEach(c => c.hide());
+  hideUserProfileForm();
+}
 
 /** Array helper function to remove an element */
 

@@ -78,8 +78,6 @@ form input:focus {
 }
 
 .button-row {
-  display: flex;
-  justify-content: space-evenly;
   padding: 0 0 4px 3.5rem;
 }
 .button-row button {
@@ -138,12 +136,18 @@ form + hr {
     margin-bottom: 5px;
   }
   .button-row {
+    display: flex;
+    justify-content: space-evenly;
     margin: 10px 0;
     padding: 0;
     text-align: center;
   }
   .button-row button {
     margin: 0;
+  }
+  .message-container > p {
+    padding: 3px 0;
+    text-align: center;
   }
 }
 

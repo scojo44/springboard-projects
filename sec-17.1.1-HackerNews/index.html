@@ -41,6 +41,7 @@
     | <a class="nav-link" href="#" id="nav-new-story">submit</a>
     | <a class="nav-link" href="#" id="nav-favorites">favorites</a>
     | <a class="nav-link" href="#" id="nav-my-stories">my stories</a>
+    | <a class="nav-link" href="#" id="nav-user-list">user list</a>
   </div>
   <div class="nav-right">
     <a class="nav-link" href="#" id="nav-login">login/signup</a>
@@ -95,11 +96,11 @@
     <h4>Login</h4>
     <div class="login-input">
       <label for="login-username">username</label>
-      <input id="login-username" autocomplete="current-username" required>
+      <input id="login-username" maxlength="55" autocomplete="current-username" required>
     </div>
     <div class="login-input">
       <label for="login-password">password</label>
-      <input id="login-password" type="password" autocomplete="current-password" required>
+      <input id="login-password" maxlength="55" type="password" autocomplete="current-password" required>
     </div>
     <div class="button-row">
       <button type="submit">login</button>
@@ -113,15 +114,15 @@
     <h4>Create Account</h4>
     <div class="login-input">
       <label for="signup-name">name</label>
-      <input id="signup-name" autocapitalize="words" required>
+      <input id="signup-name" maxlength="55" autocapitalize="words" required>
     </div>
     <div class="login-input">
       <label for="signup-username">username</label>
-      <input id="signup-username" autocomplete="new-username" required>
+      <input id="signup-username" maxlength="55" autocomplete="new-username" required>
     </div>
     <div class="login-input">
       <label for="signup-password">password</label>
-      <input type="password" id="signup-password" autocomplete="new-password" required>
+      <input type="password" id="signup-password" maxlength="55" autocomplete="new-password" required>
     </div>
     <div class="button-row">
       <button type="submit">create account</button>
@@ -135,21 +136,38 @@
     <h4>User Profile</h4>
     <div class="login-input">
       <label for="profile-name">name</label>
-      <input id="profile-name" autocapitalize="words" required>
+      <input id="profile-name" maxlength="55" autocapitalize="words" required>
     </div>
     <div class="login-input">
       <label for="profile-username">username</label>
-      <input id="profile-username" autocomplete="new-username" required>
+      <input id="profile-username" maxlength="55" autocomplete="new-username" required>
     </div>
     <div class="login-input">
       <label for="profile-password">password</label>
-      <input type="password" id="profile-password" autocomplete="new-password" required>
+      <input type="password" id="profile-password" maxlength="55" autocomplete="new-password" required>
     </div>
     <div class="button-row">
       <button type="submit" id="profile-submit">update profile</button>
       <button type="button" id="profile-cancel">cancel</button>
     </div>
   </form>
+</section>
+
+<section class="user-list-container container hidden">
+  <form id="user-list-form" class="account-form">
+    <h4>User List</h4>
+    <div class="login-input">
+      <label for="user-list-skip">skip to</label>
+      <input type="number" id="user-list-skip" value="0">
+    </div>
+    <div class="button-row">
+      <button type="submit" id="user-list-submit">get users</button>
+    </div>
+  </form>
+
+  <hr>
+
+  <ul id="user-list" class="stories-list"></ul>
 </section>
 
 <!-- Library JS & our JS -->

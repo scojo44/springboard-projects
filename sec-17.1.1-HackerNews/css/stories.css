@@ -54,9 +54,6 @@
 }
 
 @media screen and (max-width: 576px) {
-  .stories-list {
-    overflow: unset;
-  }
   .stories-list > li {
     margin: 0;
   }

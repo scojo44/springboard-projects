@@ -170,6 +170,21 @@ class User {
     this.ownStories = apiUser.stories? apiUser.stories.map(s => new Story(s)) : [];
   }
 
+  /** Get a list of users */
+
+  static async getUsers(skip = 0) {
+    try {
+      const response = await axios.get(API_BASE_URL + "/users/", {
+        params: { skip, token: currentUser.loginToken }
+      });
+      return response.data.users.map(user => new User(user));
+    }
+    catch(error) {
+      console.error("User.getUsers failed", error);
+      return error.response.data.error;
+    }
+  }
+
   /** Register new user in API, make User instance & return it.
    * - username: a new username
    * - password: a new password

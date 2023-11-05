@@ -13,6 +13,31 @@ function navAllStories(evt) {
 
 $("#nav-all").on("click", navAllStories);
 
+/** Show new story form when click on "Add Story" */
+
+function navSubmitStory(evt) {
+  console.debug("navSubmitStory", evt);
+  $newStoryForm.show();
+}
+
+$("#nav-new-story").on("click", navSubmitStory);
+
+/** Show new story form when click on "Add Story" */
+
+function navFavorites(evt) {
+  console.debug("navFavorites", evt);
+  showFavoriteStories();
+}
+
+$("#nav-favorites").on("click", navFavorites);
+
+function navMyStories(evt) {
+  console.debug("navMyStories", evt);
+  showMyStories();
+}
+
+$("#nav-my-stories").on("click", navMyStories);
+
 /** Show login/signup on click on "login" */
 
 function navLoginClick(evt) {
@@ -32,6 +57,15 @@ function navProfileClick(evt) {
 
 $navUserProfile.on("click", navProfileClick);
 
+/** Show user list on click on user list link */
+
+function navUserListClick(evt) {
+  console.debug("navUserListClick", evt);
+  showUserList();
+}
+
+$("#nav-user-list").on("click", navUserListClick);
+
 /** When a user first logins in, update the navbar to reflect that. */
 
 function updateNavOnLogin() {
@@ -41,30 +75,4 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
-
-/** Show new story form when click on "Add Story" */
-
-function navSubmitStory(evt) {
-  console.debug("navSubmitStory", evt);
-  $newStoryForm.show();
-}
-
-$("#nav-new-story").on("click", navSubmitStory);
-$("#add-story-cancel").on("click", e => $newStoryForm.hide());
-
-/** Show new story form when click on "Add Story" */
-
-function navFavorites(evt) {
-  console.debug("navFavorites", evt);
-  showFavoriteStories();
-}
-
-$("#nav-favorites").on("click", navFavorites);
-
-function navMyStories(evt) {
-  console.debug("navMyStories", evt);
-  showMyStories();
-}
-
-$("#nav-my-stories").on("click", navMyStories);
 

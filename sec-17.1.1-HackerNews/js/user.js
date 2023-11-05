@@ -131,6 +131,7 @@ function updateUIOnUserLogin() {
 
 function showUserProfileForm() {
   $storiesContainer.hide();
+  $userListContainer.hide();
   $userProfileContainer.show();
   $("#profile-name").val(currentUser.name);
   $("#profile-username").val(currentUser.username);
@@ -144,6 +145,8 @@ function hideUserProfileForm() {
   $userProfileContainer.hide();
   $storiesContainer.show();
 }
+
+$("#profile-cancel").on("click", hideUserProfileForm);
 
 /** Prepares user profile update to be submitted */
 
@@ -173,4 +176,38 @@ async function updateProfile(e) {
 }
 
 $profileForm.on("submit", updateProfile)
-$("#profile-cancel").on("click", hideUserProfileForm);
+
+/** Show the User List page */
+
+async function showUserList() {
+  await getUserList();
+  $storiesContainer.hide();
+  $userProfileContainer.hide();
+  $userListContainer.show();
+}
+
+/** Generates the listitems for the user list */
+
+async function getUserList() {
+  const skip = $("#user-list-skip").val();
+  if(!skip || +skip === NaN)
+    skip = 0;
+
+  const users = await User.getUsers(skip);
+  
+  // Check for and show error messages
+  if(users.message) {
+    showError(users.message);
+    return false;
+  }
+
+  $userList.empty();
+
+  // Fill in the users
+  for(let user of users) {
+    const userLI = $(`<li><strong>${user.username}</strong> - ${user.name}</li>`);
+    $userList.append(userLI);
+  }
+}
+
+$("#user-list-form").on("submit", getUserList)
