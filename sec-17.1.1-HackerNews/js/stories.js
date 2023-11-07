@@ -122,7 +122,7 @@ async function submitStory(evt) {
   console.debug("submitStory", evt);
   evt.preventDefault();
 
-  const formStoryID = $("#story-id").val();
+  const formStoryID = $("#story-id").val(); // A hidden <input> tells us if we're editing a story.
   let story;
 
   if(formStoryID) {
@@ -133,10 +133,11 @@ async function submitStory(evt) {
     story.url = $("#story-url").val();
 
     if(story.update()) {
-      // Update story My Stories and the main stories list
+      // Update story in My Stories and the main stories list
       showMyStories();
       const storyIndex = storyList.stories.findIndex(s => s.storyId === story.storyId);
       storyList.stories[storyIndex] = story;
+      $("#story-id").val(""); // Reset the hidden story ID
     }
   }
   else {
@@ -185,7 +186,7 @@ async function removeStory(e) {
   const $storyLI = $(e.target).closest("li");
   const story = currentUser.ownStories.find(s => s.storyId === $storyLI.attr("id"));
 
-  // Remove story from each page it might be on.
+  // Remove story from the story list pages unless there's a problem deleting it.
   if(await storyList.deleteStory(story)) {
     $myStoriesList.find("#" + story.storyId).remove();
   }
@@ -201,17 +202,21 @@ async function toggleFavoritedStory(e) {
   const $storyLI = $star.closest("li");
   const storiesToSearch = [...storyList.stories, ...currentUser.favorites];
   const story = storiesToSearch.find(s => s.storyId === $storyLI.attr("id"));
-  const favorited = currentUser.isFavorite(story);
 
-  await favorited? currentUser.removeFavorite(story) : currentUser.addFavorite(story);
+  if(currentUser.isFavorite(story))
+    await currentUser.removeFavorite(story);
+  else
+    await currentUser.addFavorite(story);
+
   $star.toggleClass("far fas");
 }
 
 $anyStoriesList.on("click", ".star", toggleFavoritedStory);
-$allStoriesList.on("scroll", e => {
+
+function whenScrollingStoryList(e) {
   const storyListBottom = $allStoriesList[0].getBoundingClientRect().bottom;
   const lastStoryTop = $("#all-stories-list li:last-child")[0].getBoundingClientRect().top;
-
+  
   if(!storyList.isGettingStories && lastStoryTop < storyListBottom) {
     const response = storyList.getMoreStories();
     // Check for and show error messages
@@ -221,4 +226,6 @@ $allStoriesList.on("scroll", e => {
     }
     showAllStories();
   }
-});
+}
+
+$allStoriesList.on("scroll", whenScrollingStoryList);

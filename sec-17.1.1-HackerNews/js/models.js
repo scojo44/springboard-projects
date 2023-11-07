@@ -110,23 +110,21 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
-    let response;
-
     try {
-      response = await axios.post(API_BASE_URL + "/stories", {
+      const response = await axios.post(API_BASE_URL + "/stories", {
         token: user.loginToken,
         story: newStory
       });
+
+      const story = new Story(response.data.story);
+      this.stories.unshift(story);
+      currentUser.ownStories.unshift(story);
+      return story;
     }
     catch(error) {
       console.error("StoryList.addStory failed", error);
       return null;
     }
-
-    const story = new Story(response.data.story);
-    this.stories.unshift(story);
-    currentUser.ownStories.unshift(story);
-    return story;
   }
 
   /** Deletes a story off the server
@@ -135,9 +133,10 @@ class StoryList {
 
   async deleteStory(story) {
     try {
-      const response = await axios.delete(API_BASE_URL + "/stories/" + story.storyId, {
+      await axios.delete(API_BASE_URL + "/stories/" + story.storyId, {
         params: { token: currentUser.loginToken }
       });
+
       removeFromArray(this.stories, story);
       removeFromArray(currentUser.ownStories, story);
       removeFromArray(currentUser.favorites, story);
