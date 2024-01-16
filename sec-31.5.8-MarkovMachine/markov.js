@@ -41,7 +41,7 @@ class MarkovMachine {
     // Loop through the word chains and randomly choose a next word.
     while(currentWord && numWords > 0) {
       const nextWordIndex = this.getRandomIndex(this.chains[currentWord].length);
-      console.log(numWords, currentWord, this.chains[currentWord], nextWordIndex, ":", this.chains[currentWord][nextWordIndex])
+      // console.log(numWords, currentWord, this.chains[currentWord], nextWordIndex, ":", this.chains[currentWord][nextWordIndex])
       currentWord = this.chains[currentWord][nextWordIndex];
       text.push(currentWord);
       numWords--;
