@@ -5,11 +5,16 @@ class MarkovMachine {
   /** build markov machine; read in text.*/
 
   constructor(text) {
-    const words = text.split(/[ \r\n]+/);
-    this.words = words.filter(c => c !== "");
-    const startIndex = this.getRandomIndex(this.words.length-1); // Avoid picking the last word
+    this.words = text.split(/[ \r\n]+/).filter(w => w !== "");
+    const startIndex = this.selectStartIndex();
     this.firstBigram = this.words[startIndex] + " " + this.words[startIndex+1];
     this.makeChains();
+  }
+
+  selectStartIndex() {
+    // Collect the indexes of all the capitalize words and randomly pick one to start with
+    const capWords = this.words.map((w,i) => ({word: w, index: i})).filter(w => this.isCapitalized(w.word));
+    return capWords[this.getRandomIndex(capWords.length)].index;
   }
 
   /** set markov chains:
@@ -63,6 +68,11 @@ class MarkovMachine {
     return text.join(" ");
   }
 
+  /** checks for a capitalized word */
+
+  isCapitalized(word){
+    return "A" <= word[0] && word[0] <= "Z";
+  }
   /** get a random index */
   getRandomIndex(max) {
     return Math.floor(Math.random() * max);

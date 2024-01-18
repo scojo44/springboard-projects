@@ -6,7 +6,7 @@ Further Study
 
 ### Algorithmic Things
 
-- [ ] Start with a capitalized word
+- [x] Start with a capitalized word
   - [ ] Better still:  A word that starts a sentence
 - [ ] Stop at a period
   - [ ] If maximum words reached, use a word at the end of a sentence

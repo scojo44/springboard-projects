@@ -20,7 +20,7 @@ async function main(){
 
   // Generate realistic-looking word salad
   const mm = new MarkovMachine(text);
-  console.log("Word Salad: ", mm.makeText());
+  console.log(mm.makeText());
 }
 
 // Use chosen get function to get the text data
