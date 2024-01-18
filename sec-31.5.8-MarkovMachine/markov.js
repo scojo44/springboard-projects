@@ -13,8 +13,10 @@ class MarkovMachine {
 
   selectStartIndex() {
     // Collect the indexes of all the capitalize words and randomly pick one to start with
-    const capWords = this.words.map((w,i) => ({word: w, index: i})).filter(w => this.isCapitalized(w.word));
-    return capWords[this.getRandomIndex(capWords.length)].index;
+    const startWords = this.words
+      .map((w,i) => ({word: w, index: i}))
+      .filter((w,i) => i === 0 || this.words[w.index-1].endsWith("."));
+    return startWords[this.getRandomIndex(startWords.length)].index;
   }
 
   /** set markov chains:
