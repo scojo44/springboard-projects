@@ -1,5 +1,7 @@
-Node Markov
-===========
+Node Markov Exercise
+====================
+
+Turns ordinary text into word salad!
 
 Further Study
 -------------
