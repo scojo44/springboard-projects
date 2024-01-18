@@ -9,13 +9,16 @@ main();
 async function main(){
   let text = "";
 
+  if(!process.argv[3])
+    handleError("Error:  Nothing to work with.");
+
   // Choose get function by type parameter
   switch(process.argv[2]) {
     case 'file':  text = await getData(getFromFile);  break;
     case 'url':   text = await getData(getFromURL);   break;
     case 'text':  text = process.argv[3];             break;
     default:
-      handleError("Invalid source type.  Only 'file,'  'url' and 'text' are accepted.");
+      handleError("Invalid source.  Only 'file,'  'url' and 'text' are accepted.");
       break;
   }
 
