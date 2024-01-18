@@ -9,6 +9,7 @@
   "author": "Scott Jones",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.6.5"
+    "axios": "^1.6.5",
+    "striptags": "^3.2.0"
   }
 }

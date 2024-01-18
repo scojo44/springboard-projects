@@ -14,7 +14,7 @@ Further Study
 
 ### Node Practice Things
 
-- [ ] Find a library to strip the HTML when fetching a URL
+- [x] Find a library to strip the HTML when fetching a URL
 - [x] Support multiple files and/or URLs
 
 ### JavaScript Generator Functions

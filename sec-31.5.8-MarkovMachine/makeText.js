@@ -2,6 +2,7 @@
 const fs = require('fs').promises;
 const axios = require('axios');
 const {MarkovMachine} = require('./markov');
+const striptags = require('striptags');
 
 main();
 
@@ -14,7 +15,7 @@ async function main(){
     case 'url':   text = await getData(getFromURL);   break;
     case 'text':  text = process.argv[3];             break;
     default:
-      handleError("Invalid source type.  Only 'file' and 'url' are accepted.");
+      handleError("Invalid source type.  Only 'file,'  'url' and 'text' are accepted.");
       break;
   }
 
@@ -51,7 +52,7 @@ async function getFromFile(path) {
 async function getFromURL(url) {
   try {
     const {data} = await axios.get(url);
-    return data;
+    return striptags(data);
   }
   catch(error) {
     handleError("Error getting page:", error);
