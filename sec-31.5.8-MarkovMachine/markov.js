@@ -15,7 +15,7 @@ class MarkovMachine {
     // Collect the indexes of all the capitalize words and randomly pick one to start with
     const startWords = this.words
       .map((w,i) => ({word: w, index: i}))
-      .filter((w,i) => i === 0 || this.words[w.index-1].endsWith("."));
+      .filter((w,i) => i === 0 || this.isSentenceEnder(this.words[w.index-1]));
     return startWords[this.getRandomIndex(startWords.length)].index;
   }
 
@@ -55,9 +55,9 @@ class MarkovMachine {
     // Loop through the word chains and randomly choose a next word.
     while(currentBigram && numWords > 0) {
       const nextWordIndex = this.getRandomIndex(this.chains[currentBigram].length);
-      const nextWord = this.chains[currentBigram][nextWordIndex];
+      let nextWord = this.chains[currentBigram][nextWordIndex];
 
-      if(!nextWord)
+      if(!nextWord) // Stop if the word is null
         break;
 
       // console.log(numWords, "P:", previousWord, "N:", nextWord, "CB:", currentBigram, this.chains[currentBigram], nextWordIndex, ":", this.chains[currentBigram][nextWordIndex])
@@ -67,6 +67,10 @@ class MarkovMachine {
       numWords--;
     }
 
+    // Remove words until the text will end with a period.
+    while(text.length && !this.isSentenceEnder(text[text.length-1]))
+      text.pop();
+
     return text.join(" ");
   }
 
@@ -75,6 +79,11 @@ class MarkovMachine {
   isCapitalized(word){
     return "A" <= word[0] && word[0] <= "Z";
   }
+
+  isSentenceEnder(word){
+    return ".?!".includes(word[word.length-1]);
+  }
+
   /** get a random index */
   getRandomIndex(max) {
     return Math.floor(Math.random() * max);
