@@ -7,7 +7,8 @@ class MarkovMachine {
   constructor(text) {
     const words = text.split(/[ \r\n]+/);
     this.words = words.filter(c => c !== "");
-    this.firstWord = this.words[this.getRandomIndex(this.words.length)];
+    const startIndex = this.getRandomIndex(this.words.length-1); // Avoid picking the last word
+    this.firstBigram = this.words[startIndex] + " " + this.words[startIndex+1];
     this.makeChains();
   }
 
@@ -20,13 +21,18 @@ class MarkovMachine {
     this.chains = {};
 
     this.words.forEach((w,i) => {
-      const nextWord = this.words[i+1] || null;
+      const nextWord = this.words[i+2] || null;
 
-      if(!this.chains[w])
-        this.chains[w] = [];
+      if(!this.words[i+1]) // Stop if on the last word
+        return;
 
-      if(!this.chains[w].includes(nextWord))
-        this.chains[w].push(nextWord);
+      const bigram = w + " " + this.words[i+1];
+
+      if(!this.chains[bigram])
+        this.chains[bigram] = [];
+
+      if(!this.chains[bigram].includes(nextWord)) // Avoid duplicates
+        this.chains[bigram].push(nextWord);
     });
   }
 
@@ -35,15 +41,22 @@ class MarkovMachine {
   makeText(numWords = 100) {
     // Initialize the text with the randomly chosen first word.
     const text = [];
-    let currentWord = this.firstWord;
-    text.push(currentWord);
+    let currentBigram = this.firstBigram;
+    let previousWord = this.firstBigram.split(" ")[1];
+    text.push(currentBigram);
 
     // Loop through the word chains and randomly choose a next word.
-    while(currentWord && numWords > 0) {
-      const nextWordIndex = this.getRandomIndex(this.chains[currentWord].length);
-      // console.log(numWords, currentWord, this.chains[currentWord], nextWordIndex, ":", this.chains[currentWord][nextWordIndex])
-      currentWord = this.chains[currentWord][nextWordIndex];
-      text.push(currentWord);
+    while(currentBigram && numWords > 0) {
+      const nextWordIndex = this.getRandomIndex(this.chains[currentBigram].length);
+      const nextWord = this.chains[currentBigram][nextWordIndex];
+
+      if(!nextWord)
+        break;
+
+      // console.log(numWords, "P:", previousWord, "N:", nextWord, "CB:", currentBigram, this.chains[currentBigram], nextWordIndex, ":", this.chains[currentBigram][nextWordIndex])
+      currentBigram = previousWord + " " + nextWord;
+      text.push(nextWord);
+      previousWord = nextWord;
       numWords--;
     }
 

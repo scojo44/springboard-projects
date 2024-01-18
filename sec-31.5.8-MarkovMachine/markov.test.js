@@ -1,7 +1,7 @@
 const {MarkovMachine} = require('./markov');
 
 describe('MarkovMachine Tests', () => {
-  const source = 'the cat in the hat';
+  const source = 'the cat in the hat is in the hat';
   let mm;
 
   beforeEach(() => {
@@ -9,11 +9,14 @@ describe('MarkovMachine Tests', () => {
   });
 
   test('if the constructor creates a chains object', () => {
+    console.log("skirt", mm.chains);
     expect(mm.chains).toEqual({
-      the: ["cat", "hat"],
-      cat: ["in"],
-      in: ["the"],
-      hat: [null]
+      "the cat": ["in"],
+      "cat in": ["the"],
+      "in the": ["hat"],
+      "the hat": ["is", null],
+      "hat is": ["in"],
+      "is in": ["the"]
     });
   });
 

@@ -10,7 +10,7 @@ Further Study
   - [ ] Better still:  A word that starts a sentence
 - [ ] Stop at a period
   - [ ] If maximum words reached, use a word at the end of a sentence
-- [ ] Use bigrams (two words at a time)
+- [x] Use bigrams (two words at a time) for a more realistic-looking result
 
 ### Node Practice Things
 

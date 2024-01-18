@@ -12,6 +12,7 @@ async function main(){
   switch(process.argv[2]) {
     case 'file':  text = await getData(getFromFile);  break;
     case 'url':   text = await getData(getFromURL);   break;
+    case 'text':  text = process.argv[3];             break;
     default:
       handleError("Invalid source type.  Only 'file' and 'url' are accepted.");
       break;
