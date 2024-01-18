@@ -1,45 +1,60 @@
 /** Command-line tool to generate Markov text. */
-const fs = require('fs');
+const fs = require('fs').promises;
 const axios = require('axios');
 const {MarkovMachine} = require('./markov');
 
-switch(process.argv[2]) {
-  case 'file':
-    getFromFile(process.argv[3]);
-    break;
+main();
 
-  case 'url':
-    getFromURL(process.argv[3]);
-    break;
+async function main(){
+  let text = "";
 
-  default:
-    handleError("Invalid source type.  Only 'file' and 'url' are accepted.");
-    break;
+  // Choose get function by type parameter
+  switch(process.argv[2]) {
+    case 'file':  text = await getData(getFromFile);  break;
+    case 'url':   text = await getData(getFromURL);   break;
+    default:
+      handleError("Invalid source type.  Only 'file' and 'url' are accepted.");
+      break;
+  }
+
+  // Generate realistic-looking word salad
+  const mm = new MarkovMachine(text);
+  console.log("Word Salad: ", mm.makeText());
 }
 
-function getFromFile(path) {
-  fs.readFile(path, "utf8", (error, data) => {
-    if(error)
-      handleError("Error reading file:", error);
+// Use chosen get function to get the text data
+async function getData(getFunc) {
+  let argIndex = 3;
+  let data = "";
 
-    processOutput(data);
-  });
+  while(process.argv[argIndex]) {
+    data += '\n' + await getFunc(process.argv[argIndex]);
+    argIndex++;
+  }
+
+  return data;
 }
 
+/** Get text from a file */
+async function getFromFile(path) {
+  try {
+    data = await fs.readFile(path, "utf8")
+    return data;
+  }
+  catch(error) {
+    handleError("Error reading file:", error);
+  }
+}
+
+/** Fetch text from a URL */
 async function getFromURL(url) {
-  try{
-    res = await axios.get(url);
+  try {
+    const {data} = await axios.get(url);
+    return data;
   }
   catch(error) {
     handleError("Error getting page:", error);
   }
-
-  processOutput(res.data);
-}
-
-function processOutput(text) {
-  const mm = new MarkovMachine(text);
-  console.log(mm.makeText());
 }
 
 function handleError(msg, error) {
