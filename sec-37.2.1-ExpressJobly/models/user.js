@@ -154,15 +154,15 @@ class User {
       data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
     }
 
-    const { setCols, values } = sqlForPartialUpdate(data, {
+    const { setColumns, setValues } = sqlForPartialUpdate(data, {
       firstName: "first_name",
       lastName: "last_name",
       isAdmin: "is_admin",
     });
-    const usernameVarIdx = "$" + (values.length + 1);
+    const usernameVarIdx = "$" + (setValues.length + 1);
 
     const querySql = `UPDATE users 
-                      SET ${setCols} 
+                      SET ${setColumns} 
                       WHERE username = ${usernameVarIdx} 
                       RETURNING
                         username,
@@ -170,7 +170,7 @@ class User {
                         last_name AS "lastName",
                         email,
                         is_admin AS "isAdmin"`;
-    const result = await db.query(querySql, [...values, username]);
+    const result = await db.query(querySql, [...setValues, username]);
     const user = result.rows[0];
 
     if (!user) throw new NotFoundError(`No user: ${username}`);

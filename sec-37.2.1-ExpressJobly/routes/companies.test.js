@@ -4,6 +4,7 @@ const request = require("supertest");
 
 const db = require("../db");
 const app = require("../app");
+const { BadRequestError } = require('../expressError');
 
 const {
   commonBeforeAll,
@@ -69,31 +70,144 @@ describe("GET /companies", function () {
   test("ok for anon", async function () {
     const resp = await request(app).get("/companies");
     expect(resp.body).toEqual({
-      companies:
-          [
-            {
-              handle: "c1",
-              name: "C1",
-              description: "Desc1",
-              numEmployees: 1,
-              logoUrl: "http://c1.img",
-            },
-            {
-              handle: "c2",
-              name: "C2",
-              description: "Desc2",
-              numEmployees: 2,
-              logoUrl: "http://c2.img",
-            },
-            {
-              handle: "c3",
-              name: "C3",
-              description: "Desc3",
-              numEmployees: 3,
-              logoUrl: "http://c3.img",
-            },
-          ],
+      companies: [
+        {
+          handle: "c1",
+          name: "C1",
+          description: "Desc1",
+          numEmployees: 1,
+          logoUrl: "http://c1.img",
+        },
+        {
+          handle: "c2",
+          name: "C2",
+          description: "Desc2",
+          numEmployees: 2,
+          logoUrl: "http://c2.img",
+        },
+        {
+          handle: "c3",
+          name: "C3",
+          description: "Desc3",
+          numEmployees: 3,
+          logoUrl: "http://c3.img",
+        },
+      ],
     });
+  });
+
+  test("filter by name", async function () {
+    const resp = await request(app)
+      .get("/companies")
+      .query({name: 2});
+    expect(resp.body).toEqual({
+      companies: [
+        {
+          handle: "c2",
+          name: "C2",
+          description: "Desc2",
+          numEmployees: 2,
+          logoUrl: "http://c2.img",
+        }
+      ],
+    });
+  });
+
+  test("filter by minimum employees", async function () {
+    const resp = await request(app)
+      .get("/companies")
+      .query({minEmployees: 2});
+    expect(resp.body).toEqual({
+      companies: [
+        {
+          handle: "c2",
+          name: "C2",
+          description: "Desc2",
+          numEmployees: 2,
+          logoUrl: "http://c2.img",
+        },
+        {
+          handle: "c3",
+          name: "C3",
+          description: "Desc3",
+          numEmployees: 3,
+          logoUrl: "http://c3.img",
+        }
+      ],
+    });
+  });
+
+  test("filter by maximum employees", async function () {
+    const resp = await request(app)
+      .get("/companies")
+      .query({maxEmployees: 2});
+    expect(resp.body).toEqual({
+      companies: [
+        {
+          handle: "c1",
+          name: "C1",
+          description: "Desc1",
+          numEmployees: 1,
+          logoUrl: "http://c1.img",
+        },
+        {
+          handle: "c2",
+          name: "C2",
+          description: "Desc2",
+          numEmployees: 2,
+          logoUrl: "http://c2.img",
+        }
+      ],
+    });
+  });
+
+  test("filter by miniumum and maximum employees", async function () {
+    const resp = await request(app)
+      .get("/companies")
+      .query({
+        minEmployees: 2,
+        maxEmployees: 2
+      });
+    expect(resp.body).toEqual({
+      companies: [
+        {
+          handle: "c2",
+          name: "C2",
+          description: "Desc2",
+          numEmployees: 2,
+          logoUrl: "http://c2.img",
+        }
+      ],
+    });
+  });
+
+  test("bad request if miniumum employees more than maximum", async function () {
+    const resp = await request(app)
+      .get("/companies")
+      .query({
+        minEmployees: 1000,
+        maxEmployees: 2
+      });
+    expect(resp.status).toBe(400);
+  });
+
+  test("bad request if filtering by unavailable option", async function () {
+    const resp = await request(app)
+      .get("/companies")
+      .query({
+        xyzzy: 'Nothing happens.'
+      });
+    expect(resp.status).toBe(400);
+  });
+
+  test("bad request if filtering by available option and an unavailable option", async function () {
+    const resp = await request(app)
+      .get("/companies")
+      .query({
+        xyzzy: 'Nothing happens.',
+        maxEmployees: 2
+      });
+    expect(resp.status).toBe(400);
   });
 
   test("fails: test next() handler", async function () {
@@ -149,9 +263,7 @@ describe("PATCH /companies/:handle", function () {
   test("works for users", async function () {
     const resp = await request(app)
         .patch(`/companies/c1`)
-        .send({
-          name: "C1-new",
-        })
+        .send({name: "C1-new"})
         .set("authorization", `Bearer ${u1Token}`);
     expect(resp.body).toEqual({
       company: {
@@ -167,18 +279,14 @@ describe("PATCH /companies/:handle", function () {
   test("unauth for anon", async function () {
     const resp = await request(app)
         .patch(`/companies/c1`)
-        .send({
-          name: "C1-new",
-        });
+        .send({name: "C1-new"});
     expect(resp.statusCode).toEqual(401);
   });
 
   test("not found on no such company", async function () {
     const resp = await request(app)
         .patch(`/companies/nope`)
-        .send({
-          name: "new nope",
-        })
+        .send({name: "new nope"})
         .set("authorization", `Bearer ${u1Token}`);
     expect(resp.statusCode).toEqual(404);
   });
@@ -186,9 +294,7 @@ describe("PATCH /companies/:handle", function () {
   test("bad request on handle change attempt", async function () {
     const resp = await request(app)
         .patch(`/companies/c1`)
-        .send({
-          handle: "c1-new",
-        })
+        .send({handle: "c1-new"})
         .set("authorization", `Bearer ${u1Token}`);
     expect(resp.statusCode).toEqual(400);
   });
@@ -196,9 +302,7 @@ describe("PATCH /companies/:handle", function () {
   test("bad request on invalid data", async function () {
     const resp = await request(app)
         .patch(`/companies/c1`)
-        .send({
-          logoUrl: "not-a-url",
-        })
+        .send({logoUrl: "not-a-url"})
         .set("authorization", `Bearer ${u1Token}`);
     expect(resp.statusCode).toEqual(400);
   });

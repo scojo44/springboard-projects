@@ -2,7 +2,7 @@
 
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
-const { sqlForPartialUpdate } = require("../helpers/sql");
+const { sqlForPartialUpdate, sqlForWhereConditions } = require("../helpers/sql");
 
 /** Related functions for companies. */
 
@@ -18,8 +18,7 @@ class Company {
 
   static async create({ handle, name, description, numEmployees, logoUrl }) {
     const duplicateCheck = await db.query(
-      `SELECT handle
-      FROM companies
+      `SELECT handle FROM companies
       WHERE handle = $1`,
       [handle]
     );
@@ -41,14 +40,22 @@ class Company {
 
   /** Find all companies.
    *
+   * filters:  Optional object with the desired filters.  Find companies with...
+   * - name: ...this string in the company name
+   * - minEmployees: ...at least this number of employees
+   * - maxEmployees: ...at most this number of employees
+   * 
    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
    * */
 
-  static async findAll() {
+  static async findAll(filter) {
+    const {whereClause, whereValues} = sqlForWhereConditions(filter);
     const companiesRes = await db.query(
       `SELECT handle, name, description, num_employees AS "numEmployees", logo_url AS "logoUrl"
       FROM companies
-      ORDER BY name`
+      ${whereClause}
+      ORDER BY name`,
+      whereValues
     );
     return companiesRes.rows;
   }
@@ -89,17 +96,17 @@ class Company {
    */
 
   static async update(handle, data) {
-    const { setCols, values } = sqlForPartialUpdate(data, {
+    const { setColumns, setValues } = sqlForPartialUpdate(data, {
       numEmployees: "num_employees",
       logoUrl: "logo_url",
     });
-    const handleVarIdx = "$" + (values.length + 1);
+    const handleVarIdx = "$" + (setValues.length + 1);
 
     const querySql = `UPDATE companies 
-                      SET ${setCols} 
+                      SET ${setColumns} 
                       WHERE handle = ${handleVarIdx} 
                       RETURNING handle, name, description, num_employees AS "numEmployees", logo_url AS "logoUrl"`;
-    const result = await db.query(querySql, [...values, handle]);
+    const result = await db.query(querySql, [...setValues, handle]);
     const company = result.rows[0];
 
     if (!company) throw new NotFoundError(`No company: ${handle}`);

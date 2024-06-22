@@ -1,8 +1,8 @@
 const { BadRequestError } = require("../expressError");
 
-/** Generate SQL UPDATE SET name=value pairs from a JS object
+/** Generate SQL UPDATE SET name=value pairs with data from a JavaScript object
  * 
- * dataToUpdate: Javascript object with updated data items
+ * dataToUpdate: JS object with updated data items
  * jsToSql: An object to convert JS camelCase key names to SQL snake_case column names, if necessary
  * 
  * Returns {
@@ -23,9 +23,50 @@ function sqlForPartialUpdate(dataToUpdate, jsToSql) {
   );
 
   return {
-    setCols: cols.join(", "),
-    values: Object.values(dataToUpdate),
+    setColumns: cols.join(", "),
+    setValues: Object.values(dataToUpdate),
   };
 }
 
-module.exports = { sqlForPartialUpdate };
+/** Generate SQL WHERE clause seperated by AND with filters from a JavaScript object
+ * 
+ * filters: JS object with the desired filters
+ * 
+ * Returns {
+ *   conditions, // String containing the SQL WHERE/AND clauses
+ *   values      // Array of the values for $1, $2, etc.
+ * }
+ * 
+ * Throws BadRequestError if no minimum employees is greater than maximum employees
+ */
+
+function sqlForWhereConditions(filters) {
+  // Throw error if min employees is more than max employees
+  if(filters.minEmployees && filters.maxEmployees && filters.minEmployees > filters.maxEmployees)
+    throw new BadRequestError("minEmployees can't be more than maxEmployees");
+
+  // Convert filters to WHERE conditions
+  const conditions = Object.keys(filters).map((key, idx) => {
+    switch(key) {
+      case 'name':
+        return `"name" ILIKE '%' || $${idx+1} || '%'`;
+      case 'minEmployees':
+        return `"num_employees" >= $${idx+1}`;
+      case 'maxEmployees':
+        return `"num_employees" <= $${idx+1}`;
+    }
+  });
+
+  let where = conditions.join(' AND ');
+
+  // If any filters were provided, add the WHERE keyword
+  if(where)
+    where = 'WHERE ' + where;
+
+  return {
+    whereClause: where,
+    whereValues: Object.values(filters)
+  };
+}
+
+module.exports = {sqlForPartialUpdate, sqlForWhereConditions};

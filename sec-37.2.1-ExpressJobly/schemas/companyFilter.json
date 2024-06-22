@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "additionalProperties": false,
+  "anyOf": [
+    {"required": ["name"]},
+    {"required": ["minEmployees"]},
+    {"required": ["maxEmployees"]}
+  ],
+  "properties": {
+    "name": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 30
+      },
+    "minEmployees": {
+        "type": "integer",
+        "minimum": 0
+      },
+    "maxEmployees": {
+        "type": "integer",
+        "minimum": 0
+      }
+  }
+}
