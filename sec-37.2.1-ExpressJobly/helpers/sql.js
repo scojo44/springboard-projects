@@ -1,6 +1,17 @@
 const { BadRequestError } = require("../expressError");
 
-// THIS NEEDS SOME GREAT DOCUMENTATION.
+/** Generate SQL UPDATE SET name=value pairs from a JS object
+ * 
+ * dataToUpdate: Javascript object with updated data items
+ * jsToSql: An object to convert JS camelCase key names to SQL snake_case column names, if necessary
+ * 
+ * Returns {
+ *   setCols, // A string of column=$x for the SQL SET statement for each item needing updated
+ *   values   // An array of the values for $1, $2, etc.
+ * }
+ * 
+ * Throws BadRequestError if no items given to update
+ */
 
 function sqlForPartialUpdate(dataToUpdate, jsToSql) {
   const keys = Object.keys(dataToUpdate);
