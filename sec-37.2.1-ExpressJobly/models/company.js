@@ -27,8 +27,7 @@ class Company {
       throw new BadRequestError(`Duplicate company: ${handle}`);
 
     const result = await db.query(
-      `INSERT INTO companies
-      (handle, name, description, num_employees, logo_url)
+      `INSERT INTO companies (handle, name, description, num_employees, logo_url)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING handle, name, description, num_employees AS "numEmployees", logo_url AS "logoUrl"`,
       [handle, name, description, numEmployees, logoUrl],
@@ -50,14 +49,14 @@ class Company {
 
   static async findAll(filter = {}) {
     const {whereClause, whereValues} = sqlForWhereConditions(filter);
-    const companiesRes = await db.query(
+    const result = await db.query(
       `SELECT handle, name, description, num_employees AS "numEmployees", logo_url AS "logoUrl"
       FROM companies
       ${whereClause}
       ORDER BY name`,
       whereValues
     );
-    return companiesRes.rows;
+    return result.rows;
   }
 
   /** Given a company handle, return data about company.
@@ -69,16 +68,16 @@ class Company {
    **/
 
   static async get(handle) {
-    const companyRes = await db.query(
+    const result = await db.query(
       `SELECT handle, name, description, num_employees AS "numEmployees", logo_url AS "logoUrl"
       FROM companies
       WHERE handle = $1`,
       [handle]
     );
 
-    const company = companyRes.rows[0];
+    const company = result.rows[0];
 
-    if (!company) throw new NotFoundError(`No company: ${handle}`);
+    if(!company) throw new NotFoundError(`No company: ${handle}`);
 
     return company;
   }
@@ -102,14 +101,14 @@ class Company {
     });
     const handleVarIdx = "$" + (setValues.length + 1);
 
-    const querySql = `UPDATE companies 
+    const querySql = `UPDATE companies
                       SET ${setColumns} 
                       WHERE handle = ${handleVarIdx} 
                       RETURNING handle, name, description, num_employees AS "numEmployees", logo_url AS "logoUrl"`;
     const result = await db.query(querySql, [...setValues, handle]);
     const company = result.rows[0];
 
-    if (!company) throw new NotFoundError(`No company: ${handle}`);
+    if(!company) throw new NotFoundError(`No company: ${handle}`);
 
     return company;
   }
@@ -128,7 +127,7 @@ class Company {
     );
     const company = result.rows[0];
 
-    if (!company) throw new NotFoundError(`No company: ${handle}`);
+    if(!company) throw new NotFoundError(`No company: ${handle}`);
   }
 }
 
