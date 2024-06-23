@@ -101,15 +101,16 @@ class Company {
     });
     const handleVarIdx = "$" + (setValues.length + 1);
 
-    const querySql = `UPDATE companies
-                      SET ${setColumns} 
-                      WHERE handle = ${handleVarIdx} 
-                      RETURNING handle, name, description, num_employees AS "numEmployees", logo_url AS "logoUrl"`;
-    const result = await db.query(querySql, [...setValues, handle]);
+    const result = await db.query(
+      `UPDATE companies
+      SET ${setColumns} 
+      WHERE handle = ${handleVarIdx} 
+      RETURNING handle, name, description, num_employees AS "numEmployees", logo_url AS "logoUrl"`,
+      [...setValues, handle]
+    );
+
     const company = result.rows[0];
-
     if(!company) throw new NotFoundError(`No company: ${handle}`);
-
     return company;
   }
 

@@ -161,20 +161,21 @@ class User {
     });
     const usernameVarIdx = "$" + (setValues.length + 1);
 
-    const querySql = `UPDATE users 
-                      SET ${setColumns} 
-                      WHERE username = ${usernameVarIdx} 
-                      RETURNING
-                        username,
-                        first_name AS "firstName",
-                        last_name AS "lastName",
-                        email,
-                        is_admin AS "isAdmin"`;
-    const result = await db.query(querySql, [...setValues, username]);
+    const result = await db.query(
+      `UPDATE users 
+      SET ${setColumns} 
+      WHERE username = ${usernameVarIdx} 
+      RETURNING
+        username,
+        first_name AS "firstName",
+        last_name AS "lastName",
+        email,
+        is_admin AS "isAdmin"`,
+      [...setValues, username]
+    );
+
     const user = result.rows[0];
-
     if (!user) throw new NotFoundError(`No user: ${username}`);
-
     delete user.password;
     return user;
   }
@@ -183,8 +184,7 @@ class User {
 
   static async remove(username) {
     let result = await db.query(
-      `DELETE
-      FROM users
+      `DELETE FROM users
       WHERE username = $1
       RETURNING username`,
       [username],
