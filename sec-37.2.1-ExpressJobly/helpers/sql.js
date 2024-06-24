@@ -48,12 +48,27 @@ function sqlForWhereConditions(filters) {
   // Convert filters to WHERE conditions
   const conditions = Object.keys(filters).map((key, idx) => {
     switch(key) {
-      case 'name':
+      // Company fields
+      case 'nameLike':
         return `"name" ILIKE '%' || $${idx+1} || '%'`;
       case 'minEmployees':
         return `"num_employees" >= $${idx+1}`;
       case 'maxEmployees':
         return `"num_employees" <= $${idx+1}`;
+
+      // Job fields
+      case 'titleLike':
+        return `"title" ILIKE '%' || $${idx+1} || '%'`;
+      case 'minSalary':
+        return `"salary" >= $${idx+1}`;
+      case 'hasEquity':
+        let equity = '';
+        if(filters.hasEquity)
+          equity = `"equity" IS NOT NULL AND "equity" > 0`;
+        // else // Instructions say to show all jobs if hasEquity is false.  Normally should show only jobs without equity.
+        //   equity = `"equity" IS NULL OR "equity" = 0`;
+        delete filters.hasEquity; // Exclude from the values array
+        return equity;
     }
   });
 
