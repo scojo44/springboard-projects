@@ -110,35 +110,33 @@ describe("POST /users", function () {
 /************************************** GET /users */
 
 describe("GET /users", function () {
+  const u1 = {
+    username: "u1",
+    firstName: "U1F",
+    lastName: "U1L",
+    email: "user1@user.com",
+    isAdmin: false,
+  };
+  const u2 = {
+    username: "u2",
+    firstName: "U2F",
+    lastName: "U2L",
+    email: "user2@user.com",
+    isAdmin: true,
+  };
+  const u3 = {
+    username: "u3",
+    firstName: "U3F",
+    lastName: "U3L",
+    email: "user3@user.com",
+    isAdmin: false,
+  };
+
   test("works for admins", async function () {
     const resp = await request(app)
         .get("/users")
         .set("authorization", `Bearer ${tokenUser2Admin}`);
-    expect(resp.body).toEqual({
-      users: [
-        {
-          username: "u1",
-          firstName: "U1F",
-          lastName: "U1L",
-          email: "user1@user.com",
-          isAdmin: false,
-        },
-        {
-          username: "u2",
-          firstName: "U2F",
-          lastName: "U2L",
-          email: "user2@user.com",
-          isAdmin: true,
-        },
-        {
-          username: "u3",
-          firstName: "U3F",
-          lastName: "U3L",
-          email: "user3@user.com",
-          isAdmin: false,
-        },
-      ],
-    });
+    expect(resp.body.users).toEqual([u1, u2, u3]);
   });
 
   test("unauth for non-admin users", async function () {
@@ -228,7 +226,7 @@ describe("PATCH /users/:username", () => {
         .patch(`/users/u1`)
         .send({ firstName: "New" })
         .set("authorization", `Bearer ${tokenUser2Admin}`);
-    expect(resp.body).toEqual({ user: expectedUser });
+    expect(resp.body).toEqual({user: expectedUser});
   });
 
   test("works for self", async function () {
@@ -236,7 +234,7 @@ describe("PATCH /users/:username", () => {
         .patch(`/users/u1`)
         .send({ firstName: "New" })
         .set("authorization", `Bearer ${tokenUser1}`);
-    expect(resp.body).toEqual({ user: expectedUser });
+    expect(resp.body).toEqual({user: expectedUser});
   });
 
   test("unauth for other non-admin user", async function () {
@@ -283,14 +281,12 @@ describe("PATCH /users/:username", () => {
         .patch(`/users/u1`)
         .send({ password: "new-password" })
         .set("authorization", `Bearer ${tokenUser1}`);
-    expect(resp.body).toEqual({
-      user: {
-        username: "u1",
-        firstName: "U1F",
-        lastName: "U1L",
-        email: "user1@user.com",
-        isAdmin: false,
-      }
+    expect(resp.body.user).toEqual({
+      username: "u1",
+      firstName: "U1F",
+      lastName: "U1L",
+      email: "user1@user.com",
+      isAdmin: false,
     });
     const isSuccessful = await User.authenticate("u1", "new-password");
     expect(isSuccessful).toBeTruthy();

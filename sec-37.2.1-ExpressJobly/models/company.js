@@ -3,6 +3,7 @@
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
 const { sqlForPartialUpdate, sqlForWhereConditions } = require("../helpers/sql");
+const Job = require('./job');
 
 /** Related functions for companies. */
 
@@ -62,23 +63,35 @@ class Company {
   /** Given a company handle, return data about company.
    *
    * Returns { handle, name, description, numEmployees, logoUrl, jobs }
-   *   where jobs is [{ id, title, salary, equity, companyHandle }, ...]
+   *   where jobs is [{ id, title, salary, equity }, ...]
    *
    * Throws NotFoundError if not found.
    **/
 
   static async get(handle) {
-    const result = await db.query(
-      `SELECT handle, name, description, num_employees AS "numEmployees", logo_url AS "logoUrl"
+    const resCompany = await db.query(
+      `SELECT handle, name, description,
+        num_employees AS "numEmployees",
+        logo_url AS "logoUrl"
       FROM companies
       WHERE handle = $1`,
       [handle]
     );
 
-    const company = result.rows[0];
+    const company = resCompany.rows[0];
 
     if(!company) throw new NotFoundError(`No company: ${handle}`);
 
+    // Add the jobs
+    const resJobs = await db.query(
+      `SELECT id, title, salary, equity
+      FROM jobs
+      WHERE company_handle = $1`,
+      [handle]
+    );
+
+    company.jobs = resJobs.rows;
+    company.jobs.forEach(job => Job.fixStrings(job));
     return company;
   }
 
