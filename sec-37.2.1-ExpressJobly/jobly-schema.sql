@@ -1,3 +1,5 @@
+CREATE TYPE application_state AS ENUM('interested', 'applied', 'accepted', 'rejected');
+
 CREATE TABLE companies (
   handle VARCHAR(25) PRIMARY KEY CHECK (handle = lower(handle)),
   name TEXT UNIQUE NOT NULL,
@@ -26,5 +28,6 @@ CREATE TABLE jobs (
 CREATE TABLE applications (
   username VARCHAR(25) REFERENCES users ON DELETE CASCADE,
   job_id INTEGER REFERENCES jobs ON DELETE CASCADE,
+  state application_state NOT NULL DEFAULT 'applied',
   PRIMARY KEY (username, job_id)
 );

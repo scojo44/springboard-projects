@@ -160,7 +160,7 @@ class User {
 
   static async getAppliedJobs(username) {
     const result = await db.query(
-      `SELECT j.id, j.title, c.handle as "companyHandle", c.name as "companyName"
+      `SELECT j.id, j.title, c.handle as "companyHandle", c.name as "companyName", a.state
       FROM applications a
       JOIN jobs j on j.id = a.job_id
       JOIN companies c on c.handle = j.company_handle

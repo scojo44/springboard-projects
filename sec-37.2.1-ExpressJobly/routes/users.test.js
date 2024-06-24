@@ -256,12 +256,14 @@ describe("GET /users/:username", function () {
         title: "J1a",
         companyHandle: "c1",
         companyName: "C1",
+        state: 'applied'
       },
       {
         id: expect.any(Number),
         title: "J3",
         companyHandle: "c3",
-        companyName: "C3"
+        companyName: "C3",
+        state: 'applied'
       }
     ]
   };

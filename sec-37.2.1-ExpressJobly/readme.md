@@ -13,6 +13,6 @@ To run the tests:
 ## Further Study Items
 
 - [ ] Choosing Random Password
-- [ ] Use enum Type
+- [x] Use enum Type
 - [ ] Add Technologies for Jobs
 - [ ] Add Technologies for Users
