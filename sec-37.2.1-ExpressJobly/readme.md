@@ -12,7 +12,7 @@ To run the tests:
 
 ## Further Study Items
 
-- [ ] Choosing Random Password
+- [x] Choosing Random Password
 - [x] Use enum Type
 - [ ] Add Technologies for Jobs
 - [ ] Add Technologies for Users

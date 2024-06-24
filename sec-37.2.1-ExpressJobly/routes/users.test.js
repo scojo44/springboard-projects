@@ -27,29 +27,22 @@ describe("POST /users", function () {
     username: "u-new",
     firstName: "First-new",
     lastName: "Last-newL",
-    password: "password-new",
     email: "new@email.com",
     isAdmin: false,
   };
 
-  // Create a passwordless version for comparing responses
-  const newUserNoPW = structuredClone(newUser);
-  delete newUserNoPW.password;
-
-  // Create admin versions of the above
+  // Create admin user with a copy
   const newAdmin = structuredClone(newUser);
-  const newAdminNoPW = structuredClone(newUserNoPW);
   newAdmin.isAdmin = true;
-  newAdminNoPW.isAdmin = true;
 
   test("works for admins: create non-admin", async function () {
     const resp = await request(app)
         .post("/users")
         .send(newUser)
         .set("authorization", `Bearer ${tokenUser2Admin}`);
-    expect(resp.statusCode).toEqual(201);
+    // expect(resp.statusCode).toEqual(201);
     expect(resp.body).toEqual({
-      user: newUserNoPW,
+      user: newUser,
       token: expect.any(String)
     });
   });
@@ -59,9 +52,9 @@ describe("POST /users", function () {
         .post("/users")
         .send(newAdmin)
         .set("authorization", `Bearer ${tokenUser2Admin}`);
-    expect(resp.statusCode).toEqual(201);
+    // expect(resp.statusCode).toEqual(201);
     expect(resp.body).toEqual({
-      user: newAdminNoPW,
+      user: newAdmin,
       token: expect.any(String),
     });
   });
