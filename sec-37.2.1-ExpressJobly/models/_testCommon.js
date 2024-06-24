@@ -31,8 +31,14 @@ async function commonBeforeAll() {
     INSERT INTO jobs (title, salary, equity, company_handle)
     VALUES ('J1a', 150000,   .1, 'c1'),
            ('J1b', 120000,    0, 'c1'),
-           ('J3',  300000, NULL, 'c3')
-    RETURNING id`
+           ('J3',  300000, NULL, 'c3')`
+  );
+
+  await db.query(`
+    INSERT INTO applications (username, job_id)
+    VALUES ('u1', 1),
+           ('u1', 3),
+           ('u2', 1)`
   );
 }
 

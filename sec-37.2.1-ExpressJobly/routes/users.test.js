@@ -107,6 +107,83 @@ describe("POST /users", function () {
   });
 });
 
+/************************************** POST /users/:username/jobs */
+
+describe("POST /users/:username/jobs", function () {
+  test("works for self", async function () {
+    const resp = await request(app)
+        .post("/users/u1/jobs")
+        .send({jobID: 2})
+        .set("authorization", `Bearer ${tokenUser1}`);
+    // expect(resp.statusCode).toEqual(201);
+    expect(resp.body.applied).toEqual({jobID: 2});
+  });
+
+  test("works for admin", async function () {
+    const resp = await request(app)
+        .post("/users/u1/jobs")
+        .send({jobID: 2})
+        .set("authorization", `Bearer ${tokenUser2Admin}`);
+    // expect(resp.statusCode).toEqual(201);
+    expect(resp.body.applied).toEqual({jobID: 2});
+  });
+
+  test("unauth for non-admin users", async function () {
+    const resp = await request(app)
+        .post("/users/u3/jobs")
+        .send({jobID: 1})
+        .set("authorization", `Bearer ${tokenUser1}`);
+    expect(resp.statusCode).toEqual(401);
+  });
+
+  test("unauth for anon", async function () {
+    const resp = await request(app)
+        .post("/users/u1/jobs")
+        .send({jobID: 2});
+    expect(resp.statusCode).toEqual(401);
+  });
+
+  test("not found if no such job", async function () {
+    const resp = await request(app)
+        .post("/users/u1/jobs")
+        .send({jobID: 999})
+        .set("authorization", `Bearer ${tokenUser1}`);
+    expect(resp.statusCode).toEqual(404);
+  });
+
+  test("not found if no such user", async function () {
+    const resp = await request(app)
+        .post("/users/xyzzy/jobs")
+        .send({jobID: 1})
+        .set("authorization", `Bearer ${tokenUser2Admin}`);
+    expect(resp.statusCode).toEqual(404);
+  });
+
+  test("bad request if user already applied", async function () {
+    const resp = await request(app)
+        .post("/users/u1/jobs")
+        .send({jobID: 1})
+        .set("authorization", `Bearer ${tokenUser1}`);
+    expect(resp.statusCode).toEqual(400);
+  });
+
+  test("bad request if negative jobID", async function () {
+    const resp = await request(app)
+        .post("/users/u1/jobs")
+        .send({jobID: -1})
+        .set("authorization", `Bearer ${tokenUser1}`);
+    expect(resp.statusCode).toEqual(400);
+  });
+
+  test("bad request with jobID as string", async function () {
+    const resp = await request(app)
+        .post("/users/u1/jobs")
+        .send({jobID: 'Job #1'})
+        .set("authorization", `Bearer ${tokenUser1}`);
+    expect(resp.statusCode).toEqual(400);
+  });
+});
+
 /************************************** GET /users */
 
 describe("GET /users", function () {
@@ -115,21 +192,21 @@ describe("GET /users", function () {
     firstName: "U1F",
     lastName: "U1L",
     email: "user1@user.com",
-    isAdmin: false,
+    isAdmin: false
   };
   const u2 = {
     username: "u2",
     firstName: "U2F",
     lastName: "U2L",
     email: "user2@user.com",
-    isAdmin: true,
+    isAdmin: true
   };
   const u3 = {
     username: "u3",
     firstName: "U3F",
     lastName: "U3L",
     email: "user3@user.com",
-    isAdmin: false,
+    isAdmin: false
   };
 
   test("works for admins", async function () {
@@ -173,6 +250,20 @@ describe("GET /users/:username", function () {
     lastName: "U1L",
     email: "user1@user.com",
     isAdmin: false,
+    jobs: [
+      {
+        id: expect.any(Number),
+        title: "J1a",
+        companyHandle: "c1",
+        companyName: "C1",
+      },
+      {
+        id: expect.any(Number),
+        title: "J3",
+        companyHandle: "c3",
+        companyName: "C3"
+      }
+    ]
   };
 
   test("works for admins", async function () {

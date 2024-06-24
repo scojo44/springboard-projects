@@ -105,6 +105,33 @@ describe("register", function () {
   });
 });
 
+/************************************** applyToJob */
+
+describe("applyToJob", function () {
+  test("works", async function () {
+    const application = await User.applyToJob('u1', 2);
+    expect(application).toEqual({jobID: 2});
+  });
+
+  test("not found if no such job", async function () {
+    try {
+      await User.applyToJob('u1', 999);
+      fail();
+    } catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+  });
+
+  test("not found if no such user", async function () {
+    try {
+      await User.applyToJob('xyzzy', 1);
+      fail();
+    } catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+  });
+});
+
 /************************************** findAll */
 
 describe("findAll", function () {
@@ -140,6 +167,20 @@ describe("get", function () {
       lastName: "U1L",
       email: "u1@email.com",
       isAdmin: false,
+      jobs: [
+        {
+          id: expect.any(Number),
+          title: "J1a",
+          companyHandle: "c1",
+          companyName: "C1",
+        },
+        {
+          id: expect.any(Number),
+          title: "J3",
+          companyHandle: "c3",
+          companyName: "C3"
+        }
+      ]
     });
   });
 

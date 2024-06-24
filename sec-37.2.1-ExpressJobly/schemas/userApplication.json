@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://our.company.com/userApplication.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "jobID"
+  ],
+  "properties": {
+    "jobID": {
+      "type": "integer",
+      "minimum": 1
+    }
+  }
+}

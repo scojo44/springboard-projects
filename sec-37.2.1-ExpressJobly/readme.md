@@ -9,3 +9,10 @@ To run this:
 To run the tests:
 
     jest -i
+
+## Further Study
+
+- [ ] Choosing Random Password
+- [ ] Use enum Type
+- [ ] Add Technologies for Jobs
+- [ ] Add Technologies for Users

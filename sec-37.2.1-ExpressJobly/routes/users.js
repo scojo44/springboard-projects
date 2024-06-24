@@ -11,11 +11,12 @@ const User = require("../models/user");
 const { createToken } = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
+const userApplicationSchema = require("../schemas/userApplication.json");
 
 const router = express.Router();
 
 
-/** POST / { user }  => { user, token }
+/** POST / { user } => { user, token }
  *
  * Adds a new user. This is not the registration endpoint --- instead, this is
  * only for admin users to add new users. The new user being added can be an
@@ -43,6 +44,31 @@ router.post("/", ensureLoggedIn, ensureAdmin, async function (req, res, next) {
   }
 });
 
+/** POST /[username]/jobs { jobID } => { applied }
+ * 
+ * Adds a job to a user's applications
+ * 
+ * Returns { jobID }
+ * 
+ * Authorization required: login
+ */
+
+router.post("/:username/jobs", ensureLoggedIn, ensureSelfOrAdmin, async function (req, res, next) {
+  try {
+    const validator = jsonschema.validate(req.body, userApplicationSchema);
+    if(!validator.valid) {
+      const errs = validator.errors.map(e => e.stack);
+      throw new BadRequestError(errs);
+    }
+
+    const {username} = req.params;
+    const {jobID} = req.body;
+    const result = await User.applyToJob(username, jobID);
+    return res.status(201).json({ applied: result });
+  } catch (err) {
+    return next(err);
+  }
+});
 
 /** GET / => { users: [ {username, firstName, lastName, email }, ... ] }
  *

@@ -80,6 +80,10 @@ async function commonBeforeAll() {
     equity: null,
     companyHandle: "c3"
   });
+
+  await User.applyToJob('u1', 1);
+  await User.applyToJob('u1', 3);
+  await User.applyToJob('u2', 1);
 }
 
 async function commonBeforeEach() {
