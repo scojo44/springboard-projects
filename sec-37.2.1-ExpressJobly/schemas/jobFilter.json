@@ -4,23 +4,22 @@
   "type": "object",
   "additionalProperties": false,
   "anyOf": [
-    {"required": ["nameLike"]},
-    {"required": ["minEmployees"]},
-    {"required": ["maxEmployees"]}
+    {"required": ["titleLike"]},
+    {"required": ["minSalary"]},
+    {"required": ["hasEquity"]}
   ],
   "properties": {
-    "nameLike": {
+    "titleLike": {
         "type": "string",
         "minLength": 1,
         "maxLength": 30
       },
-    "minEmployees": {
+    "minSalary": {
         "type": "integer",
         "minimum": 0
       },
-    "maxEmployees": {
-        "type": "integer",
-        "minimum": 0
+    "hasEquity": {
+        "type": "boolean"
       }
   }
 }

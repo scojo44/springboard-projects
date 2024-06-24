@@ -44,17 +44,18 @@ router.post("/", ensureLoggedIn, ensureAdmin, async function (req, res, next) {
  *   { companies: [ { handle, name, description, numEmployees, logoUrl }, ...] }
  *
  * Can filter on provided search filters:
+ * - nameLike (will find case-insensitive, partial matches)
  * - minEmployees
  * - maxEmployees
- * - nameLike (will find case-insensitive, partial matches)
  *
  * Authorization required: none
  */
 
 router.get("/", async function (req, res, next) {
   try {
-    // If filter provided, validate and use it
     const filter = req.query;
+
+    // If filter provided, validate and use it
     if(Object.keys(filter).length) {
       // Convert min/max employees to numbers
       if(filter.minEmployees) filter.minEmployees = +filter.minEmployees;
@@ -76,7 +77,7 @@ router.get("/", async function (req, res, next) {
 
 /** GET /[handle]  =>  { company }
  *
- *  Company is { handle, name, description, numEmployees, logoUrl, jobs }
+ * Company is { handle, name, description, numEmployees, logoUrl, jobs }
  *   where jobs is [{ id, title, salary, equity }, ...]
  *
  * Authorization required: none
@@ -91,7 +92,7 @@ router.get("/:handle", async function (req, res, next) {
   }
 });
 
-/** PATCH /[handle] { fld1, fld2, ... } => { company }
+/** PATCH /[handle] { field1, field2, ... } => { company }
  *
  * Patches company data.
  *

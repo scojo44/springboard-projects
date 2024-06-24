@@ -4,27 +4,24 @@
   "type": "object",
   "additionalProperties": false,
   "anyOf": [
-    {"required": ["name"]},
-    {"required": ["description"]},
-    {"required": ["numEmployees"]},
-    {"required": ["logoUrl"]}
+    {"required": ["title"]},
+    {"required": ["salary"]},
+    {"required": ["equity"]}
   ],
   "properties": {
-    "name": {
+    "title": {
       "type": "string",
       "minLength": 1,
       "maxLength": 30
     },
-    "description": {
-      "type": "string"
-    },
-    "numEmployees": {
+    "salary": {
       "type": "integer",
       "minimum": 0
     },
-    "logoUrl": {
-      "type": "string",
-      "format": "uri"
+    "equity": {
+      "type": "number",
+      "minimum": 0,
+      "exclusiveMaximum": 1
     }
   }
 }

@@ -270,6 +270,14 @@ describe("PATCH /users/:username", () => {
     expect(resp.statusCode).toEqual(400);
   });
 
+  test("bad request if no data", async function () {
+    const resp = await request(app)
+        .patch(`/users/u1`)
+        .send({})
+        .set("authorization", `Bearer ${tokenUser2Admin}`);
+    expect(resp.statusCode).toEqual(400);
+  });
+
   test("works: set new password", async function () {
     const resp = await request(app)
         .patch(`/users/u1`)

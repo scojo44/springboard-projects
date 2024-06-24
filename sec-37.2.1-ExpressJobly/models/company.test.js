@@ -81,7 +81,7 @@ describe("findAll", function () {
   });
 
   test("filter by name", async function () {
-    const companies = await Company.findAll({name: 'C3'});
+    const companies = await Company.findAll({nameLike: 'C3'});
     expect(companies).toEqual([c3]);
   });
 

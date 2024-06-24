@@ -1,15 +1,19 @@
 "use strict";
 
 const db = require("../db.js");
-const User = require("../models/user");
 const Company = require("../models/company");
+const User = require("../models/user");
+const Job = require("../models/job.js");
 const { createToken } = require("../helpers/tokens");
 
 async function commonBeforeAll() {
   // noinspection SqlWithoutWhere
-  await db.query("DELETE FROM users");
+  await db.query("DELETE FROM jobs");
   // noinspection SqlWithoutWhere
   await db.query("DELETE FROM companies");
+  // noinspection SqlWithoutWhere
+  await db.query("DELETE FROM users");
+  await db.query("ALTER SEQUENCE jobs_id_seq RESTART WITH 1");
 
   await Company.create({
         handle: "c1",
@@ -57,6 +61,25 @@ async function commonBeforeAll() {
     password: "password3",
     isAdmin: false,
   });
+
+  await Job.create({
+    title: "J1a",
+    salary: 150000,
+    equity: .1,
+    companyHandle: "c1"
+  });
+  await Job.create({
+    title: "J1b", // Why not J2?  Comments in starter code suggest company 2 is meant to have no jobs
+    salary: 120000,
+    equity: 0,
+    companyHandle: "c1"
+  });
+  await Job.create({
+    title: "J3",
+    salary: 300000,
+    equity: null,
+    companyHandle: "c3"
+  });
 }
 
 async function commonBeforeEach() {
@@ -71,10 +94,8 @@ async function commonAfterAll() {
   await db.end();
 }
 
-
 const tokenUser1 = createToken({ username: "u1", isAdmin: false });
 const tokenUser2Admin = createToken({ username: "u2", isAdmin: true });
-
 
 module.exports = {
   commonBeforeAll,
