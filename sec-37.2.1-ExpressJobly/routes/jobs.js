@@ -57,9 +57,9 @@ router.get("/", async function (req, res, next) {
     
     // If filter provided, validate and use it
     if(Object.keys(filter).length) {
-      // Convert strings to their data types
+      // Convert query string values to the expected data types
       if(filter.minSalary) filter.minSalary = +filter.minSalary;
-      if(filter.hasEquity) filter.hasEquity = [true, 'true'].includes(filter.hasEquity);
+      if(filter.hasEquity) filter.hasEquity = ['true', 'yes', 'y'].includes(filter.hasEquity.toLowerCase()); // List several affirmative values to check
 
       const validator = jsonschema.validate(filter, jobFilterSchema);
       if(!validator.valid) {

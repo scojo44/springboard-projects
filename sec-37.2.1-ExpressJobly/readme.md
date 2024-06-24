@@ -10,7 +10,7 @@ To run the tests:
 
     jest -i
 
-## Further Study
+## Further Study Items
 
 - [ ] Choosing Random Password
 - [ ] Use enum Type
