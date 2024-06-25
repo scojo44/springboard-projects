@@ -2,10 +2,8 @@
 
 const request = require("supertest");
 
-const db = require("../db");
 const app = require("../app");
-const { BadRequestError } = require('../expressError');
-
+const db = require("../db");
 const {
   commonBeforeAll,
   commonBeforeEach,
@@ -28,7 +26,7 @@ describe("POST /companies", function () {
     name: "New",
     logoUrl: "http://new.img",
     description: "DescNew",
-    numEmployees: 10,
+    numEmployees: 10
   };
 
   test("ok for admins", async function () {
@@ -53,7 +51,7 @@ describe("POST /companies", function () {
         .post("/companies")
         .send({
           handle: "new",
-          numEmployees: 10,
+          numEmployees: 10
         })
         .set("authorization", `Bearer ${tokenUser2Admin}`);
     expect(resp.statusCode).toEqual(400);
@@ -64,7 +62,7 @@ describe("POST /companies", function () {
         .post("/companies")
         .send({
           ...newCompany,
-          logoUrl: "not-a-url",
+          logoUrl: "not-a-url"
         })
         .set("authorization", `Bearer ${tokenUser2Admin}`);
     expect(resp.statusCode).toEqual(400);
@@ -79,21 +77,21 @@ describe("GET /companies", function () {
     name: "C1",
     description: "Desc1",
     numEmployees: 1,
-    logoUrl: "http://c1.img",
+    logoUrl: "http://c1.img"
   };
   const c2 = {
     handle: "c2",
     name: "C2",
     description: "Desc2",
     numEmployees: 2,
-    logoUrl: "http://c2.img",
+    logoUrl: "http://c2.img"
   };
   const c3 = {
     handle: "c3",
     name: "C3",
     description: "Desc3",
     numEmployees: 3,
-    logoUrl: "http://c3.img",
+    logoUrl: "http://c3.img"
   };
 
   test("ok for anon", async function () {

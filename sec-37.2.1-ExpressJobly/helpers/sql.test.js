@@ -88,7 +88,7 @@ describe("sqlForWhereConditions - Job filters", function () {
   test("generates where conditions for title and salary", function () {
     const filters = {
       titleLike: "xyzzy",
-      minSalary: 150000,
+      minSalary: 150000
     };
     const where = sqlForWhereConditions(filters);
     expect(where.whereClause).toEqual(`WHERE "title" ILIKE '%' || $1 || '%' AND "salary" >= $2`);

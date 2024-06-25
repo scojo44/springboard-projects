@@ -1,18 +1,9 @@
 "use strict";
 
-const {
-  NotFoundError,
-  BadRequestError,
-  UnauthorizedError,
-} = require("../expressError");
 const db = require("../db.js");
+const { NotFoundError, BadRequestError, UnauthorizedError } = require("../expressError");
+const { commonBeforeAll, commonBeforeEach, commonAfterEach, commonAfterAll } = require("./_testCommon");
 const User = require("./user.js");
-const {
-  commonBeforeAll,
-  commonBeforeEach,
-  commonAfterEach,
-  commonAfterAll,
-} = require("./_testCommon");
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
@@ -29,7 +20,7 @@ describe("authenticate", function () {
       firstName: "U1F",
       lastName: "U1L",
       email: "u1@email.com",
-      isAdmin: false,
+      isAdmin: false
     });
   });
 
@@ -60,13 +51,13 @@ describe("register", function () {
     firstName: "Test",
     lastName: "Tester",
     email: "test@test.com",
-    isAdmin: false,
+    isAdmin: false
   };
 
   test("works", async function () {
     let user = await User.register({
       ...newUser,
-      password: "password",
+      password: "password"
     });
     expect(user).toEqual(newUser);
     const found = await db.query("SELECT * FROM users WHERE username = 'new'");
@@ -79,7 +70,7 @@ describe("register", function () {
     let user = await User.register({
       ...newUser,
       password: "password",
-      isAdmin: true,
+      isAdmin: true
     });
     expect(user).toEqual({ ...newUser, isAdmin: true });
     const found = await db.query("SELECT * FROM users WHERE username = 'new'");
@@ -92,11 +83,11 @@ describe("register", function () {
     try {
       await User.register({
         ...newUser,
-        password: "password",
+        password: "password"
       });
       await User.register({
         ...newUser,
-        password: "password",
+        password: "password"
       });
       fail();
     } catch (err) {
@@ -143,14 +134,14 @@ describe("findAll", function () {
         firstName: "U1F",
         lastName: "U1L",
         email: "u1@email.com",
-        isAdmin: false,
+        isAdmin: false
       },
       {
         username: "u2",
         firstName: "U2F",
         lastName: "U2L",
         email: "u2@email.com",
-        isAdmin: false,
+        isAdmin: false
       },
     ]);
   });
@@ -203,27 +194,27 @@ describe("update", function () {
     firstName: "NewF",
     lastName: "NewF",
     email: "new@email.com",
-    isAdmin: true,
+    isAdmin: true
   };
 
   test("works", async function () {
     let job = await User.update("u1", updateData);
     expect(job).toEqual({
       username: "u1",
-      ...updateData,
+      ...updateData
     });
   });
 
   test("works: set password", async function () {
     let job = await User.update("u1", {
-      password: "new",
+      password: "new"
     });
     expect(job).toEqual({
       username: "u1",
       firstName: "U1F",
       lastName: "U1L",
       email: "u1@email.com",
-      isAdmin: false,
+      isAdmin: false
     });
     const found = await db.query("SELECT * FROM users WHERE username = 'u1'");
     expect(found.rows.length).toEqual(1);
@@ -233,7 +224,7 @@ describe("update", function () {
   test("not found if no such user", async function () {
     try {
       await User.update("nope", {
-        firstName: "test",
+        firstName: "test"
       });
       fail();
     } catch (err) {

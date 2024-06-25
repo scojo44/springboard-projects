@@ -24,7 +24,7 @@ function sqlForPartialUpdate(dataToUpdate, jsToSql) {
 
   return {
     setColumns: cols.join(", "),
-    setValues: Object.values(dataToUpdate),
+    setValues: Object.values(dataToUpdate)
   };
 }
 

@@ -7,10 +7,10 @@ const bcrypt = require('bcrypt');
 const pwGenerator = require('generate-password');
 const jsonschema = require("jsonschema");
 
-const { BadRequestError, UnauthorizedError } = require("../expressError");
-const { ensureLoggedIn, ensureAdmin, ensureSelfOrAdmin } = require("../middleware/auth");
-const { createToken } = require("../helpers/tokens");
 const { BCRYPT_WORK_FACTOR }= require('../config');
+const { BadRequestError } = require("../expressError");
+const { createToken } = require("../helpers/tokens");
+const { ensureLoggedIn, ensureAdmin, ensureSelfOrAdmin } = require("../middleware/auth");
 const User = require("../models/user");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");

@@ -2,10 +2,8 @@
 
 const request = require("supertest");
 
-const db = require("../db");
 const app = require("../app");
-const { BadRequestError } = require('../expressError');
-
+const db = require("../db");
 const {
   commonBeforeAll,
   commonBeforeEach,
@@ -27,7 +25,7 @@ describe("POST /jobs", function () {
     title: 'New',
     salary: 150000,
     equity: .1,
-    companyHandle: 'c1',
+    companyHandle: 'c1'
   };
 
   test("ok for admins", async function () {

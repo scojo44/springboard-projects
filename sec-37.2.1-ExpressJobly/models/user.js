@@ -1,12 +1,12 @@
 "use strict";
 
-const db = require("../db");
 const bcrypt = require("bcrypt");
-const { sqlForPartialUpdate } = require("../helpers/sql");
-const {NotFoundError, BadRequestError, UnauthorizedError,} = require("../expressError");
-const Job = require('./job');
 
+const db = require("../db");
 const { BCRYPT_WORK_FACTOR } = require("../config.js");
+const { NotFoundError, BadRequestError, UnauthorizedError } = require("../expressError");
+const { sqlForPartialUpdate } = require("../helpers/sql");
+const Job = require('./job');
 
 /** Related functions for users. */
 
@@ -195,7 +195,7 @@ class User {
     const { setColumns, setValues } = sqlForPartialUpdate(data, {
       firstName: "first_name",
       lastName: "last_name",
-      isAdmin: "is_admin",
+      isAdmin: "is_admin"
     });
     const usernameVarIdx = "$" + (setValues.length + 1);
 

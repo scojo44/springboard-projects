@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-const { createToken } = require("./tokens");
 const { SECRET_KEY } = require("../config");
+const { createToken } = require("./tokens");
 
 describe("createToken", function () {
   test("works: not admin", function () {
@@ -9,7 +9,7 @@ describe("createToken", function () {
     expect(payload).toEqual({
       iat: expect.any(Number),
       username: "test",
-      isAdmin: false,
+      isAdmin: false
     });
   });
 
@@ -19,7 +19,7 @@ describe("createToken", function () {
     expect(payload).toEqual({
       iat: expect.any(Number),
       username: "test",
-      isAdmin: true,
+      isAdmin: true
     });
   });
 
@@ -30,7 +30,7 @@ describe("createToken", function () {
     expect(payload).toEqual({
       iat: expect.any(Number),
       username: "test",
-      isAdmin: false,
+      isAdmin: false
     });
   });
 });

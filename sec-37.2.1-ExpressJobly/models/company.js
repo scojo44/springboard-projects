@@ -110,7 +110,7 @@ class Company {
   static async update(handle, data) {
     const { setColumns, setValues } = sqlForPartialUpdate(data, {
       numEmployees: "num_employees",
-      logoUrl: "logo_url",
+      logoUrl: "logo_url"
     });
     const handleVarIdx = "$" + (setValues.length + 1);
 

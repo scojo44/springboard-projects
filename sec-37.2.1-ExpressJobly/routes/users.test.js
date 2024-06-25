@@ -28,7 +28,7 @@ describe("POST /users", function () {
     firstName: "First-new",
     lastName: "Last-newL",
     email: "new@email.com",
-    isAdmin: false,
+    isAdmin: false
   };
 
   // Create admin user with a copy
@@ -55,7 +55,7 @@ describe("POST /users", function () {
     // expect(resp.statusCode).toEqual(201);
     expect(resp.body).toEqual({
       user: newAdmin,
-      token: expect.any(String),
+      token: expect.any(String)
     });
   });
 
@@ -77,9 +77,7 @@ describe("POST /users", function () {
   test("bad request if missing data", async function () {
     const resp = await request(app)
         .post("/users")
-        .send({
-          username: "u-new",
-        })
+        .send({username: "u-new"})
         .set("authorization", `Bearer ${tokenUser2Admin}`);
     expect(resp.statusCode).toEqual(400);
   });
@@ -93,7 +91,7 @@ describe("POST /users", function () {
           lastName: "Last-newL",
           password: "password-new",
           email: "not-an-email",
-          isAdmin: true,
+          isAdmin: true
         })
         .set("authorization", `Bearer ${tokenUser2Admin}`);
     expect(resp.statusCode).toEqual(400);
@@ -304,7 +302,7 @@ describe("PATCH /users/:username", () => {
     firstName: "New",
     lastName: "U1L",
     email: "user1@user.com",
-    isAdmin: false,
+    isAdmin: false
   };
 
   test("works for admins", async function () {
@@ -372,7 +370,7 @@ describe("PATCH /users/:username", () => {
       firstName: "U1F",
       lastName: "U1L",
       email: "user1@user.com",
-      isAdmin: false,
+      isAdmin: false
     });
     const isSuccessful = await User.authenticate("u1", "new-password");
     expect(isSuccessful).toBeTruthy();

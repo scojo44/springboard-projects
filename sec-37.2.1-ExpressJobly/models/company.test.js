@@ -2,13 +2,8 @@
 
 const db = require("../db.js");
 const { BadRequestError, NotFoundError } = require("../expressError");
+const { commonBeforeAll, commonBeforeEach, commonAfterEach, commonAfterAll } = require("./_testCommon");
 const Company = require("./company.js");
-const {
-  commonBeforeAll,
-  commonBeforeEach,
-  commonAfterEach,
-  commonAfterAll,
-} = require("./_testCommon");
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
@@ -23,7 +18,7 @@ describe("create", function () {
     name: "New",
     description: "New Description",
     numEmployees: 1,
-    logoUrl: "http://new.img",
+    logoUrl: "http://new.img"
   };
 
   test("works", async function () {
@@ -158,14 +153,14 @@ describe("update", function () {
     name: "New",
     description: "New Description",
     numEmployees: 10,
-    logoUrl: "http://new.img",
+    logoUrl: "http://new.img"
   };
 
   test("works", async function () {
     let company = await Company.update("c1", updateData);
     expect(company).toEqual({
       handle: "c1",
-      ...updateData,
+      ...updateData
     });
 
     const result = await db.query(
@@ -185,13 +180,13 @@ describe("update", function () {
       name: "New",
       description: "New Description",
       numEmployees: null,
-      logoUrl: null,
+      logoUrl: null
     };
 
     let company = await Company.update("c1", updateDataSetNulls);
     expect(company).toEqual({
       handle: "c1",
-      ...updateDataSetNulls,
+      ...updateDataSetNulls
     });
 
     const result = await db.query(

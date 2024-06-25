@@ -1,11 +1,10 @@
 "use strict";
 
 const jwt = require("jsonwebtoken");
+const { SECRET_KEY } = require("../config");
 const { UnauthorizedError } = require("../expressError");
 const { authenticateJWT, ensureLoggedIn, ensureAdmin } = require("./auth");
 
-
-const { SECRET_KEY } = require("../config");
 const testJwt = jwt.sign({ username: "test", isAdmin: false }, SECRET_KEY);
 const badJwt = jwt.sign({ username: "test", isAdmin: false }, "wrong");
 
@@ -25,8 +24,8 @@ describe("authenticateJWT", function () {
       user: {
         iat: expect.any(Number),
         username: "test",
-        isAdmin: false,
-      },
+        isAdmin: false
+      }
     });
   });
 
