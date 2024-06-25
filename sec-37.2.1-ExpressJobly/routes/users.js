@@ -35,7 +35,7 @@ const router = express.Router();
 router.post("/", ensureLoggedIn, ensureAdmin, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, userNewSchema);
-    if (!validator.valid) {
+    if(!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
@@ -129,7 +129,7 @@ router.get("/:username", ensureLoggedIn, ensureSelfOrAdmin, async function (req,
 router.patch("/:username", ensureLoggedIn, ensureSelfOrAdmin, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, userUpdateSchema);
-    if (!validator.valid) {
+    if(!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }

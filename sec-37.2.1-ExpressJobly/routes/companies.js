@@ -27,7 +27,7 @@ const router = new express.Router();
 router.post("/", ensureLoggedIn, ensureAdmin, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, companyNewSchema);
-    if (!validator.valid) {
+    if(!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }
@@ -105,7 +105,7 @@ router.get("/:handle", async function (req, res, next) {
 router.patch("/:handle", ensureLoggedIn, ensureAdmin, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, companyUpdateSchema);
-    if (!validator.valid) {
+    if(!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
       throw new BadRequestError(errs);
     }

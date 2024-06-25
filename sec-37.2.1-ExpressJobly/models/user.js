@@ -29,10 +29,10 @@ class User {
 
     const user = result.rows[0];
 
-    if (user) {
+    if(user) {
       // compare hashed password to a new hash from password
       const isValid = await bcrypt.compare(password, user.password);
-      if (isValid === true) {
+      if(isValid === true) {
         delete user.password;
         return user;
       }
@@ -55,7 +55,7 @@ class User {
       [username],
     );
 
-    if (duplicateCheck.rows[0]) {
+    if(duplicateCheck.rows[0]) {
       throw new BadRequestError(`Duplicate username: ${username}`);
     }
 
@@ -147,7 +147,7 @@ class User {
 
     const user = result.rows[0];
 
-    if (!user) throw new NotFoundError(`No user: ${username}`);
+    if(!user) throw new NotFoundError(`No user: ${username}`);
     user.jobs = await User.getAppliedJobs(username);
     return user;
   }
@@ -188,7 +188,7 @@ class User {
    */
 
   static async update(username, data) {
-    if (data.password) {
+    if(data.password) {
       data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
     }
 
@@ -214,7 +214,7 @@ class User {
 
     const user = result.rows[0];
 
-    if (!user) throw new NotFoundError(`No user: ${username}`);
+    if(!user) throw new NotFoundError(`No user: ${username}`);
     delete user.password;
     return user;
   }
@@ -231,7 +231,7 @@ class User {
 
     const user = result.rows[0];
 
-    if (!user) throw new NotFoundError(`No user: ${username}`);
+    if(!user) throw new NotFoundError(`No user: ${username}`);
   }
 }
 
