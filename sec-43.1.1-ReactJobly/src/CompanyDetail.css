@@ -1,0 +1,26 @@
+.CompanyDetail {
+  display: flex;
+  list-style-type: none;
+}
+.CompanyDetail .info {
+  background-color: rgba(0,0,0,30%);
+  width: 15em;
+}
+.CompanyDetail .jobs {
+  margin: 1rem;
+}
+.CompanyDetail h3 {
+  text-align: center;
+  margin: 0;
+  padding: .5rem;
+}
+.CompanyDetail p {
+  margin: 0;
+  padding: .5rem;
+}
+.CompanyDetail img {
+  display: block;
+  margin: auto;
+  min-width: 90%;
+  min-height: 8rem;
+}

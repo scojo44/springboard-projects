@@ -1,0 +1,28 @@
+.CompanyCard {
+  background-color: rgba(0,0,0,30%);
+  border-radius: .5rem;
+  margin: .75rem;
+  padding: .5rem;
+  list-style-type: none;
+}
+.CompanyCard .link {
+  display: flex;
+}
+.CompanyCard div {
+  flex: 1;
+}
+.CompanyCard h3 {
+  margin: 0 0 .5rem 0;
+}
+.CompanyCard p {
+  margin: 0;
+}
+.CompanyCard img {
+  min-width: 5rem;
+  min-height: 5rem;
+}
+.CompanyCard a:link,
+.CompanyCard a:visited {
+  color: white;
+  text-decoration: none;
+}

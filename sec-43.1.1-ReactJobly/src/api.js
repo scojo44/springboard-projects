@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
 
 /** API Class.
  *
@@ -10,7 +10,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
  *
  */
 
-class JoblyApi {
+export default class JoblyApi {
   // the token for interactive with the API will be stored here.
   static token;
 
@@ -28,13 +28,26 @@ class JoblyApi {
     try {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
-      console.error("API Error:", err.response);
+      console.error("API Error:", err);
       let message = err.response.data.error.message;
       throw Array.isArray(message) ? message : [message];
     }
   }
 
   // Individual API routes
+
+  /** Get a list of companies.
+   * 
+   * query: Object with search filters:
+   * - nameLike: string to find case-insensitive, partial matches
+   * - minEmployees: number
+   * - maxEmployees: number
+   */
+
+  static async getCompanies(query) {
+    let res = await this.request(`companies`, query);
+    return res.companies;
+  }
 
   /** Get details on a company by handle. */
 

@@ -1,0 +1,23 @@
+.Alert {
+  border-radius: .5rem;
+  margin: .5rem 2rem;
+  padding: .5rem;
+}
+.Alert p {
+  margin: .25rem;
+}
+.Alert.success {
+  color: white;
+  background-color: green;
+}
+.Alert.info {
+  color: white;
+  background-color: blue;
+}
+.Alert.error {
+  color: white;
+  background-color: red;
+}
+.Alert button {
+  padding: .5rem;
+}
