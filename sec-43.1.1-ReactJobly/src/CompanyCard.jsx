@@ -2,7 +2,9 @@ import React from 'react'
 import {Link} from 'react-router-dom';
 import './CompanyCard.css'
 
-export default function CompanyCard({handle, name, description, logoURL}) {
+export default function CompanyCard({company}) {
+  const {handle, name, description, logoURL} = company;
+
   return (
     <li className="CompanyCard">
       <Link to={handle} className="link">

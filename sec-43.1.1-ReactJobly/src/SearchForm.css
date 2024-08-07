@@ -1,0 +1,8 @@
+.SearchForm {
+  display: flex;
+  margin: .5rem auto;
+  width: 60%;
+}
+.SearchForm input {
+  flex: 1;
+}

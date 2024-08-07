@@ -24,7 +24,7 @@ export default function CompanyDetail() {
   }, []);
 
 
-  const {name, description, logoURL} = company;
+  const {name, description, numEmployees, logoURL} = company;
 
   return (
     <section className="CompanyDetail">
@@ -32,6 +32,7 @@ export default function CompanyDetail() {
         <h3>{name}</h3>
         <img src={logoURL} />
         <p>{description}</p>
+        <p>Employees: <span className="detail-value">{numEmployees}</span></p>
       </div>
       <ul className="jobs">
         {error && <Alert type="error" messages={[`Error loading companies: ${error}`]} />}
