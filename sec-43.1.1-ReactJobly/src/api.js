@@ -45,14 +45,14 @@ export default class JoblyApi {
    */
 
   static async getCompanies(query) {
-    let res = await this.request(`companies`, query);
+    let res = await JoblyApi.request(`companies`, query);
     return res.companies;
   }
 
   /** Get details on a company by handle. */
 
   static async getCompany(handle) {
-    let res = await this.request(`companies/${handle}`);
+    let res = await JoblyApi.request(`companies/${handle}`);
     return res.company;
   }
 
