@@ -1,0 +1,28 @@
+.JobCard {
+  background-color: rgba(0,0,0,30%);
+  border-radius: .5rem;
+  margin: .75rem;
+  padding: .5rem;
+  list-style-type: none;
+}
+.JobCard .link {
+  display: flex;
+}
+.JobCard div {
+  flex: 1;
+}
+.JobCard h3 {
+  margin: 0 0 .5rem 0;
+}
+.JobCard p {
+  margin: 0;
+}
+.JobCard img {
+  min-width: 5rem;
+  min-height: 5rem;
+}
+.JobCard a:link,
+.JobCard a:visited {
+  color: white;
+  text-decoration: none;
+}

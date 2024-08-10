@@ -1,0 +1,12 @@
+.JobList {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 0 auto;
+}
+.JobList ul {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+}

@@ -56,7 +56,25 @@ export default class JoblyApi {
     return res.company;
   }
 
-  // obviously, you'll add a lot here ...
+  /** Get a list of jobs.
+   * 
+   * query: Object with search filters:
+   * - titleLike: string to find case-insensitive, partial matches
+   * - salary: number
+   * - equity: float between 0 and 1
+   */
+
+  static async getJobs(query) {
+    let res = await JoblyApi.request(`jobs`, query);
+    return res.jobs;
+  }
+
+  /** Get details on a company by handle. */
+
+  static async getJob(id) {
+    let res = await JoblyApi.request(`jobs/${id}`);
+    return res.job;
+  }
 }
 
 // for now, put token ("testuser" / "password" on class)
