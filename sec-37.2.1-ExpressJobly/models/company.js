@@ -41,7 +41,7 @@ class Company {
   /** Find all companies.
    *
    * filters:  Optional object with the desired filters.  Find companies with...
-   * - name: ...this string in the company name
+   * - nameLike: ...this string in the company name
    * - minEmployees: ...at least this number of employees
    * - maxEmployees: ...at most this number of employees
    * 

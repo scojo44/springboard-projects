@@ -30,7 +30,7 @@ class Job {
   /** Find all jobs.
    *
    * filters:  Optional object with the desired filters.  Find jobs with...
-   * - title: ...this string in the job title
+   * - titleLike: ...this string in the job title
    * - minSalary: ...at least this much salary
    * - hasEquity: ...any amount of equity
    * 
