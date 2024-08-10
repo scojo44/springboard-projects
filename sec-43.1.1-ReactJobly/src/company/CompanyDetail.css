@@ -12,7 +12,7 @@
   margin: 1rem;
   padding: 0;
 }
-.CompanyDetail h3 {
+.CompanyDetail .info h3 {
   text-align: center;
   margin: 0;
   padding: .5rem;

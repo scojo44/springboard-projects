@@ -1,12 +1,12 @@
 import React from 'react'
 import {Routes, Route} from 'react-router-dom'
 import Home from './Home'
-import CompanyList from './CompanyList'
-import CompanyDetail from './CompanyDetail'
-import JobList from './JobList'
-import LoginForm from './LoginForm'
-import SignupForm from './SignupForm'
-import EditProfileForm from './EditProfileForm'
+import CompanyList from './company/CompanyList'
+import CompanyDetail from './company/CompanyDetail'
+import JobList from './job/JobList'
+import LoginForm from './user/LoginForm'
+import SignupForm from './user/SignupForm'
+import EditProfileForm from './user/EditProfileForm'
 
 export default function RoutesList() {
   return (

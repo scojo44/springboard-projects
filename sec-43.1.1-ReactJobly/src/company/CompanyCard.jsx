@@ -12,7 +12,7 @@ export default function CompanyCard({company}) {
           <h3>{name}</h3>
           <p>{description}</p>
         </div>
-        <img src={logoURL} />
+        <img src={logoURL} alt={name + ' Logo'} />
       </Link>
     </li>
   )
