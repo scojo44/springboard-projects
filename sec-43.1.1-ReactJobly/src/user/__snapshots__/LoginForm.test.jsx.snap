@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LoginForm Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  Login here
+</DocumentFragment>
+`;

@@ -1,0 +1,35 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CompanyDetail Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="CompanyDetail"
+  >
+    <div
+      class="info"
+    >
+      <h3>
+        Test Corp.
+      </h3>
+      <img
+        alt="Test Corp. Logo"
+        src="/test-logo.png"
+      />
+      <p>
+        Test Corp is the leading.... yada yada yada
+      </p>
+      <p>
+        Employees: 
+        <span
+          class="detail-value"
+        >
+          5
+        </span>
+      </p>
+    </div>
+    <ul
+      class="jobs"
+    />
+  </section>
+</DocumentFragment>
+`;

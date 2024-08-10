@@ -1,0 +1,50 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NavBar Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <nav
+    class="NavBar"
+  >
+    <a
+      href="/"
+    >
+      Jobly
+    </a>
+    <a
+      class=""
+      href="/companies"
+    >
+      Companies
+    </a>
+    <a
+      class=""
+      href="/jobs"
+    >
+      Jobs
+    </a>
+    <a
+      class=""
+      href="/login"
+    >
+      Log In
+    </a>
+    <a
+      class=""
+      href="/signup"
+    >
+      Sign Up
+    </a>
+    <a
+      class=""
+      href="/profile"
+    >
+      Profile
+    </a>
+    <a
+      href="/"
+    >
+      Log Out
+    </a>
+  </nav>
+</DocumentFragment>
+`;

@@ -1,0 +1,74 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`JobList Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="JobList"
+  >
+    <form
+      class="SearchForm"
+    >
+      <input
+        id="titleLike"
+        name="titleLike"
+        placeholder="Enter search term"
+        type="text"
+        value=""
+      />
+      <button
+        type="button"
+      >
+        Search
+      </button>
+    </form>
+    <ul>
+      <li
+        class="JobCard"
+      >
+        <h3>
+          Test Engineer
+        </h3>
+        <p>
+          Salary: 
+          <span
+            class="detail-value"
+          >
+            200000
+          </span>
+        </p>
+        <p>
+          Equity: 
+          <span
+            class="detail-value"
+          >
+            0.05
+          </span>
+        </p>
+      </li>
+      <li
+        class="JobCard"
+      >
+        <h3>
+          Test Developer
+        </h3>
+        <p>
+          Salary: 
+          <span
+            class="detail-value"
+          >
+            150000
+          </span>
+        </p>
+        <p>
+          Equity: 
+          <span
+            class="detail-value"
+          >
+            0.1
+          </span>
+        </p>
+      </li>
+    </ul>
+  </section>
+</DocumentFragment>
+`;

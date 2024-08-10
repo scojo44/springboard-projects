@@ -1,0 +1,70 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CompanyList Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <section
+    class="CompanyList"
+  >
+    <form
+      class="SearchForm"
+    >
+      <input
+        id="nameLike"
+        name="nameLike"
+        placeholder="Enter search term"
+        type="text"
+        value=""
+      />
+      <button
+        type="button"
+      >
+        Search
+      </button>
+    </form>
+    <ul>
+      <li
+        class="CompanyCard"
+      >
+        <a
+          class="link"
+          href="/test-corp"
+        >
+          <div>
+            <h3>
+              Test Corp.
+            </h3>
+            <p>
+              Test Corp is the leading.... yada yada yada
+            </p>
+          </div>
+          <img
+            alt="Test Corp. Logo"
+            src="/test-corp-logo.png"
+          />
+        </a>
+      </li>
+      <li
+        class="CompanyCard"
+      >
+        <a
+          class="link"
+          href="/test-llc"
+        >
+          <div>
+            <h3>
+              Test LLC
+            </h3>
+            <p>
+              Test LLC is the leading.... blah blah blah
+            </p>
+          </div>
+          <img
+            alt="Test LLC Logo"
+            src="/test-llc-logo.png"
+          />
+        </a>
+      </li>
+    </ul>
+  </section>
+</DocumentFragment>
+`;

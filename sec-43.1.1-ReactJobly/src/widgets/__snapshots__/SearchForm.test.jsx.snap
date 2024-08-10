@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SearchForm Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <form
+    class="SearchForm"
+  >
+    <input
+      id="testfield"
+      name="testfield"
+      placeholder="Enter search term"
+      type="text"
+      value=""
+    />
+    <button
+      type="button"
+    >
+      Search
+    </button>
+  </form>
+</DocumentFragment>
+`;

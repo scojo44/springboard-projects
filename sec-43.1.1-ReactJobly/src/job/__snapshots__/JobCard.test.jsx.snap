@@ -1,0 +1,29 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`JobCard Tests > Matches snapshot 1`] = `
+<DocumentFragment>
+  <li
+    class="JobCard"
+  >
+    <h3>
+      Test Engineer
+    </h3>
+    <p>
+      Salary: 
+      <span
+        class="detail-value"
+      >
+        200000
+      </span>
+    </p>
+    <p>
+      Equity: 
+      <span
+        class="detail-value"
+      >
+        0.05
+      </span>
+    </p>
+  </li>
+</DocumentFragment>
+`;
