@@ -69,7 +69,7 @@ export default class JoblyApi {
     return res.jobs;
   }
 
-  /** Get details on a company by handle. */
+  /** Get details on a job by id. */
 
   static async getJob(id) {
     let res = await JoblyApi.request(`jobs/${id}`);
