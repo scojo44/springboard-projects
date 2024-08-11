@@ -36,6 +36,20 @@ export default class JoblyApi {
 
   // Individual API routes
 
+  /** Login the user. */
+
+  static async login(username, password) {
+    let res = await JoblyApi.request(`auth/token`, {username, password}, 'post');
+    return res.token;
+  }
+
+  /** Sign up the user. */
+
+  static async signup(username, password, firstName, lastName, email) {
+    let res = await JoblyApi.request(`auth/register`, {username, password, firstName, lastName, email}, 'post');
+    return res.token;
+  }
+
   /** Get a list of companies.
    * 
    * query: Object with search filters:

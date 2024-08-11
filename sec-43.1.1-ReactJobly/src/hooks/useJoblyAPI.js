@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react'
  * args: Any arguments to be passed to the API call
  */
 
-export default function useJoblyAPI(apiCall, args) {
+export default function useJoblyAPI(apiCall, ...args) {
   const [data, setData] = useState([]);
   const [params, setParams] = useState(args);
   const [error, setError] = useState('');
@@ -14,7 +14,7 @@ export default function useJoblyAPI(apiCall, args) {
   useEffect(() => {
     async function getData() {
       try {
-        const resp = await apiCall(params);
+        const resp = await apiCall(...params);
         setData(() => resp);
         setError('');
       }
