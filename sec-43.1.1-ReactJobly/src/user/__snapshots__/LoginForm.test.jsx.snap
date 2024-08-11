@@ -2,6 +2,38 @@
 
 exports[`LoginForm Tests > Matches snapshot 1`] = `
 <DocumentFragment>
-  Login here
+  <form
+    class="LoginForm"
+  >
+    <h2>
+      Log In
+    </h2>
+    <p>
+      <label
+        for="username"
+      >
+        Username: 
+      </label>
+      <input
+        name="username"
+      />
+    </p>
+    <p>
+      <label
+        for="password"
+      >
+        Password: 
+      </label>
+      <input
+        name="password"
+        type="password"
+      />
+    </p>
+    <button
+      type="submit"
+    >
+      Log In
+    </button>
+  </form>
 </DocumentFragment>
 `;
