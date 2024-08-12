@@ -12,7 +12,7 @@ export default function SearchForm({fieldName, returnQuery}) {
       <input type="text" id={fieldName} name={fieldName} placeholder="Enter search term" onChange={handleChange} value={search[fieldName]} />
       <button type="button">Search</button>
     </form>
-  )
+  );
 
   function handleSubmit(e) {
     e.preventDefault();

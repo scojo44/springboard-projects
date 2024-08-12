@@ -1,16 +1,10 @@
 import React, {useState} from 'react'
-import {Routes, Route, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import JoblyApi from './api'
 import CurrentUserContext from './CurrentUserContext'
 import NavBar from './widgets/NavBar'
 import Alert from './widgets/Alert'
-import Home from './Home'
-import CompanyList from './company/CompanyList'
-import CompanyDetail from './company/CompanyDetail'
-import JobList from './job/JobList'
-import LoginForm from './user/LoginForm'
-import SignupForm from './user/SignupForm'
-import EditProfileForm from './user/EditProfileForm'
+import AppRoutes from './AppRoutes'
 import './App.css'
 
 export default function App() {
@@ -24,15 +18,7 @@ export default function App() {
       <NavBar logout={logout} />
       {alerts && <Alert alerts={alerts} dismiss={dismissAlert} />}
       <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/companies" element={<CompanyList />} />
-          <Route path="/companies/:handle" element={<CompanyDetail />} />
-          <Route path="/jobs" element={<JobList />} />
-          <Route path="/login" element={<LoginForm login={login} />} />
-          <Route path="/signup" element={<SignupForm signup={signup} />} />
-          <Route path="/profile" element={<EditProfileForm />} />
-        </Routes>
+        <AppRoutes login={login} signup={signup} />
       </main>
     </CurrentUserContext.Provider>
   );

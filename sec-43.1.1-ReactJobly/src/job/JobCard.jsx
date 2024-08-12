@@ -11,5 +11,5 @@ export default function JobCard({job}) {
       <p>Salary: <span className="detail-value">{salary}</span></p>
       <p>Equity: <span className="detail-value">{equity}</span></p>
     </li>
-  )
+  );
 }

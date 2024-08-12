@@ -15,5 +15,5 @@ export default function CompanyCard({company}) {
         <img src={logoURL} alt={name + ' Logo'} />
       </Link>
     </li>
-  )
+  );
 }
