@@ -1,23 +1,28 @@
 .Alert {
-  border-radius: .5rem;
   margin: .5rem 2rem;
-  padding: .5rem;
 }
 .Alert p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: .5rem;
   margin: .25rem;
+  padding: .5rem;
 }
-.Alert.success {
+.Alert .success {
   color: white;
-  background-color: green;
+  background-color: darkgreen;
 }
-.Alert.info {
+.Alert .info {
   color: white;
-  background-color: blue;
+  background-color: darkblue;
 }
-.Alert.error {
+.Alert .error {
   color: white;
-  background-color: red;
+  background-color: maroon;
 }
 .Alert button {
-  padding: .5rem;
+  background-color: rgba(0,0,0,10%); 
+  border: none;
+  /* padding: .5rem; */
 }
