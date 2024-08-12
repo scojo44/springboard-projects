@@ -6,7 +6,7 @@
 main {
   display: flex;
   flex: 1;
-  max-height: calc(100vh - 3rem);
+  max-height: calc(100vh - 4rem);
 }
 .detail-value {
   font-weight: bold;

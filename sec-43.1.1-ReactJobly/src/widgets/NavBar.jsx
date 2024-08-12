@@ -1,22 +1,28 @@
-import React, { useState } from 'react'
+import React, {useContext} from 'react'
 import {Link, NavLink} from 'react-router-dom'
+import CurrentUserContext from '../CurrentUserContext';
 import './NavBar.css'
-import Alert from './Alert';
 
-export default function NavBar() {
-  const [loggedOut, setLoggedOut] = useState(false);
+export default function NavBar({logout}) {
+  const user = useContext(CurrentUserContext);
+
   return (
     <>
     <nav className="NavBar">
       <Link to="/">Jobly</Link>
       <NavLink to="/companies">Companies</NavLink>
       <NavLink to="/jobs">Jobs</NavLink>
-      <NavLink to="/login">Log In</NavLink>
-      <NavLink to="/signup">Sign Up</NavLink>
-      <NavLink to="/profile">Profile</NavLink>
-      <Link onClick={() => setLoggedOut(true)}>Log Out</Link>
+      {user
+        ? <>
+            <NavLink to="/profile">Profile</NavLink>
+            <Link onClick={logout}>Log Out</Link>
+          </>
+        : <>
+            <NavLink to="/signup">Sign Up</NavLink>
+            <NavLink to="/login">Log In</NavLink>
+          </>
+      }
     </nav>
-    {loggedOut && <Alert type="success" messages={['Logout Clicked!']} />}
     </>
-  )
+  );
 }

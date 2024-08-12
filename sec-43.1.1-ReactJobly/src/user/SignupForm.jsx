@@ -1,19 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {useForm} from 'react-hook-form'
-import {useNavigate} from 'react-router-dom'
-import JoblyApi from '../api'
-import Alert from '../widgets/Alert'
 // import './SignupForm.css'
 
-export default function SignupForm() {
+export default function SignupForm({signup}) {
   const {register, handleSubmit, formState: {errors}} = useForm();
-  const [signupError, setSignupError] = useState();
-  const navigate = useNavigate();
 
   return (
-    <form className="SignupForm" onSubmit={handleSubmit(registerUser)}>
+    <form className="SignupForm" onSubmit={handleSubmit(async newUser => signup(newUser))}>
       <h2>Sign Up</h2>
-
       <p>
         <label htmlFor="username">Username: </label>
         <input {...register("username", {required: 'Please enter your username'})} />
@@ -39,21 +33,7 @@ export default function SignupForm() {
         <input type="email" {...register("email", {required: 'Please enter your email address', pattern: /.+@[a-z0-9-]+/i})} />
         {errors.email && <span className="input-error">{errors.email.message}</span>}
       </p>
-
       <button type="submit">Sign Up</button>
-
-      {signupError && <Alert type="error" messages={[`Error logging in: ${signupError}`]} />}
     </form>
-  )
-
-  async function registerUser({username, password, firstName, lastName, email}) {
-    try {
-      const token = await JoblyApi.signup(username, password, firstName, lastName, email);
-      setSignupError(null);
-      navigate('/');
-    }
-    catch(e) {
-      setSignupError(e);
-    }
-  }
+  );
 }

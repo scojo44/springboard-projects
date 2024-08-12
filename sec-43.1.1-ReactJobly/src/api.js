@@ -36,17 +36,25 @@ export default class JoblyApi {
 
   // Individual API routes
 
-  /** Login the user. */
+  /** Login the user.
+   * 
+   * credentials: {username, password}
+   */
 
-  static async login(username, password) {
-    let res = await JoblyApi.request(`auth/token`, {username, password}, 'post');
+  static async login(credentials) {
+    const res = await JoblyApi.request(`auth/token`, credentials, 'post');
+    JoblyApi.token = res.token;
     return res.token;
   }
 
-  /** Sign up the user. */
+  /** Register the new user.
+   * 
+   * newUser: {username, password, firstName, lastName, email}
+   */
 
-  static async signup(username, password, firstName, lastName, email) {
-    let res = await JoblyApi.request(`auth/register`, {username, password, firstName, lastName, email}, 'post');
+  static async signup(newUser) {
+    const res = await JoblyApi.request(`auth/register`, newUser, 'post');
+    JoblyApi.token = res.token;
     return res.token;
   }
 
@@ -90,8 +98,3 @@ export default class JoblyApi {
     return res.job;
   }
 }
-
-// for now, put token ("testuser" / "password" on class)
-JoblyApi.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
-    "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
-    "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
