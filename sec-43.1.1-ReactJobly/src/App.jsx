@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {jwtDecode} from 'jwt-decode'
 import JoblyApi from './api'
+import useLocalStorageState from './hooks/useLocalStorageState'
 import CurrentUserContext from './CurrentUserContext'
 import NavBar from './widgets/NavBar'
 import Alert from './widgets/Alert'
@@ -11,7 +12,7 @@ import './App.css'
 export default function App() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState();
-  const [userToken, setUserToken] = useState();
+  const [userToken, setUserToken] = useLocalStorageState('43.1.1-JoblyUserToken');
   const [alerts, setAlerts] = useState([]);
 
   useEffect(() => {
