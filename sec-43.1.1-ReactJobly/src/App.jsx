@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
+import {jwtDecode} from 'jwt-decode'
 import JoblyApi from './api'
 import CurrentUserContext from './CurrentUserContext'
 import NavBar from './widgets/NavBar'
@@ -13,8 +14,20 @@ export default function App() {
   const [userToken, setUserToken] = useState();
   const [alerts, setAlerts] = useState([]);
 
+  useEffect(() => {
+    async function updateCurrentUser() {
+      const {username} = jwtDecode(userToken);
+
+      JoblyApi.token = userToken;
+      const user = await JoblyApi.getUser(username);
+      setCurrentUser(user);
+    }
+
+    userToken? updateCurrentUser() : setCurrentUser(null);
+  }, [userToken]);
+
   return (
-    <CurrentUserContext.Provider value={userToken}>
+    <CurrentUserContext.Provider value={currentUser}>
       <NavBar logout={logout} />
       {alerts && <Alert alerts={alerts} dismiss={dismissAlert} />}
       <main>
@@ -26,12 +39,7 @@ export default function App() {
   /** signup: Register a new user */
 
   async function signup(newUser) {
-    try {
-      const token = await JoblyApi.signup(newUser);
-      setAlerts([]);
-      setUserToken(token);
-      navigate('/');
-    }
+    try { processUserToken(await JoblyApi.signup(newUser)); }
     catch(e) {
       showAlert('error', 'Registration failed: ' + e);
     }
@@ -40,15 +48,16 @@ export default function App() {
   /** login: Log in the user */
 
   async function login(credentials) {
-    try {
-      const token = await JoblyApi.login(credentials);
-      setAlerts([]);
-      setUserToken(token);
-      navigate('/');
-    }
+    try { processUserToken(await JoblyApi.login(credentials)); }
     catch(e) {
       showAlert('error', 'Login failed: ' + e);
     }
+  }
+
+  async function processUserToken(token) {
+    setAlerts([]);
+    setUserToken(token);
+    navigate('/');
   }
 
   /** logout: Log out the user */

@@ -8,7 +8,7 @@ import LoginForm from './user/LoginForm'
 import SignupForm from './user/SignupForm'
 import EditProfileForm from './user/EditProfileForm'
 
-export default function RoutesList({login, signup}) {
+export default function AppRoutes({login, signup}) {
   return (
     <Routes>
       <Route path="/" element={<Home />} />

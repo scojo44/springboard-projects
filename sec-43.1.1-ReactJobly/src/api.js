@@ -67,14 +67,14 @@ export default class JoblyApi {
    */
 
   static async getCompanies(query) {
-    let res = await JoblyApi.request(`companies`, query);
+    const res = await JoblyApi.request(`companies`, query);
     return res.companies;
   }
 
   /** Get details on a company by handle. */
 
   static async getCompany(handle) {
-    let res = await JoblyApi.request(`companies/${handle}`);
+    const res = await JoblyApi.request(`companies/${handle}`);
     return res.company;
   }
 
@@ -87,14 +87,21 @@ export default class JoblyApi {
    */
 
   static async getJobs(query) {
-    let res = await JoblyApi.request(`jobs`, query);
+    const res = await JoblyApi.request(`jobs`, query);
     return res.jobs;
   }
 
   /** Get details on a job by id. */
 
   static async getJob(id) {
-    let res = await JoblyApi.request(`jobs/${id}`);
+    const res = await JoblyApi.request(`jobs/${id}`);
     return res.job;
+  }
+
+  /** Get details on a user by username. */
+
+  static async getUser(username) {
+    const res = await JoblyApi.request(`users/${username}`);
+    return res.user;
   }
 }

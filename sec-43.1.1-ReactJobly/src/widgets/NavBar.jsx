@@ -16,6 +16,7 @@ export default function NavBar({logout}) {
         ? <>
             <NavLink to="/profile">Profile</NavLink>
             <Link onClick={logout}>Log Out</Link>
+            <span>{user.username}</span>
           </>
         : <>
             <NavLink to="/signup">Sign Up</NavLink>
