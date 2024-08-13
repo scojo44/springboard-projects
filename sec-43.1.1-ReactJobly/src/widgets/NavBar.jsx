@@ -10,10 +10,10 @@ export default function NavBar({logout}) {
     <>
     <nav className="NavBar">
       <Link to="/">Jobly</Link>
-      <NavLink to="/companies">Companies</NavLink>
-      <NavLink to="/jobs">Jobs</NavLink>
       {user
         ? <>
+            <NavLink to="/companies">Companies</NavLink>
+            <NavLink to="/jobs">Jobs</NavLink>
             <NavLink to="/profile">Profile</NavLink>
             <Link onClick={logout}>Log Out</Link>
             <span>{user.username}</span>

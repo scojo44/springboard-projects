@@ -1,5 +1,6 @@
 import React from 'react'
 import {Routes, Route} from 'react-router-dom'
+import UserRoutes from './UserRoutes'
 import Home from './Home'
 import CompanyList from './company/CompanyList'
 import CompanyDetail from './company/CompanyDetail'
@@ -12,12 +13,14 @@ export default function AppRoutes({login, signup}) {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/companies" element={<CompanyList />} />
-      <Route path="/companies/:handle" element={<CompanyDetail />} />
-      <Route path="/jobs" element={<JobList />} />
       <Route path="/login" element={<LoginForm login={login} />} />
       <Route path="/signup" element={<SignupForm signup={signup} />} />
-      <Route path="/profile" element={<EditProfileForm />} />
+      <Route element={<UserRoutes />}>
+        <Route path="/companies" element={<CompanyList />} />
+        <Route path="/companies/:handle" element={<CompanyDetail />} />
+        <Route path="/jobs" element={<JobList />} />
+        <Route path="/profile" element={<EditProfileForm />} />
+      </Route>
     </Routes>
   );
 }
