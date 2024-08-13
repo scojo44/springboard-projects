@@ -43,7 +43,6 @@ export default class JoblyApi {
 
   static async login(credentials) {
     const res = await JoblyApi.request(`auth/token`, credentials, 'post');
-    JoblyApi.token = res.token;
     return res.token;
   }
 
@@ -54,8 +53,18 @@ export default class JoblyApi {
 
   static async signup(newUser) {
     const res = await JoblyApi.request(`auth/register`, newUser, 'post');
-    JoblyApi.token = res.token;
     return res.token;
+  }
+
+  /** Register the new user.
+   * 
+   * newUser: {username, password, firstName, lastName, email}
+   */
+
+  static async updateUser(user) {
+    const {username, ...userInfo} = user;
+    const res = await JoblyApi.request(`users/${username}`, userInfo, 'patch');
+    return res.user;
   }
 
   /** Get a list of companies.

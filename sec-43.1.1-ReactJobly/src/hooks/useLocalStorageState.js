@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 
 const useLocalStorageState = (key, initialState = []) => {
-    const savedState = localStorage.getItem(key);
+  const savedState = localStorage.getItem(key);
 
-    try {
-      if(savedState)
-        initialState = JSON.parse(savedState);
-    }
-    catch(error) {}
+  try {
+    if(savedState)
+      initialState = JSON.parse(savedState);
+  }
+  catch(error) {}
 
   const [state, setState] = useState(initialState);
 

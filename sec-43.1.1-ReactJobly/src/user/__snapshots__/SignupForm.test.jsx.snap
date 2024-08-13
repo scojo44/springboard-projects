@@ -31,6 +31,17 @@ exports[`SignupForm Tests > Matches snapshot 1`] = `
     </p>
     <p>
       <label
+        for="confirm"
+      >
+        Confirm Password: 
+      </label>
+      <input
+        name="confirm"
+        type="password"
+      />
+    </p>
+    <p>
+      <label
         for="firstName"
       >
         First Name: 

@@ -1,26 +1,34 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {useForm} from 'react-hook-form'
-// import './SignupForm.css'
+import CurrentUserContext from '../CurrentUserContext'
+// import './ProfileForm.css'
 
-export default function SignupForm({signup}) {
-  const {register, handleSubmit, formState: {errors}} = useForm();
+export default function ProfileForm({update}) {
+  const user = useContext(CurrentUserContext);
+  const {register, handleSubmit, formState: {errors}} = useForm({
+    defaultValues: {
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email
+    }
+  });
 
   return (
-    <form className="SignupForm" onSubmit={handleSubmit(async newUser => signup(newUser))}>
-      <h2>Sign Up</h2>
+    <form className="ProfileForm" onSubmit={handleSubmit(async credentials => await update(credentials))}>
+      <h2>Edit Profile</h2>
       <p>
         <label htmlFor="username">Username: </label>
-        <input {...register("username", {required: 'Please enter your username'})} />
-        {errors.username && <span className="input-error"> {errors.username.message}</span>}
+        <input readOnly {...register("username")} />
       </p>
       <p>
         <label htmlFor="password">Password: </label>
-        <input type="password" {...register("password", {required: 'Please choose a secure password'})} />
+        <input type="password" {...register("password")} />
         {errors.password && <span className="input-error"> {errors.password.message}</span>}
       </p>
       <p>
         <label htmlFor="confirm">Confirm Password: </label>
-        <input type="password" {...register("confirm", {required: true, validate: (cp, values) => cp === values.password || 'Your passwords do not match'})} />
+        <input type="password" {...register("confirm", {validate: (cp, values) => cp === values.password || 'Your passwords do not match'})} />
         {errors.confirm && <span className="input-error"> {errors.confirm.message}</span>}
       </p>
       <p>
@@ -38,7 +46,7 @@ export default function SignupForm({signup}) {
         <input type="email" {...register("email", {required: 'Please enter your email address', pattern: /.+@[a-z0-9-]+/i})} />
         {errors.email && <span className="input-error"> {errors.email.message}</span>}
       </p>
-      <button type="submit">Sign Up</button>
+      <button type="submit">Save</button>
     </form>
   );
 }

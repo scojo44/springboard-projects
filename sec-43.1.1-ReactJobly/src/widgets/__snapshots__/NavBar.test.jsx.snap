@@ -12,38 +12,15 @@ exports[`NavBar Tests > Matches snapshot 1`] = `
     </a>
     <a
       class=""
-      href="/companies"
-    >
-      Companies
-    </a>
-    <a
-      class=""
-      href="/jobs"
-    >
-      Jobs
-    </a>
-    <a
-      class=""
-      href="/login"
-    >
-      Log In
-    </a>
-    <a
-      class=""
       href="/signup"
     >
       Sign Up
     </a>
     <a
       class=""
-      href="/profile"
+      href="/login"
     >
-      Profile
-    </a>
-    <a
-      href="/"
-    >
-      Log Out
+      Log In
     </a>
   </nav>
 </DocumentFragment>

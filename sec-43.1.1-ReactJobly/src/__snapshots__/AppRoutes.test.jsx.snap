@@ -2,6 +2,12 @@
 
 exports[`AppRoutes Tests > Matches snapshot 1`] = `
 <DocumentFragment>
-  Welcome!
+  <section
+    class="Home"
+  >
+    <h2>
+      Welcome, guest!
+    </h2>
+  </section>
 </DocumentFragment>
 `;

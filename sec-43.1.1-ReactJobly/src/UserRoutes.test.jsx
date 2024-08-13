@@ -1,12 +1,12 @@
 import {render} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
-import EditProfileForm from './EditProfileForm';
+import UserRoutes from './UserRoutes';
 
-describe('EditProfileForm Tests', () => {
+describe('UserRoutes Tests', () => {
   it('Renders without crashing', () => {
     render(
       <MemoryRouter>
-        <EditProfileForm />
+        <UserRoutes />
       </MemoryRouter>
     );
   });
@@ -14,10 +14,11 @@ describe('EditProfileForm Tests', () => {
   it('Matches snapshot', () => {
     const {asFragment} = render(
       <MemoryRouter>
-        <EditProfileForm />
+        <UserRoutes />
       </MemoryRouter>
     );
 
     expect(asFragment()).toMatchSnapshot();
   });
 });
+  

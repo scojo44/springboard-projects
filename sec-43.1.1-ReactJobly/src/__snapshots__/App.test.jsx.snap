@@ -12,15 +12,9 @@ exports[`App Tests > Matches snapshot 1`] = `
     </a>
     <a
       class=""
-      href="/companies"
+      href="/signup"
     >
-      Companies
-    </a>
-    <a
-      class=""
-      href="/jobs"
-    >
-      Jobs
+      Sign Up
     </a>
     <a
       class=""
@@ -28,26 +22,18 @@ exports[`App Tests > Matches snapshot 1`] = `
     >
       Log In
     </a>
-    <a
-      class=""
-      href="/signup"
-    >
-      Sign Up
-    </a>
-    <a
-      class=""
-      href="/profile"
-    >
-      Profile
-    </a>
-    <a
-      href="/"
-    >
-      Log Out
-    </a>
   </nav>
+  <aside
+    class="Alert"
+  />
   <main>
-    Welcome!
+    <section
+      class="Home"
+    >
+      <h2>
+        Welcome, guest!
+      </h2>
+    </section>
   </main>
 </DocumentFragment>
 `;

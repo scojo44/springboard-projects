@@ -32,7 +32,7 @@ export default function App() {
       <NavBar logout={logout} />
       {alerts && <Alert alerts={alerts} dismiss={dismissAlert} />}
       <main>
-        <AppRoutes login={login} signup={signup} />
+        <AppRoutes login={login} signup={signup} updateUser={updateUser} />
       </main>
     </CurrentUserContext.Provider>
   );
@@ -52,6 +52,24 @@ export default function App() {
     try { processUserToken(await JoblyApi.login(credentials)); }
     catch(e) {
       showAlert('error', 'Login failed: ' + e);
+    }
+  }
+
+  /** updateUser: Register a new user */
+
+  async function updateUser(user) {
+    // Remove passwords if not changing
+    if(!user.password) delete user.password;
+    delete user.confirm;
+
+    try {
+      const updated = await JoblyApi.updateUser(user);
+      setAlerts([]);
+      showAlert('success', 'Your profile was updated')
+      setCurrentUser(updated);
+    }
+    catch(e) {
+      showAlert('error', 'Update profile failed: ' + e);
     }
   }
 

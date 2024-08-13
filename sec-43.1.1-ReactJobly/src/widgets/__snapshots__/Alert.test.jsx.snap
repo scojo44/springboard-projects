@@ -3,11 +3,7 @@
 exports[`Alert Tests > Matches snapshot 1`] = `
 <DocumentFragment>
   <aside
-    class="Alert success"
-  >
-    <p>
-      test alert
-    </p>
-  </aside>
+    class="Alert"
+  />
 </DocumentFragment>
 `;

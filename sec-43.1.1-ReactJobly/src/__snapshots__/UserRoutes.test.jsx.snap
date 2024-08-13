@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Home Tests > Matches snapshot 1`] = `
+exports[`AppRoutes Tests > Matches snapshot 1`] = `
 <DocumentFragment>
   <section
     class="Home"
@@ -11,3 +11,5 @@ exports[`Home Tests > Matches snapshot 1`] = `
   </section>
 </DocumentFragment>
 `;
+
+exports[`UserRoutes Tests > Matches snapshot 1`] = `<DocumentFragment />`;

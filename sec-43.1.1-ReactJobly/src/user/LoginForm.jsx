@@ -10,13 +10,13 @@ export default function LoginForm({login}) {
       <h2>Log In</h2>
       <p>
         <label htmlFor="username">Username: </label>
-        <input {...register("username", {required: true})} />
-        {errors.usernameRequired && <span className="input-error">Please enter your username</span>}
+        <input {...register("username", {required: 'Please enter your username'})} />
+        {errors.username && <span className="input-error"> {errors.username.message}</span>}
       </p>
       <p>
         <label htmlFor="password">Password: </label>
-        <input type="password" {...register("password", {required: true})} />
-        {errors.passwordRequired && <span className="input-error">Please enter your password</span>}
+        <input type="password" {...register("password", {required: 'Please enter your password'})} />
+        {errors.password && <span className="input-error"> {errors.password.message}</span>}
       </p>
       <button type="submit">Log In</button>
     </form>

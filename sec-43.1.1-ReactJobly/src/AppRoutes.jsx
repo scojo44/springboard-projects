@@ -7,9 +7,9 @@ import CompanyDetail from './company/CompanyDetail'
 import JobList from './job/JobList'
 import LoginForm from './user/LoginForm'
 import SignupForm from './user/SignupForm'
-import EditProfileForm from './user/EditProfileForm'
+import ProfileForm from './user/ProfileForm'
 
-export default function AppRoutes({login, signup}) {
+export default function AppRoutes({login, signup, updateUser}) {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -19,7 +19,7 @@ export default function AppRoutes({login, signup}) {
         <Route path="/companies" element={<CompanyList />} />
         <Route path="/companies/:handle" element={<CompanyDetail />} />
         <Route path="/jobs" element={<JobList />} />
-        <Route path="/profile" element={<EditProfileForm />} />
+        <Route path="/profile" element={<ProfileForm update={updateUser} />} />
       </Route>
     </Routes>
   );
