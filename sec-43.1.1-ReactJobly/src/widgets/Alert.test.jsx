@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
-import Alert from './Alert';
+import Alert from './Alert'
 
 describe('Alert Tests', () => {
   it('Renders without crashing', () => {

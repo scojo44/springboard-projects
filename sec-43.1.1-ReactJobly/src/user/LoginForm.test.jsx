@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
-import LoginForm from './LoginForm';
+import LoginForm from './LoginForm'
 
 describe('LoginForm Tests', () => {
   it('Renders without crashing', () => {

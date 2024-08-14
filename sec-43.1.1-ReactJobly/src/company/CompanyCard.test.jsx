@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
-import CompanyCard from './CompanyCard';
+import CompanyCard from './CompanyCard'
 
 const TEST_COMPANY = {
   handle: 'test-corp',

@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
-import SearchForm from './SearchForm';
+import SearchForm from './SearchForm'
 
 describe('SearchForm Tests', () => {
   it('Renders without crashing', () => {
