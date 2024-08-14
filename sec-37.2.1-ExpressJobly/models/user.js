@@ -90,7 +90,7 @@ class User {
     const job = await Job.get(jobID);
     const user = await User.get(username);
 
-    if(user.jobs.map(j => j.id).includes(jobID))
+    if(user.jobs.some(j => j.id === jobID))
       throw new BadRequestError(`${username} has already applied to job #${jobID}`, 400);
 
     const result = await db.query(
