@@ -113,4 +113,11 @@ export default class JoblyApi {
     const res = await JoblyApi.request(`users/${username}`);
     return res.user;
   }
+
+  /** Add a job to a user's applied jobs. */
+
+  static async applyToJob(username, jobID) {
+    const res = await JoblyApi.request(`users/${username}/jobs`, {jobID}, 'post');
+    return res.applied;
+  }
 }

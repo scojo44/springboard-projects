@@ -1,16 +1,16 @@
 import React, {useContext} from 'react'
 import {useForm} from 'react-hook-form'
-import CurrentUserContext from '../CurrentUserContext'
+import UserContext from '../UserContext'
 // import './ProfileForm.css'
 
 export default function ProfileForm({update}) {
-  const user = useContext(CurrentUserContext);
+  const {currentUser} = useContext(UserContext);
   const {register, handleSubmit, formState: {errors}} = useForm({
     defaultValues: {
-      username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email
+      username: currentUser.username,
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      email: currentUser.email
     }
   });
 
@@ -22,13 +22,15 @@ export default function ProfileForm({update}) {
         <input readOnly {...register("username")} />
       </p>
       <p>
-        <label htmlFor="password">Password: </label>
-        <input type="password" {...register("password")} />
+        <label htmlFor="password">New Password (leave blank to not change): </label>
+        <input type="password" autoComplete="new-password" {...register("password")} />
         {errors.password && <span className="input-error"> {errors.password.message}</span>}
       </p>
       <p>
-        <label htmlFor="confirm">Confirm Password: </label>
-        <input type="password" {...register("confirm", {validate: (cp, values) => cp === values.password || 'Your passwords do not match'})} />
+        <label htmlFor="confirm">Confirm New Password: </label>
+        <input type="password" autoComplete="new-password"
+          {...register("confirm", {validate: (cp, values) => cp === values.password || 'Passwords do not match'})}
+        />
         {errors.confirm && <span className="input-error"> {errors.confirm.message}</span>}
       </p>
       <p>

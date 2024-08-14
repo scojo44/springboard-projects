@@ -12,16 +12,30 @@ exports[`NavBar Tests > Matches snapshot 1`] = `
     </a>
     <a
       class=""
-      href="/signup"
+      href="/companies"
     >
-      Sign Up
+      Companies
     </a>
     <a
       class=""
-      href="/login"
+      href="/jobs"
     >
-      Log In
+      Jobs
     </a>
+    <a
+      class=""
+      href="/profile"
+    >
+      Profile
+    </a>
+    <a
+      href="/"
+    >
+      Log Out
+    </a>
+    <span>
+      testUser
+    </span>
   </nav>
 </DocumentFragment>
 `;

@@ -25,48 +25,67 @@ exports[`JobList Tests > Matches snapshot 1`] = `
       <li
         class="JobCard"
       >
-        <h3>
-          Test Engineer
-        </h3>
-        <p>
-          Salary: 
-          <span
-            class="detail-value"
+        <div>
+          <h3>
+            Test Engineer
+          </h3>
+          <p>
+            Salary: 
+            <span
+              class="detail-value"
+            >
+              200000
+            </span>
+          </p>
+          <p>
+            Equity: 
+            <span
+              class="detail-value"
+            >
+              0.05
+            </span>
+          </p>
+        </div>
+        <div>
+          <button
+            disabled=""
+            type="button"
           >
-            200000
-          </span>
-        </p>
-        <p>
-          Equity: 
-          <span
-            class="detail-value"
-          >
-            0.05
-          </span>
-        </p>
+            Applied
+          </button>
+        </div>
       </li>
       <li
         class="JobCard"
       >
-        <h3>
-          Test Developer
-        </h3>
-        <p>
-          Salary: 
-          <span
-            class="detail-value"
+        <div>
+          <h3>
+            Test Developer
+          </h3>
+          <p>
+            Salary: 
+            <span
+              class="detail-value"
+            >
+              150000
+            </span>
+          </p>
+          <p>
+            Equity: 
+            <span
+              class="detail-value"
+            >
+              0.1
+            </span>
+          </p>
+        </div>
+        <div>
+          <button
+            type="button"
           >
-            150000
-          </span>
-        </p>
-        <p>
-          Equity: 
-          <span
-            class="detail-value"
-          >
-            0.1
-          </span>
-        </p>
+            Apply
+          </button>
+        </div>
       </li>
     </ul>
   </section>

@@ -1,7 +1,20 @@
 import {render, waitForElementToBeRemoved} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
 import JoblyApi from '../api'
+import UserContext from '../UserContext'
 import JobList from './JobList'
+
+const context = {
+  appliedJobIDs: new Set([1]),
+  applyToJob: vi.fn(),
+  currentUser: {
+    username: 'testuser',
+    firstName: 'First',
+    lastname: 'Last',
+    email: 'first@last.test',
+    jobs: []
+  }
+};
 
 const TEST_JOBS = [{
   id: 1,
@@ -25,7 +38,9 @@ describe('JobList Tests', () => {
   it('Renders without crashing', async () => {
     const {getByText} = render(
       <MemoryRouter>
-        <JobList />
+        <UserContext.Provider value={context}>
+          <JobList />
+        </UserContext.Provider>
       </MemoryRouter>
     );
 
@@ -35,7 +50,9 @@ describe('JobList Tests', () => {
   it('Matches snapshot', async () => {
     const {asFragment, getByText} = render(
       <MemoryRouter>
-        <JobList />
+        <UserContext.Provider value={context}>
+          <JobList />
+        </UserContext.Provider>
       </MemoryRouter>
     );
 
@@ -46,7 +63,9 @@ describe('JobList Tests', () => {
   it('Lists some jobs', async () => {
     const {getByText} = render(
       <MemoryRouter>
-        <JobList />
+        <UserContext.Provider value={context}>
+          <JobList />
+        </UserContext.Provider>
       </MemoryRouter>
     );
 

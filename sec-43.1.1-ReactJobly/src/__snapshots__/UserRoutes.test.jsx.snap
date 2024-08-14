@@ -1,15 +1,3 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AppRoutes Tests > Matches snapshot 1`] = `
-<DocumentFragment>
-  <section
-    class="Home"
-  >
-    <h2>
-      Welcome, guest!
-    </h2>
-  </section>
-</DocumentFragment>
-`;
-
 exports[`UserRoutes Tests > Matches snapshot 1`] = `<DocumentFragment />`;

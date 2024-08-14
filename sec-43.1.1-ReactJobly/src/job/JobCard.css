@@ -1,9 +1,17 @@
 .JobCard {
+  display: flex;
   background-color: rgba(0,0,0,30%);
   border-radius: .5rem;
   margin: .75rem;
   padding: .5rem;
   list-style-type: none;
+}
+.JobCard div:first-child {
+  flex: 1;
+}
+.JobCard div:last-child {
+  flex: 0;
+  align-self: center;
 }
 .JobCard .link {
   display: flex;
@@ -25,4 +33,19 @@
 .JobCard a:visited {
   color: white;
   text-decoration: none;
+}
+.JobCard button {
+  color: white;
+  background-color: indigo;
+  font-weight: bold;
+  margin-right: 2em;
+  padding: .5rem .5rem;
+  border-color: indigo;
+  border-radius: .4rem;
+  width: 6em;
+}
+.JobCard button:disabled {
+  color: lightgray;
+  background-color: darkslateblue;
+  border-color: darkslateblue;
 }

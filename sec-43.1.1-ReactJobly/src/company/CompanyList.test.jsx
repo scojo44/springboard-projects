@@ -1,8 +1,20 @@
 import {render, waitForElementToBeRemoved} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
 import JoblyApi from '../api'
+import UserContext from '../UserContext'
 import CompanyList from './CompanyList'
 
+const context = {
+  appliedJobIDs: new Set([1]),
+  applyToJob: vi.fn(),
+  currentUser: {
+    username: 'testuser',
+    firstName: 'First',
+    lastname: 'Last',
+    email: 'first@last.test',
+    jobs: []
+  }
+};
 const TEST_COMPANIES = [{
   handle: 'test-corp',
   name: 'Test Corp.',
@@ -27,7 +39,9 @@ describe('CompanyList Tests', () => {
   it('Renders without crashing', async () => {
     const {getByText} = render(
       <MemoryRouter>
-        <CompanyList />
+        <UserContext.Provider value={context}>
+          <CompanyList />
+        </UserContext.Provider>
       </MemoryRouter>
     );
 
@@ -37,7 +51,9 @@ describe('CompanyList Tests', () => {
   it('Matches snapshot', async () => {
     const {asFragment, getByText} = render(
       <MemoryRouter>
-        <CompanyList />
+        <UserContext.Provider value={context}>
+          <CompanyList />
+        </UserContext.Provider>
       </MemoryRouter>
     );
 
@@ -48,7 +64,9 @@ describe('CompanyList Tests', () => {
   it('Lists some companies', async () => {
     const {getByText} = render(
       <MemoryRouter>
-        <CompanyList />
+        <UserContext.Provider value={context}>
+          <CompanyList />
+        </UserContext.Provider>
       </MemoryRouter>
     );
 

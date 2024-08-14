@@ -1,12 +1,19 @@
 import {render} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
-import NavBar from './NavBar';
+import UserContext from '../UserContext'
+import NavBar from './NavBar'
+
+const context = {
+  currentUser: {username: 'testUser'}
+};
 
 describe('NavBar Tests', () => {
   it('Renders without crashing', () => {
     render(
       <MemoryRouter>
-        <NavBar />
+        <UserContext.Provider value={context}>
+          <NavBar />
+        </UserContext.Provider>
       </MemoryRouter>
     );
   });
@@ -14,7 +21,9 @@ describe('NavBar Tests', () => {
   it('Matches snapshot', () => {
     const {asFragment} = render(
       <MemoryRouter>
-        <NavBar />
+        <UserContext.Provider value={context}>
+          <NavBar />
+        </UserContext.Provider>
       </MemoryRouter>
     );
 

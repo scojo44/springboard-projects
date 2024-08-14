@@ -1,6 +1,12 @@
 import {render} from '@testing-library/react'
 import {MemoryRouter} from 'react-router-dom'
-import JobCard from './JobCard';
+import UserContext from '../UserContext'
+import JobCard from './JobCard'
+
+const context = {
+  appliedJobIDs: new Set([1]),
+  applyToJob: vi.fn()
+};
 
 const TEST_JOB = {
   id: 1,
@@ -14,7 +20,9 @@ describe('JobCard Tests', () => {
   it('Renders without crashing', () => {
     render(
       <MemoryRouter>
-        <JobCard job={TEST_JOB} />
+        <UserContext.Provider value={context}>
+          <JobCard job={TEST_JOB} />
+        </UserContext.Provider>
       </MemoryRouter>
     );
   });
@@ -22,7 +30,9 @@ describe('JobCard Tests', () => {
   it('Matches snapshot', () => {
     const {asFragment} = render(
       <MemoryRouter>
-        <JobCard job={TEST_JOB} />
+        <UserContext.Provider value={context}>
+          <JobCard job={TEST_JOB} />
+        </UserContext.Provider>
       </MemoryRouter>
     );
 
@@ -32,7 +42,9 @@ describe('JobCard Tests', () => {
   it('Shows some details for a job', async () => {
     const {getByText} = render(
       <MemoryRouter>
-        <JobCard job={TEST_JOB} />
+        <UserContext.Provider value={context}>
+          <JobCard job={TEST_JOB} />
+        </UserContext.Provider>
       </MemoryRouter>
     );
 

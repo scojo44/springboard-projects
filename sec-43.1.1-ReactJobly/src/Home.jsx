@@ -1,13 +1,13 @@
 import React, {useContext} from 'react'
-import CurrentUserContext from './CurrentUserContext';
+import UserContext from './UserContext'
 import './Home.css'
 
 export default function Home() {
-  const user = useContext(CurrentUserContext);
+  const {currentUser} = useContext(UserContext);
 
   return (
     <section className="Home">
-      <h2>Welcome, {user? user.firstName : 'guest'}!</h2>
+      <h2>Welcome, {currentUser? currentUser.firstName : 'guest'}!</h2>
     </section>
   );
 }
