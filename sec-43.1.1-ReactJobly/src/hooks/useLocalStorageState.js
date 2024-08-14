@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react"
 
-const useLocalStorageState = (key, initialState = []) => {
+const useLocalStorageState = (key, initialState) => {
   const savedState = localStorage.getItem(key);
 
   try {
