@@ -41,7 +41,7 @@ router.post("/", ensureLoggedIn, ensureAdmin, async function (req, res, next) {
     }
 
     // Generate a random password
-    const password = pwGenerator.generate({
+    req.body.password = pwGenerator.generate({
       length: 20,
       numbers: true
     });
