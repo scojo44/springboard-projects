@@ -45,7 +45,6 @@ router.post("/", ensureLoggedIn, ensureAdmin, async function (req, res, next) {
       length: 20,
       numbers: true
     });
-    req.body.password = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
     // Create the user
     const user = await User.register(req.body);
